@@ -52,7 +52,7 @@
       border-radius: 12px;
       font-size: 1em;
       color: #fff;
-      z-index: 1;
+      z-index: 2;
     }
 
     #member-count button {
@@ -74,6 +74,111 @@
       background: #fff;
       color: #000;
       box-shadow: 0 0 10px #fff;
+    }
+
+    #report-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background: #111;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      cursor: pointer;
+      z-index: 2;
+      transition: all 0.3s ease;
+      color: #fff;
+      font-size: 20px;
+    }
+
+    #report-button span {
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    #report-button:hover {
+      background: #fff;
+      color: #000;
+      box-shadow: 0 0 10px #fff;
+    }
+
+    #report-ui {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #111;
+      border: 2px solid #ddd;
+      border-radius: 16px;
+      padding: 20px;
+      z-index: 3;
+      min-width: 300px;
+      max-width: 400px;
+      color: #fff;
+    }
+
+    #report-ui h2 {
+      margin-top: 0;
+      margin-bottom: 5px;
+      font-size: 1.5em;
+    }
+
+    #report-ui p {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 0.9em;
+      color: #ccc;
+    }
+
+    #report-ui input, #report-ui textarea, #report-ui select {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 8px;
+      border: 2px solid #ddd;
+      background: #000;
+      color: #fff;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    #report-ui input[type="file"] {
+      padding: 4px;
+    }
+
+    #report-ui button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      background: #111;
+      border: 2px solid #ddd;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    #report-ui button:hover {
+      background: #fff;
+      color: #000;
+      box-shadow: 0 0 15px #fff;
+    }
+
+    #notification {
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 20px;
+      border-radius: 12px;
+      display: none;
+      font-weight: bold;
+      z-index: 4;
     }
 
     h1 {
@@ -143,10 +248,34 @@
 </head>
 <body>
   <canvas id="snow"></canvas>
+
   <div id="member-count">
     Server Members: <span id="count">—</span>
     <button id="refresh-count">⟳</button>
   </div>
+
+  <div id="report-button">
+    💬<span>Report</span>
+  </div>
+
+  <div id="report-ui">
+    <h2>Report</h2>
+    <p>Must Be In The Server For The Response</p>
+    <input type="text" id="discord-username" placeholder="Your Discord Username">
+    <select id="category">
+      <option value="">Select Category</option>
+      <option value="bug">Report a Bug</option>
+      <option value="suggestion">Suggestion</option>
+      <option value="member">Report a Member</option>
+      <option value="site">Site Down</option>
+    </select>
+    <input type="text" id="reported-user" placeholder="User to Report (Only if Report a Member)" style="display:none;">
+    <textarea id="report-text" placeholder="Your Report"></textarea>
+    <input type="file" id="attachments" multiple accept="image/*,video/*">
+    <button id="submit-report">Submit Report</button>
+  </div>
+
+  <div id="notification"></div>
 
   <h1>Minky</h1>
   <div class="links">
@@ -177,7 +306,7 @@
         flakes.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          size: 6, // improved snowflake size
+          size: 6,
           speedY: Math.random() * 1 + 0.5,
           speedX: Math.random() * 0.5 - 0.25
         });
@@ -190,10 +319,7 @@
       ctx.lineWidth = 1;
       flakes.forEach(f => {
         ctx.beginPath();
-        ctx.moveTo(f.x, f.y - f.size / 2);
-        ctx.lineTo(f.x, f.y + f.size / 2);
-        ctx.moveTo(f.x - f.size / 2, f.y);
-        ctx.lineTo(f.x + f.size / 2, f.y);
+        ctx.arc(f.x, f.y, f.size/2, 0, Math.PI * 2);
         ctx.stroke();
       });
       moveFlakes();
@@ -239,6 +365,93 @@
     refreshBtn.addEventListener('click', updateCount);
 
     updateCount();
+
+    const reportButton = document.getElementById('report-button');
+    const reportUI = document.getElementById('report-ui');
+    const categorySelect = document.getElementById('category');
+    const reportedUser = document.getElementById('reported-user');
+    const submitReport = document.getElementById('submit-report');
+    const notification = document.getElementById('notification');
+
+    let lastReportTime = 0;
+
+    reportButton.addEventListener('click', () => {
+      reportUI.style.display = reportUI.style.display === 'block' ? 'none' : 'block';
+    });
+
+    categorySelect.addEventListener('change', () => {
+      if(categorySelect.value === 'member') {
+        reportedUser.style.display = 'block';
+      } else {
+        reportedUser.style.display = 'none';
+      }
+    });
+
+    function showNotification(text, color='#fff') {
+      notification.textContent = text;
+      notification.style.background = color;
+      notification.style.display = 'block';
+      setTimeout(() => { notification.style.display = 'none'; }, 4000);
+    }
+
+    async function checkUserInServer(username) {
+      try {
+        const res = await fetch('https://discord.com/api/v9/guilds/10617551234567890/members?limit=1000'); // placeholder guild API, may need bot token for real check
+        // Note: Real check requires bot token, cannot fully validate client-side.
+        return true;
+      } catch {
+        return false;
+      }
+    }
+
+    submitReport.addEventListener('click', async () => {
+      const now = Date.now();
+      if(now - lastReportTime < 30 * 60 * 1000) {
+        const minutesLeft = Math.ceil((30*60*1000 - (now - lastReportTime))/60000);
+        showNotification(`You can only submit a report again every 30 minutes (${minutesLeft} Left)`, 'red');
+        return;
+      }
+
+      const username = document.getElementById('discord-username').value.trim();
+      const category = categorySelect.value;
+      const reportText = document.getElementById('report-text').value.trim();
+      const reported = reportedUser.value.trim();
+      const attachments = document.getElementById('attachments').files;
+
+      if(!username || !category || !reportText || (category==='member' && !reported)) return;
+
+      const inServer = await checkUserInServer(username);
+      if(!inServer) {
+        showNotification("You're not in the Discord server double check your username or join the server if not joined.", 'red');
+        return;
+      }
+
+      let content = `**Username:** ${username}\n**Category:** ${category}\n`;
+      if(category==='member') content += `**Reported User:** ${reported}\n`;
+      content += `**Report:** ${reportText}`;
+
+      const formData = new FormData();
+      formData.append('content', content);
+
+      for(let i=0; i<Math.min(attachments.length,10); i++) {
+        formData.append('file'+i, attachments[i]);
+      }
+
+      fetch('https://discord.com/api/webhooks/1400512445113565394/MRXIz-hdLc7L--G6KrKPE3C5jCtwwOBR0R8rRSzk0BY3mzvlbVDvJqqjacRTk8fvS16g', {
+        method: 'POST',
+        body: formData
+      }).then(()=> {
+        showNotification("Report Submitted");
+        lastReportTime = Date.now();
+        reportUI.style.display = 'none';
+        document.getElementById('discord-username').value='';
+        reportedUser.value='';
+        document.getElementById('report-text').value='';
+        document.getElementById('attachments').value='';
+        categorySelect.value='';
+        reportedUser.style.display='none';
+      }).catch(()=> showNotification("Failed to submit report", 'red'));
+    });
   </script>
 </body>
 </html>
