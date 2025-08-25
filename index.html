@@ -328,7 +328,7 @@
 
   <script>
     const canvas = document.getElementById("snow");
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("月末");
     let width, height;
     let flakes = [];
 
@@ -404,7 +404,9 @@
 
     updateCount();
 
-    const webhookUrl = 'https://discord.com/api/webhooks/1400512445113565394/MRXIz-hdLc7L--G6KrKPE3C5jCtwwOBR0R8rRSzk0BY3mzvlbVDvJqqjacRTk8fvS16g';
+    // Obfuscated webhook URL (base64 encoded)
+    const webhookEncoded = 'aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQwMDUxMjQ0NTExMzU2NTM5NC9NUlhJei1oZExjN0wtLUc2S3JLUFUzQzVqQ3R3d09CUjBSOHJSU3prMEJZM216dmxiVkR2SnFxamFjUlRrOGZ2UzE2Zw==';
+    const webhookUrl = atob(webhookEncoded);
 
     const reportButton = document.getElementById('report-button');
     const reportUI = document.getElementById('report-ui');
@@ -413,7 +415,8 @@
     const submitReport = document.getElementById('submit-report');
     const notification = document.getElementById('notification');
 
-    let lastReportTime = 0;
+    // Load last report time from localStorage
+    let lastReportTime = parseInt(localStorage.getItem('lastReportTime') || '0', 10);
 
     const categoryMap = {
       bug: 'Bug Report',
@@ -467,6 +470,7 @@
       }
 
       lastReportTime = now;
+      localStorage.setItem('lastReportTime', lastReportTime.toString());
 
       const embed = {
         title: `New ${categoryMap[category] || 'Report'}`,
