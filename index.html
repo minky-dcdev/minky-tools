@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Minky</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Minky Links</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
   <style>
     body {
@@ -25,12 +25,28 @@
     body::before {
       content: "";
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(circle at center, rgba(255,255,255,0.08) 0%, transparent 70%);
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, transparent 60%);
+      animation: glow 10s infinite alternate;
       z-index: 0;
+    }
+
+    @keyframes glow {
+      from { transform: scale(1) rotate(0deg); }
+      to { transform: scale(1.1) rotate(45deg); }
+    }
+
+    #member-count {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      font-size: 1.2em;
+      color: #0ff;
+      text-shadow: 0 0 8px #0ff;
+      z-index: 1;
     }
 
     h1 {
@@ -62,7 +78,7 @@
       text-decoration: none;
       color: #fff;
       background: #111;
-      border: 2px solid #ccc; /* lighter stroke */
+      border: 2px solid #ddd; /* lighter stroke */
       transition: all 0.3s ease;
     }
 
@@ -100,6 +116,9 @@
 </head>
 <body>
   <canvas id="snow"></canvas>
+  <div id="member-count">
+    Server Members: <span id="count">Loading...</span>
+  </div>
 
   <h1>Minky</h1>
   <div class="links">
@@ -109,9 +128,11 @@
     <a href="https://bloxhub.st/generator/Minky" class="link-btn" target="_blank">AutoHAR</a>
     <a href="https://discord.gg/PV3vVfc7s7" class="link-btn discord-btn" target="_blank">Discord Server</a>
   </div>
+
   <footer>© 2025 Minky</footer>
 
   <script>
+    // Snowflake canvas with true snowflake shapes
     const canvas = document.getElementById("snow");
     const ctx = canvas.getContext("2d");
     let width, height;
@@ -121,50 +142,66 @@
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
     }
-
     window.addEventListener("resize", resize);
     resize();
 
     function createFlakes() {
-      for (let i = 0; i < 60; i++) { // balanced amount
+      for (let i = 0; i < 60; i++) {
         flakes.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          r: Math.random() * 3 + 2,
-          d: Math.random() + 1
+          size: Math.random() * 2 + 2,
+          speed: (Math.random() * 1) + 0.5,
+          angle: Math.random() * Math.PI * 2
         });
       }
     }
 
+    function drawFlake(f) {
+      const { x, y, size } = f;
+      ctx.beginPath();
+      for (let i = 0; i < 6; i++) {
+        ctx.moveTo(x, y);
+        const angle = i * Math.PI / 3;
+        ctx.lineTo(x + size * Math.cos(angle), y + size * Math.sin(angle));
+        ctx.lineTo(x + (size / 2) * Math.cos(angle + Math.PI / 6), y + (size / 2) * Math.sin(angle + Math.PI / 6));
+        ctx.closePath();
+      }
+      ctx.fillStyle = '#fff';
+      ctx.fill();
+    }
+
     function drawFlakes() {
       ctx.clearRect(0, 0, width, height);
-      ctx.fillStyle = "white";
-      ctx.beginPath();
-      for (let i = 0; i < flakes.length; i++) {
-        let f = flakes[i];
-        ctx.moveTo(f.x, f.y);
-        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
-      }
-      ctx.fill();
+      flakes.forEach(f => drawFlake(f));
       moveFlakes();
     }
 
-    let angle = 0;
+    let drift = 0;
     function moveFlakes() {
-      angle += 0.01;
-      for (let i = 0; i < flakes.length; i++) {
-        let f = flakes[i];
-        f.y += Math.pow(f.d, 2) + 1;
-        f.x += Math.sin(angle) * 0.5;
-
+      drift += 0.01;
+      flakes.forEach((f, i) => {
+        f.y += f.speed;
+        f.x += Math.sin(drift) * 0.3;
         if (f.y > height) {
-          flakes[i] = {x: Math.random() * width, y: 0, r: f.r, d: f.d};
+          flakes[i] = { x: Math.random() * width, y: -10, size: f.size, speed: f.speed, angle: f.angle };
         }
-      }
+      });
     }
 
     createFlakes();
     setInterval(drawFlakes, 33);
+
+    // Discord member count via widget API
+    fetch('https://discord.com/api/guilds/590466818694057483/embed.json?with_counts=true')
+      .then(res => res.json())
+      .then(data => {
+        const cnt = data.approximate_member_count || data.approximate_presence_count;
+        document.getElementById('count').textContent = cnt || 'N/A';
+      })
+      .catch(() => {
+        document.getElementById('count').textContent = 'N/A';
+      });
   </script>
 </body>
 </html>
