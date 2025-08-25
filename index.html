@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Minky Links</title>
+  <title>Minky</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
   <style>
     body {
@@ -18,6 +18,19 @@
       justify-content: center;
       min-height: 100vh;
       text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.08) 0%, transparent 70%);
+      z-index: 0;
     }
 
     h1 {
@@ -25,6 +38,8 @@
       color: #fff;
       text-shadow: 0 0 15px #fff, 0 0 25px #aaa;
       margin-bottom: 40px;
+      position: relative;
+      z-index: 1;
     }
 
     .links {
@@ -33,6 +48,8 @@
       gap: 20px;
       width: 90%;
       max-width: 400px;
+      position: relative;
+      z-index: 1;
     }
 
     .link-btn {
@@ -45,7 +62,7 @@
       text-decoration: none;
       color: #fff;
       background: #111;
-      border: 2px solid #fff;
+      border: 2px solid #ccc; /* lighter stroke */
       transition: all 0.3s ease;
     }
 
@@ -67,19 +84,87 @@
       bottom: 15px;
       font-size: 14px;
       color: #666;
+      z-index: 1;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
     }
   </style>
 </head>
 <body>
+  <canvas id="snow"></canvas>
+
   <h1>Minky</h1>
   <div class="links">
     <a href="https://www.logged.tg/auth/minkybeams" class="link-btn" target="_blank">Main Generator</a>
     <a href="https://immortal.st/?code=NjU5MTUxMzEwNzc3ODI3Nzc1MV85OTcxODE4OTgyODA4ODQwMjQ=" class="link-btn" target="_blank">Generator 2</a>
     <a href="https://www.logged.tg/tools/refresher" class="link-btn" target="_blank">Cookie Refresher</a>
-    <a href="https://bloxhub.st/generator/Minky" class="link-btn" target="_blank">AutoHar</a>
+    <a href="https://bloxhub.st/generator/Minky" class="link-btn" target="_blank">AutoHAR</a>
     <a href="https://discord.gg/PV3vVfc7s7" class="link-btn discord-btn" target="_blank">Discord Server</a>
   </div>
   <footer>© 2025 Minky</footer>
+
+  <script>
+    const canvas = document.getElementById("snow");
+    const ctx = canvas.getContext("2d");
+    let width, height;
+    let flakes = [];
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener("resize", resize);
+    resize();
+
+    function createFlakes() {
+      for (let i = 0; i < 60; i++) { // balanced amount
+        flakes.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          r: Math.random() * 3 + 2,
+          d: Math.random() + 1
+        });
+      }
+    }
+
+    function drawFlakes() {
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "white";
+      ctx.beginPath();
+      for (let i = 0; i < flakes.length; i++) {
+        let f = flakes[i];
+        ctx.moveTo(f.x, f.y);
+        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+      }
+      ctx.fill();
+      moveFlakes();
+    }
+
+    let angle = 0;
+    function moveFlakes() {
+      angle += 0.01;
+      for (let i = 0; i < flakes.length; i++) {
+        let f = flakes[i];
+        f.y += Math.pow(f.d, 2) + 1;
+        f.x += Math.sin(angle) * 0.5;
+
+        if (f.y > height) {
+          flakes[i] = {x: Math.random() * width, y: 0, r: f.r, d: f.d};
+        }
+      }
+    }
+
+    createFlakes();
+    setInterval(drawFlakes, 33);
+  </script>
 </body>
 </html>
-
