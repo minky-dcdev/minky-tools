@@ -110,7 +110,7 @@
       position: fixed;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%) scale(0.8);
+      transform: translate(-50%, -50%) scale(0.7);
       background: #111;
       border: 2px solid #ddd;
       border-radius: 16px;
@@ -121,7 +121,7 @@
       color: #fff;
       box-shadow: 0 0 20px rgba(255,255,255,0.3);
       opacity: 0;
-      transition: transform 0.4s ease, opacity 0.4s ease;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
 
     #report-ui.show {
@@ -178,6 +178,7 @@
       cursor: pointer;
       transition: all 0.3s ease;
       font-size: 1em;
+      font-family: 'Orbitron', sans-serif; /* Matches site font */
     }
 
     #report-ui button:hover {
@@ -188,22 +189,23 @@
 
     #notification {
       position: fixed;
-      top: -50px;
+      top: -60px;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translateX(-50%) translateY(-60px);
       padding: 12px 20px;
       border-radius: 12px;
       display: none;
       font-weight: bold;
       z-index: 4;
-      transition: top 0.4s ease, opacity 0.4s ease;
+      font-family: 'Orbitron', sans-serif;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
       opacity: 0;
     }
 
     #notification.show {
       display: block;
-      top: 20px;
       opacity: 1;
+      transform: translateX(-50%) translateY(20px);
     }
 
     #notification.white {
@@ -212,7 +214,7 @@
     }
 
     #notification.red {
-      background: red;
+      background: #e53935;
       color: #fff;
     }
 
@@ -328,7 +330,7 @@
 
   <script>
     const canvas = document.getElementById("snow");
-    const ctx = canvas.getContext("月末");
+    const ctx = canvas.getContext("2d"); // Fixed: was "月末"
     let width, height;
     let flakes = [];
 
@@ -357,7 +359,7 @@
       ctx.lineWidth = 1;
       flakes.forEach(f => {
         ctx.beginPath();
-        ctx.arc(f.x, f.y, f.size/2, 0, Math.PI * 2);
+        ctx.arc(f.x, f.y, f.size / 2, 0, Math.PI * 2);
         ctx.stroke();
       });
       moveFlakes();
@@ -387,11 +389,12 @@
         const res = await fetch('https://discord.com/api/v9/invites/PV3vVfc7s7?with_counts=true');
         const data = await res.json();
         countSpan.textContent = data.approximate_member_count ?? 'N/A';
-      } catch {
+      } catch (err) {
         countSpan.textContent = 'N/A';
       }
     }
 
+    refreshBtn.addEventListener('click', updateCount);
     refreshBtn.addEventListener('mouseover', () => {
       refreshBtn.style.background = '#fff';
       refreshBtn.style.color = '#000';
@@ -400,7 +403,6 @@
       refreshBtn.style.background = '#111';
       refreshBtn.style.color = '#fff';
     });
-    refreshBtn.addEventListener('click', updateCount);
 
     updateCount();
 
@@ -442,12 +444,14 @@
 
     function showNotification(text, color = 'white') {
       notification.textContent = text;
-      notification.className = color; // Apply 'white' or 'red' class
-      notification.style.display = 'block';
+      notification.className = ''; // Clear classes
+      notification.classList.add(color);
       notification.classList.add('show');
       setTimeout(() => {
         notification.classList.remove('show');
-        setTimeout(() => { notification.style.display = 'none'; }, 400); // Match transition duration
+        setTimeout(() => {
+          notification.style.display = 'none';
+        }, 400);
       }, 4000);
     }
 
