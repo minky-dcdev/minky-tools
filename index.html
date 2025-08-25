@@ -92,13 +92,17 @@
       z-index: 2;
       transition: all 0.3s ease;
       color: #fff;
-      font-size: 28px;
     }
 
     #report-button:hover {
       background: #fff;
       color: #000;
       box-shadow: 0 0 12px #fff;
+    }
+
+    #report-button svg {
+      width: 28px;
+      height: 28px;
     }
 
     #report-ui {
@@ -121,6 +125,7 @@
     }
 
     #report-ui.show {
+      display: block;
       transform: translate(-50%, -50%) scale(1);
       opacity: 1;
     }
@@ -407,7 +412,7 @@
       reportedUser.style.display = categorySelect.value === 'member' ? 'block' : 'none';
     });
 
-    function showNotification(text, color='#fff') {
+    function showNotification(text, color = '#fff') {
       notification.textContent = text;
       notification.style.background = color;
       notification.style.display = 'block';
@@ -416,8 +421,8 @@
 
     submitReport.addEventListener('click', async () => {
       const now = Date.now();
-      if(now - lastReportTime < 30 * 60 * 1000) {
-        const minutesLeft = Math.ceil((30*60*1000 - (now - lastReportTime))/60000);
+      if (now - lastReportTime < 30 * 60 * 1000) {
+        const minutesLeft = Math.ceil((30 * 60 * 1000 - (now - lastReportTime)) / 60000);
         showNotification(`You can only submit one report every 30 minutes *(${minutesLeft} Left)*`, 'red');
         return;
       }
@@ -427,7 +432,7 @@
       const reportText = document.getElementById('report-text').value.trim();
       const reported = reportedUser.value.trim();
 
-      if(!username || !category || !reportText || (category==='member' && !reported)) {
+      if (!username || !category || !reportText || (category === 'member' && !reported)) {
         showNotification('Please fill all required fields', 'red');
         return;
       }
@@ -445,12 +450,8 @@
         timestamp: new Date().toISOString()
       };
 
-      const payload = {
-        embeds: [embed]
-      };
-
       const formData = new FormData();
-      formData.append('payload_json', JSON.stringify(payload));
+      formData.append('payload_json', JSON.stringify({ embeds: [embed] }));
 
       const attachments = document.getElementById('attachments').files;
       if (attachments.length > 10) {
@@ -459,7 +460,7 @@
       }
 
       Array.from(attachments).forEach((file, index) => {
-        formData.append(`file[${index}]`, file);
+        formData.append(`files[${index}]`, file);
       });
 
       try {
@@ -471,7 +472,6 @@
 
         if (response.ok) {
           showNotification('Report Submitted', '#fff');
-          // Clear form
           document.getElementById('discord-username').value = '';
           document.getElementById('report-text').value = '';
           document.getElementById('attachments').value = '';
