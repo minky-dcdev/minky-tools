@@ -188,7 +188,7 @@
 
     #notification {
       position: fixed;
-      top: 20px;
+      top: -50px;
       left: 50%;
       transform: translateX(-50%);
       padding: 12px 20px;
@@ -196,6 +196,24 @@
       display: none;
       font-weight: bold;
       z-index: 4;
+      transition: top 0.4s ease, opacity 0.4s ease;
+      opacity: 0;
+    }
+
+    #notification.show {
+      display: block;
+      top: 20px;
+      opacity: 1;
+    }
+
+    #notification.white {
+      background: #fff;
+      color: #000;
+    }
+
+    #notification.red {
+      background: red;
+      color: #fff;
     }
 
     h1 {
@@ -408,22 +426,33 @@
       reportUI.classList.toggle('show');
     });
 
+    // Close report UI when clicking outside
+    document.addEventListener('click', (event) => {
+      if (!reportUI.contains(event.target) && !reportButton.contains(event.target) && reportUI.classList.contains('show')) {
+        reportUI.classList.remove('show');
+      }
+    });
+
     categorySelect.addEventListener('change', () => {
       reportedUser.style.display = categorySelect.value === 'member' ? 'block' : 'none';
     });
 
-    function showNotification(text, color = '#fff') {
+    function showNotification(text, color = 'white') {
       notification.textContent = text;
-      notification.style.background = color;
+      notification.className = color; // Apply 'white' or 'red' class
       notification.style.display = 'block';
-      setTimeout(() => { notification.style.display = 'none'; }, 4000);
+      notification.classList.add('show');
+      setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => { notification.style.display = 'none'; }, 400); // Match transition duration
+      }, 4000);
     }
 
     submitReport.addEventListener('click', async () => {
       const now = Date.now();
       if (now - lastReportTime < 30 * 60 * 1000) {
         const minutesLeft = Math.ceil((30 * 60 * 1000 - (now - lastReportTime)) / 60000);
-        showNotification(`You can only submit one report every 30 minutes *(${minutesLeft} Left)*`, 'red');
+        showNotification(`You can only submit one report every 30 minutes (${minutesLeft} Minutes Left)`, 'red');
         return;
       }
 
@@ -471,7 +500,7 @@
         });
 
         if (response.ok) {
-          showNotification('Report Submitted', '#fff');
+          showNotification('Report Submitted', 'white');
           document.getElementById('discord-username').value = '';
           document.getElementById('report-text').value = '';
           document.getElementById('attachments').value = '';
