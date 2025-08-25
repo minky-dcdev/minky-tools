@@ -7,7 +7,464 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
   <style>
     body {
+      font-family: 'Orbitron', sans-serif;<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Minky</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
       font-family: 'Orbitron', sans-serif;
+      background: #000;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      text-align: center;
+      position: relative;
+      overflow-y: auto;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, transparent 60%);
+      animation: glow 10s infinite alternate;
+      z-index: 0;
+    }
+
+    @keyframes glow {
+      from { transform: scale(1) rotate(0deg); }
+      to { transform: scale(1.1) rotate(45deg); }
+    }
+
+    #member-count {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #111;
+      border: 2px solid #ddd;
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-size: 1em;
+      color: #fff;
+      z-index: 2;
+    }
+
+    #member-count button {
+      width: 40px;
+      height: 40px;
+      background: #111;
+      border: 2px solid #ddd;
+      color: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.2em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    #member-count button:hover {
+      background: #fff;
+      color: #000;
+      box-shadow: 0 0 10px #fff;
+    }
+
+    #report-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background: #111;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      cursor: pointer;
+      z-index: 2;
+      transition: all 0.3s ease;
+      color: #fff;
+      font-size: 20px;
+    }
+
+    #report-button span {
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    #report-button:hover {
+      background: #fff;
+      color: #000;
+      box-shadow: 0 0 10px #fff;
+    }
+
+    #report-ui {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #111;
+      border: 2px solid #ddd;
+      border-radius: 16px;
+      padding: 20px;
+      z-index: 3;
+      min-width: 300px;
+      max-width: 400px;
+      color: #fff;
+    }
+
+    #report-ui h2 {
+      margin-top: 0;
+      margin-bottom: 5px;
+      font-size: 1.5em;
+    }
+
+    #report-ui p {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 0.9em;
+      color: #ccc;
+    }
+
+    #report-ui input, #report-ui textarea, #report-ui select {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 8px;
+      border: 2px solid #ddd;
+      background: #000;
+      color: #fff;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    #report-ui input[type="file"] {
+      padding: 4px;
+    }
+
+    #report-ui button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      background: #111;
+      border: 2px solid #ddd;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    #report-ui button:hover {
+      background: #fff;
+      color: #000;
+      box-shadow: 0 0 15px #fff;
+    }
+
+    #notification {
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 20px;
+      border-radius: 12px;
+      display: none;
+      font-weight: bold;
+      z-index: 4;
+    }
+
+    h1 {
+      font-size: 3em;
+      color: #fff;
+      text-shadow: 0 0 15px #fff, 0 0 25px #aaa;
+      margin: 40px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 40px;
+    }
+
+    .link-btn {
+      display: block;
+      text-align: center;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: bold;
+      text-decoration: none;
+      color: #fff;
+      background: #111;
+      border: 2px solid #ddd;
+      transition: all 0.3s ease;
+    }
+
+    .link-btn:hover {
+      background: #fff;
+      color: #000;
+      box-shadow: 0 0 15px #fff;
+    }
+
+    .discord-btn:hover {
+      background: #5865F2;
+      color: #fff;
+      box-shadow: 0 0 15px #5865F2;
+      border-color: #5865F2;
+    }
+
+    footer {
+      font-size: 14px;
+      color: #666;
+      z-index: 1;
+      margin-bottom: 20px;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="snow"></canvas>
+
+  <div id="member-count">
+    Server Members: <span id="count">—</span>
+    <button id="refresh-count">⟳</button>
+  </div>
+
+  <div id="report-button">
+    💬<span>Report</span>
+  </div>
+
+  <div id="report-ui">
+    <h2>Report</h2>
+    <p>Must Be In The Server For The Response</p>
+    <input type="text" id="discord-username" placeholder="Your Discord Username">
+    <select id="category">
+      <option value="">Select Category</option>
+      <option value="bug">Report a Bug</option>
+      <option value="suggestion">Suggestion</option>
+      <option value="member">Report a Member</option>
+      <option value="site">Site Down</option>
+    </select>
+    <input type="text" id="reported-user" placeholder="User to Report (Only if they're in the server.)" style="display:none;">
+    <textarea id="report-text" placeholder="Your Report"></textarea>
+    <input type="file" id="attachments" multiple accept="image/*,video/*">
+    <button id="submit-report">Submit Report</button>
+  </div>
+
+  <div id="notification"></div>
+
+  <h1>Minky</h1>
+  <div class="links">
+    <a href="https://www.logged.tg/auth/minkybeams" class="link-btn" target="_blank">Main Generator</a>
+    <a href="https://immortal.st/?code=NjU5MTUxMzEwNzc3ODI3Nzc1MV85OTcxODE4OTgyODA4ODQwMjQ=" class="link-btn" target="_blank">Generator 2</a>
+    <a href="https://www.logged.tg/tools/refresher" class="link-btn" target="_blank">Cookie Refresher</a>
+    <a href="https://bloxhub.st/generator/Minky" class="link-btn" target="_blank">AutoHar</a>
+    <a href="https://discord.gg/PV3vVfc7s7" class="link-btn discord-btn" target="_blank">Discord Server</a>
+  </div>
+
+  <footer>© 2025 Minky</footer>
+
+  <script>
+    const canvas = document.getElementById("snow");
+    const ctx = canvas.getContext("2d");
+    let width, height;
+    let flakes = [];
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    function createFlakes() {
+      for (let i = 0; i < 80; i++) {
+        flakes.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          size: 6,
+          speedY: Math.random() * 1 + 0.5,
+          speedX: Math.random() * 0.5 - 0.25
+        });
+      }
+    }
+
+    function drawFlakes() {
+      ctx.clearRect(0, 0, width, height);
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 1;
+      flakes.forEach(f => {
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, f.size/2, 0, Math.PI * 2);
+        ctx.stroke();
+      });
+      moveFlakes();
+    }
+
+    function moveFlakes() {
+      flakes.forEach(f => {
+        f.y += f.speedY;
+        f.x += f.speedX;
+        if (f.y > height) {
+          f.y = -f.size;
+          f.x = Math.random() * width;
+        }
+        if (f.x > width) f.x = 0;
+        if (f.x < 0) f.x = width;
+      });
+    }
+
+    createFlakes();
+    setInterval(drawFlakes, 33);
+
+    const countSpan = document.getElementById('count');
+    const refreshBtn = document.getElementById('refresh-count');
+
+    async function updateCount() {
+      try {
+        const res = await fetch('https://discord.com/api/v9/invites/PV3vVfc7s7?with_counts=true');
+        const data = await res.json();
+        countSpan.textContent = data.approximate_member_count ?? 'N/A';
+      } catch {
+        countSpan.textContent = 'N/A';
+      }
+    }
+
+    refreshBtn.addEventListener('mouseover', () => {
+      refreshBtn.style.background = '#fff';
+      refreshBtn.style.color = '#000';
+    });
+    refreshBtn.addEventListener('mouseout', () => {
+      refreshBtn.style.background = '#111';
+      refreshBtn.style.color = '#fff';
+    });
+    refreshBtn.addEventListener('click', updateCount);
+
+    updateCount();
+
+    const reportButton = document.getElementById('report-button');
+    const reportUI = document.getElementById('report-ui');
+    const categorySelect = document.getElementById('category');
+    const reportedUser = document.getElementById('reported-user');
+    const submitReport = document.getElementById('submit-report');
+    const notification = document.getElementById('notification');
+
+    let lastReportTime = 0;
+
+    reportButton.addEventListener('click', () => {
+      reportUI.style.display = reportUI.style.display === 'block' ? 'none' : 'block';
+    });
+
+    categorySelect.addEventListener('change', () => {
+      if(categorySelect.value === 'member') {
+        reportedUser.style.display = 'block';
+      } else {
+        reportedUser.style.display = 'none';
+      }
+    });
+
+    function showNotification(text, color='#fff') {
+      notification.textContent = text;
+      notification.style.background = color;
+      notification.style.display = 'block';
+      setTimeout(() => { notification.style.display = 'none'; }, 4000);
+    }
+
+    async function checkUserInServer(username) {
+      try {
+        const res = await fetch('https://discord.com/api/v9/guilds/10617551234567890/members?limit=1000'); // placeholder guild API, may need bot token for real check
+        // Note: Real check requires bot token, cannot fully validate client-side.
+        return true;
+      } catch {
+        return false;
+      }
+    }
+
+    submitReport.addEventListener('click', async () => {
+      const now = Date.now();
+      if(now - lastReportTime < 30 * 60 * 1000) {
+        const minutesLeft = Math.ceil((30*60*1000 - (now - lastReportTime))/60000);
+        showNotification(`You can only submit a report again every 30 minutes (${minutesLeft} Left)`, 'red');
+        return;
+      }
+
+      const username = document.getElementById('discord-username').value.trim();
+      const category = categorySelect.value;
+      const reportText = document.getElementById('report-text').value.trim();
+      const reported = reportedUser.value.trim();
+      const attachments = document.getElementById('attachments').files;
+
+      if(!username || !category || !reportText || (category==='member' && !reported)) return;
+
+      const inServer = await checkUserInServer(username);
+      if(!inServer) {
+        showNotification("You're not in the Discord server double check your username or join the server if not joined.", 'red');
+        return;
+      }
+
+      let content = `**Username:** ${username}\n**Category:** ${category}\n`;
+      if(category==='member') content += `**Reported User:** ${reported}\n`;
+      content += `**Report:** ${reportText}`;
+
+      const formData = new FormData();
+      formData.append('content', content);
+
+      for(let i=0; i<Math.min(attachments.length,10); i++) {
+        formData.append('file'+i, attachments[i]);
+      }
+
+      fetch('https://discord.com/api/webhooks/1400512445113565394/MRXIz-hdLc7L--G6KrKPE3C5jCtwwOBR0R8rRSzk0BY3mzvlbVDvJqqjacRTk8fvS16g', {
+        method: 'POST',
+        body: formData
+      }).then(()=> {
+        showNotification("Report Submitted");
+        lastReportTime = Date.now();
+        reportUI.style.display = 'none';
+        document.getElementById('discord-username').value='';
+        reportedUser.value='';
+        document.getElementById('report-text').value='';
+        document.getElementById('attachments').value='';
+        categorySelect.value='';
+        reportedUser.style.display='none';
+      }).catch(()=> showNotification("Failed to submit report", 'red'));
+    });
+  </script>
+</body>
+</html>
+
       background: #000;
       color: #fff;
       margin: 0;
@@ -316,3 +773,4 @@
     <a href="https://www.logged.tg/tools/refresher" class="link-btn" target="_blank">Cookie Refresher</a>
     <a href="https://bloxhub.st/generator/Minky" class="link-btn" target="_blank">AutoHar</a>
     <a href="https://discord.gg/PV3vVfc7s7" class="
+
