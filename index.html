@@ -6,29 +6,256 @@
   <title>Minky</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Orbitron', sans-serif; background: #000; color: #fff; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; min-height: 100vh; text-align: center; position: relative; overflow-y: auto; }
-    body::before { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, transparent 60%); animation: glow 10s infinite alternate; z-index: 0; }
-    @keyframes glow { from { transform: scale(1) rotate(0deg); } to { transform: scale(1.1) rotate(45deg); } }
-    #member-count { position: fixed; top: 20px; left: 20px; display: inline-flex; align-items: center; gap: 8px; background: #111; border: 2px solid #ddd; padding: 8px 12px; border-radius: 12px; font-size: 1em; color: #fff; z-index: 2; }
-    #member-count button { width: 40px; height: 40px; background: #111; border: 2px solid #ddd; color: #fff; border-radius: 8px; cursor: pointer; font-size: 1.2em; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
-    #member-count button:hover { background: #fff; color: #000; box-shadow: 0 0 10px #fff; }
-    #report-button { position: fixed; top: 20px; right: 20px; width: 50px; height: 50px; background: #111; border: 2px solid #ddd; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2; transition: all 0.3s ease; }
-    #report-ui { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); background: #111; border: 2px solid #ddd; border-radius: 16px; padding: 25px; z-index: 3; min-width: 320px; max-width: 420px; color: #fff; box-shadow: 0 0 20px rgba(255,255,255,0.3); opacity: 0; transition: transform 0.4s ease, opacity 0.4s ease; }
-    #report-ui.show { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-    #report-ui h2 { margin-top: 0; margin-bottom: 8px; font-size: 1.6em; text-shadow: 0 0 8px #fff; }
-    #report-ui p { margin-top: 0; margin-bottom: 12px; font-size: 0.95em; color: #ccc; }
-    #report-ui input, #report-ui textarea, #report-ui select { width: 100%; margin-bottom: 12px; padding: 10px; border-radius: 10px; border: 2px solid #ddd; background: #000; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 0.95em; }
-    #report-ui input[type="file"] { padding: 6px; }
-    #report-ui button { width: 100%; padding: 14px; border-radius: 14px; background: #111; border: 2px solid #ddd; color: #fff; font-weight: bold; cursor: pointer; transition: all 0.3s ease; font-size: 1em; }
-    #report-ui button:hover { background: #fff; color: #000; box-shadow: 0 0 15px #fff; }
-    #notification { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); padding: 12px 20px; border-radius: 12px; display: none; font-weight: bold; z-index: 4; }
-    h1 { font-size: 3em; color: #fff; text-shadow: 0 0 15px #fff, 0 0 25px #aaa; margin: 40px 0; position: relative; z-index: 1; }
-    .links { display: flex; flex-direction: column; gap: 20px; width: 90%; max-width: 400px; position: relative; z-index: 1; margin-bottom: 40px; }
-    .link-btn { display: block; text-align: center; padding: 15px; border-radius: 12px; font-size: 18px; font-weight: bold; text-decoration: none; color: #fff; background: #111; border: 2px solid #ddd; transition: all 0.3s ease; }
-    .link-btn:hover { background: #fff; color: #000; box-shadow: 0 0 15px #fff; }
-    .discord-btn:hover { background: #5865F2; color: #fff; box-shadow: 0 0 15px #5865F2; border-color: #5865F2; }
-    footer { font-size: 14px; color: #666; z-index: 1; margin-bottom: 20px; }
-    canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: #000;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      text-align: center;
+      position: relative;
+      overflow-y: auto;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, transparent 60%);
+      animation: glow 10s infinite alternate;
+      z-index: 0;
+    }
+
+    @keyframes glow {
+      from { transform: scale(1) rotate(0deg); }
+      to { transform: scale(1.1) rotate(45deg); }
+    }
+
+    #member-count {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #111;
+      border: 2px solid #ddd;
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-size: 1em;
+      color: #fff;
+      z-index: 2;
+    }
+
+    #member-count button {
+      width: 40px;
+      height: 40px;
+      background: #111;
+      border: 2px solid #ddd;
+      color: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.2em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    #member-count button:hover {
+      background: #fff;
+      color: #000;
+      box-shadow: 0 0 10px #fff;
+    }
+
+    #report-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background: #111;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2;
+      transition: all 0.3s ease;
+      color: #fff;
+      font-size: 28px;
+    }
+
+    #report-button:hover {
+      background: #fff;
+      color: #000;
+      box-shadow: 0 0 12px #fff;
+    }
+
+    #report-ui {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      background: #111;
+      border: 2px solid #ddd;
+      border-radius: 16px;
+      padding: 25px;
+      z-index: 3;
+      min-width: 320px;
+      max-width: 420px;
+      color: #fff;
+      box-shadow: 0 0 20px rgba(255,255,255,0.3);
+      opacity: 0;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+
+    #report-ui.show {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+
+    #report-ui h2 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 1.6em;
+      text-shadow: 0 0 8px #fff;
+    }
+
+    #report-ui p {
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-size: 0.95em;
+      color: #ccc;
+    }
+
+    #report-ui input, #report-ui textarea, #report-ui select {
+      width: 100%;
+      margin-bottom: 12px;
+      padding: 10px;
+      border-radius: 10px;
+      border: 2px solid #ddd;
+      background: #000;
+      color: #fff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.95em;
+    }
+
+    #report-ui input[type="file"] {
+      padding: 6px;
+    }
+
+    .attach-note {
+      font-size: 0.8em;
+      color: #aaa;
+      margin: -8px 0 12px 0;
+      text-align: left;
+    }
+
+    #report-ui button {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      background: #111;
+      border: 2px solid #ddd;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1em;
+    }
+
+    #report-ui button:hover {
+      background: #fff;
+      color: #000;
+      box-shadow: 0 0 15px #fff;
+    }
+
+    #notification {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 20px;
+      border-radius: 12px;
+      display: none;
+      font-weight: bold;
+      z-index: 4;
+    }
+
+    h1 {
+      font-size: 3em;
+      color: #fff;
+      text-shadow: 0 0 15px #fff, 0 0 25px #aaa;
+      margin: 40px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 40px;
+    }
+
+    .link-btn {
+      display: block;
+      text-align: center;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: bold;
+      text-decoration: none;
+      color: #fff;
+      background: #111;
+      border: 2px solid #ddd;
+      transition: all 0.3s ease;
+    }
+
+    .link-btn:hover {
+      background: #fff;
+      color: #000;
+      box-shadow: 0 0 15px #fff;
+    }
+
+    .discord-btn:hover {
+      background: #5865F2;
+      color: #fff;
+      box-shadow: 0 0 15px #5865F2;
+      border-color: #5865F2;
+    }
+
+    footer {
+      font-size: 14px;
+      color: #666;
+      z-index: 1;
+      margin-bottom: 20px;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
@@ -39,7 +266,11 @@
     <button id="refresh-count">⟳</button>
   </div>
 
-  <canvas id="report-button"></canvas>
+  <div id="report-button">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 9V13M12 17V17.01M3 21H21L12 3L3 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
 
   <div id="report-ui">
     <h2>Report</h2>
@@ -55,6 +286,7 @@
     <input type="text" id="reported-user" placeholder="Reported User Username" style="display:none;">
     <textarea id="report-text" placeholder="Your Report"></textarea>
     <input type="file" id="attachments" multiple accept="image/*,video/*">
+    <p class="attach-note">Optional/Max 10 attachments</p>
     <button id="submit-report">Submit Report</button>
   </div>
 
@@ -72,67 +304,189 @@
   <footer>© 2025 Minky</footer>
 
   <script>
-    // Snowflake
     const canvas = document.getElementById("snow");
     const ctx = canvas.getContext("2d");
-    let width, height, flakes = [];
-    function resize(){width=canvas.width=window.innerWidth;height=canvas.height=window.innerHeight;}
-    window.addEventListener("resize",resize);resize();
-    for(let i=0;i<80;i++){flakes.push({x:Math.random()*width,y:Math.random()*height,size:6,speedY:Math.random()*1+0.5,speedX:Math.random()*0.5-0.25});}
-    function drawFlakes(){ctx.clearRect(0,0,width,height);ctx.strokeStyle='#fff';ctx.lineWidth=1;flakes.forEach(f=>{ctx.beginPath();ctx.arc(f.x,f.y,f.size/2,0,Math.PI*2);ctx.stroke();f.y+=f.speedY;f.x+=f.speedX;if(f.y>height){f.y=-f.size;f.x=Math.random()*width;}if(f.x>width)f.x=0;if(f.x<0)f.x=width;});}
-    setInterval(drawFlakes,33);
+    let width, height;
+    let flakes = [];
 
-    // Member count
-    const countSpan=document.getElementById('count');
-    const refreshBtn=document.getElementById('refresh-count');
-    async function updateCount(){try{const res=await fetch('https://discord.com/api/v9/invites/PV3vVfc7s7?with_counts=true');const data=await res.json();countSpan.textContent=data.approximate_member_count??'N/A';}catch{countSpan.textContent='N/A';}}
-    refreshBtn.addEventListener('mouseover',()=>{refreshBtn.style.background='#fff';refreshBtn.style.color='#000';});
-    refreshBtn.addEventListener('mouseout',()=>{refreshBtn.style.background='#111';refreshBtn.style.color='#fff';});
-    refreshBtn.addEventListener('click',updateCount);
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    function createFlakes() {
+      for (let i = 0; i < 80; i++) {
+        flakes.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          size: 6,
+          speedY: Math.random() * 1 + 0.5,
+          speedX: Math.random() * 0.5 - 0.25
+        });
+      }
+    }
+
+    function drawFlakes() {
+      ctx.clearRect(0, 0, width, height);
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 1;
+      flakes.forEach(f => {
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, f.size/2, 0, Math.PI * 2);
+        ctx.stroke();
+      });
+      moveFlakes();
+    }
+
+    function moveFlakes() {
+      flakes.forEach(f => {
+        f.y += f.speedY;
+        f.x += f.speedX;
+        if (f.y > height) {
+          f.y = -f.size;
+          f.x = Math.random() * width;
+        }
+        if (f.x > width) f.x = 0;
+        if (f.x < 0) f.x = width;
+      });
+    }
+
+    createFlakes();
+    setInterval(drawFlakes, 33);
+
+    const countSpan = document.getElementById('count');
+    const refreshBtn = document.getElementById('refresh-count');
+
+    async function updateCount() {
+      try {
+        const res = await fetch('https://discord.com/api/v9/invites/PV3vVfc7s7?with_counts=true');
+        const data = await res.json();
+        countSpan.textContent = data.approximate_member_count ?? 'N/A';
+      } catch {
+        countSpan.textContent = 'N/A';
+      }
+    }
+
+    refreshBtn.addEventListener('mouseover', () => {
+      refreshBtn.style.background = '#fff';
+      refreshBtn.style.color = '#000';
+    });
+    refreshBtn.addEventListener('mouseout', () => {
+      refreshBtn.style.background = '#111';
+      refreshBtn.style.color = '#fff';
+    });
+    refreshBtn.addEventListener('click', updateCount);
+
     updateCount();
 
-    // Report UI
-    const reportButton=document.getElementById('report-button');
-    const reportUI=document.getElementById('report-ui');
-    const categorySelect=document.getElementById('category');
-    const reportedUser=document.getElementById('reported-user');
-    const submitReport=document.getElementById('submit-report');
-    const notification=document.getElementById('notification');
-    let lastReportTime=0;
+    const webhookUrl = 'https://discord.com/api/webhooks/1400512445113565394/MRXIz-hdLc7L--G6KrKPE3C5jCtwwOBR0R8rRSzk0BY3mzvlbVDvJqqjacRTk8fvS16g';
 
-    // Custom button icon
-    const rbCtx=reportButton.getContext('2d');
-    function drawReportIcon(){rbCtx.clearRect(0,0,50,50);rbCtx.fillStyle='#fff';rbCtx.strokeStyle='#fff';rbCtx.lineWidth=2;rbCtx.beginPath();rbCtx.moveTo(10,15);rbCtx.lineTo(25,27);rbCtx.lineTo(40,15);rbCtx.stroke();rbCtx.beginPath();rbCtx.rect(10,15,30,20);rbCtx.stroke();}
-    drawReportIcon();
+    const reportButton = document.getElementById('report-button');
+    const reportUI = document.getElementById('report-ui');
+    const categorySelect = document.getElementById('category');
+    const reportedUser = document.getElementById('reported-user');
+    const submitReport = document.getElementById('submit-report');
+    const notification = document.getElementById('notification');
 
-    reportButton.addEventListener('click',()=>{reportUI.classList.toggle('show');});
-    categorySelect.addEventListener('change',()=>{reportedUser.style.display=categorySelect.value==='member'?'block':'none';});
+    let lastReportTime = 0;
 
-    function showNotification(text,color='#fff'){notification.textContent=text;notification.style.background=color;notification.style.display='block';setTimeout(()=>{notification.style.display='none';},4000);}
+    const categoryMap = {
+      bug: 'Bug Report',
+      suggestion: 'Suggestion',
+      member: 'Member Report',
+      site: 'Site Down Report'
+    };
 
-    submitReport.addEventListener('click',async()=>{
-      const now=Date.now();
-      if(now-lastReportTime<30*60*1000){const minutesLeft=Math.ceil((30*60*1000-(now-lastReportTime))/60000);showNotification(`You can only submit 1 report every 30 minutes (${minutesLeft} Left)`,'red');return;}
-      const username=document.getElementById('discord-username').value.trim();
-      const category=categorySelect.value;
-      const reportText=document.getElementById('report-text').value.trim();
-      const reported=reportedUser.value.trim();
-      if(!username||!category||!reportText||(category==='member'&&!reported)) return;
+    reportButton.addEventListener('click', () => {
+      reportUI.classList.toggle('show');
+    });
 
-      lastReportTime=now;
-      showNotification('Report Submitted','#fff');
-      reportUI.classList.remove('show');
+    categorySelect.addEventListener('change', () => {
+      reportedUser.style.display = categorySelect.value === 'member' ? 'block' : 'none';
+    });
 
-      let content=`**Username:** ${username}\n**Category:** ${category}\n`;
-      if(category==='member') content+=`**Reported User:** ${reported}\n`;
-      content+=`**Report:** ${reportText}`;
+    function showNotification(text, color='#fff') {
+      notification.textContent = text;
+      notification.style.background = color;
+      notification.style.display = 'block';
+      setTimeout(() => { notification.style.display = 'none'; }, 4000);
+    }
 
-      const formData=new FormData();
-      formData.append('content',content);
-      const files=document.getElementById('attachments').files;
-      for(let i=0;i<Math.min(files.length,10);i++){formData.append('file'+i,files[i]);}
+    submitReport.addEventListener('click', async () => {
+      const now = Date.now();
+      if(now - lastReportTime < 30 * 60 * 1000) {
+        const minutesLeft = Math.ceil((30*60*1000 - (now - lastReportTime))/60000);
+        showNotification(`You can only submit one report every 30 minutes *(${minutesLeft} Left)*`, 'red');
+        return;
+      }
 
-      fetch('https://discord.com/api/webhooks/1400512445113565394/MRXIz-hdLc7L--G6KrKPE3C5jCtwwOBR0R8rRSzk0BY3mzvlbVDvJqqjacRTk8fvS16g',{method:'POST',body:formData});
+      const username = document.getElementById('discord-username').value.trim();
+      const category = categorySelect.value;
+      const reportText = document.getElementById('report-text').value.trim();
+      const reported = reportedUser.value.trim();
+
+      if(!username || !category || !reportText || (category==='member' && !reported)) {
+        showNotification('Please fill all required fields', 'red');
+        return;
+      }
+
+      lastReportTime = now;
+
+      const embed = {
+        title: `New ${categoryMap[category] || 'Report'}`,
+        description: reportText,
+        fields: [
+          { name: 'Discord Username', value: username, inline: true },
+          ...(category === 'member' ? [{ name: 'Reported User', value: reported, inline: true }] : []),
+        ],
+        color: 0xFF0000,
+        timestamp: new Date().toISOString()
+      };
+
+      const payload = {
+        embeds: [embed]
+      };
+
+      const formData = new FormData();
+      formData.append('payload_json', JSON.stringify(payload));
+
+      const attachments = document.getElementById('attachments').files;
+      if (attachments.length > 10) {
+        showNotification('Maximum 10 attachments allowed', 'red');
+        return;
+      }
+
+      Array.from(attachments).forEach((file, index) => {
+        formData.append(`file[${index}]`, file);
+      });
+
+      try {
+        submitReport.disabled = true;
+        const response = await fetch(webhookUrl, {
+          method: 'POST',
+          body: formData
+        });
+
+        if (response.ok) {
+          showNotification('Report Submitted', '#fff');
+          // Clear form
+          document.getElementById('discord-username').value = '';
+          document.getElementById('report-text').value = '';
+          document.getElementById('attachments').value = '';
+          reportedUser.value = '';
+          categorySelect.value = '';
+          reportedUser.style.display = 'none';
+          reportUI.classList.remove('show');
+        } else {
+          showNotification('Failed to submit report', 'red');
+        }
+      } catch (error) {
+        showNotification('Error: ' + error.message, 'red');
+      } finally {
+        submitReport.disabled = false;
+      }
     });
   </script>
 </body>
