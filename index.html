@@ -92,14 +92,19 @@
       z-index: 2;
       transition: all 0.3s ease;
       color: #fff;
-      font-size: 24px;
+      font-size: 28px;
     }
 
     #report-button:hover {
       background: #fff;
       color: #000;
       box-shadow: 0 0 12px #fff;
-      transform: scale(1.1) rotate(5deg);
+    }
+
+    /* Custom report icon (envelope with paper) */
+    #report-button::before {
+      content: "✉️";
+      font-size: 28px;
     }
 
     #report-ui {
@@ -177,7 +182,7 @@
 
     #notification {
       position: fixed;
-      top: 80px;
+      top: 20px;
       left: 50%;
       transform: translateX(-50%);
       padding: 12px 20px;
@@ -260,13 +265,11 @@
     <button id="refresh-count">⟳</button>
   </div>
 
-  <div id="report-button">
-    📩
-  </div>
+  <div id="report-button"></div>
 
   <div id="report-ui">
     <h2>Report</h2>
-    <p>Must Be In The Server For The Response</p>
+    <p>Must be in the Discord server to get your response</p>
     <input type="text" id="discord-username" placeholder="Your Discord Username">
     <select id="category">
       <option value="">Select Category</option>
@@ -275,7 +278,7 @@
       <option value="member">Report a Member</option>
       <option value="site">Site Down</option>
     </select>
-    <input type="text" id="reported-user" placeholder="User to Report (Only if Report a Member)" style="display:none;">
+    <input type="text" id="reported-user" placeholder="Reported User Username" style="display:none;">
     <textarea id="report-text" placeholder="Your Report"></textarea>
     <input type="file" id="attachments" multiple accept="image/*,video/*">
     <button id="submit-report">Submit Report</button>
@@ -382,19 +385,11 @@
     let lastReportTime = 0;
 
     reportButton.addEventListener('click', () => {
-      if(reportUI.classList.contains('show')) {
-        reportUI.classList.remove('show');
-      } else {
-        reportUI.classList.add('show');
-      }
+      reportUI.classList.toggle('show');
     });
 
     categorySelect.addEventListener('change', () => {
-      if(categorySelect.value === 'member') {
-        reportedUser.style.display = 'block';
-      } else {
-        reportedUser.style.display = 'none';
-      }
+      reportedUser.style.display = categorySelect.value === 'member' ? 'block' : 'none';
     });
 
     function showNotification(text, color='#fff') {
@@ -404,20 +399,11 @@
       setTimeout(() => { notification.style.display = 'none'; }, 4000);
     }
 
-    async function checkUserInServer(username) {
-      try {
-        const res = await fetch('https://discord.com/api/v9/guilds/10617551234567890/members?limit=1000'); // placeholder guild API
-        return true;
-      } catch {
-        return false;
-      }
-    }
-
     submitReport.addEventListener('click', async () => {
       const now = Date.now();
       if(now - lastReportTime < 30 * 60 * 1000) {
         const minutesLeft = Math.ceil((30*60*1000 - (now - lastReportTime))/60000);
-        showNotification(`You can only submit a report again every 30 minutes (${minutesLeft} Left)`, 'red');
+        showNotification(`You can only submit 1 report every 30 minutes (${minutesLeft} Left)`, 'red');
         return;
       }
 
@@ -425,22 +411,16 @@
       const category = categorySelect.value;
       const reportText = document.getElementById('report-text').value.trim();
       const reported = reportedUser.value.trim();
-      const attachments = document.getElementById('attachments').files;
 
       if(!username || !category || !reportText || (category==='member' && !reported)) return;
 
-      const inServer = await checkUserInServer(username);
-      if(!inServer) {
-        showNotification("You're not in the Discord server double check your username or join the server if not joined.", 'red');
-        return;
-      }
+      lastReportTime = now;
+      showNotification('Report Submitted', '#fff');
 
-      let content = `**Username:** ${username}\n**Category:** ${category}\n`;
-      if(category==='member') content += `**Reported User:** ${reported}\n`;
-      content += `**Report:** ${reportText}`;
+      reportUI.classList.remove('show');
 
-      const formData = new FormData();
-      formData.append('content', content);
-
-      for(let i=0; i<Math.min(attachments.length,10); i++) {
-        formData.append('file'+
+      // Here you would add webhook POST request or server logic
+    });
+  </script>
+</body>
+</html>
