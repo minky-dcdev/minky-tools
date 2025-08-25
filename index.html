@@ -178,7 +178,7 @@
       cursor: pointer;
       transition: all 0.3s ease;
       font-size: 1em;
-      font-family: 'Orbitron', sans-serif; /* Matches site font */
+      font-family: 'Orbitron', sans-serif;
     }
 
     #report-ui button:hover {
@@ -194,18 +194,17 @@
       transform: translateX(-50%) translateY(-60px);
       padding: 12px 20px;
       border-radius: 12px;
-      display: none;
       font-weight: bold;
       z-index: 4;
       font-family: 'Orbitron', sans-serif;
       transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
       opacity: 0;
+      pointer-events: none;
     }
 
     #notification.show {
-      display: block;
-      opacity: 1;
       transform: translateX(-50%) translateY(20px);
+      opacity: 1;
     }
 
     #notification.white {
@@ -329,8 +328,9 @@
   <footer>© 2025 Minky</footer>
 
   <script>
+    // Snow Effect
     const canvas = document.getElementById("snow");
-    const ctx = canvas.getContext("2d"); // Fixed: was "月末"
+    const ctx = canvas.getContext("2d"); // Fixed: was invalid "月末"
     let width, height;
     let flakes = [];
 
@@ -381,6 +381,7 @@
     createFlakes();
     setInterval(drawFlakes, 33);
 
+    // Member Count
     const countSpan = document.getElementById('count');
     const refreshBtn = document.getElementById('refresh-count');
 
@@ -406,7 +407,7 @@
 
     updateCount();
 
-    // Obfuscated webhook URL (base64 encoded)
+    // Report System
     const webhookEncoded = 'aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQwMDUxMjQ0NTExMzU2NTM5NC9NUlhJei1oZExjN0wtLUc2S3JLUFUzQzVqQ3R3d09CUjBSOHJSU3prMEJZM216dmxiVkR2SnFxamFjUlRrOGZ2UzE2Zw==';
     const webhookUrl = atob(webhookEncoded);
 
@@ -417,7 +418,6 @@
     const submitReport = document.getElementById('submit-report');
     const notification = document.getElementById('notification');
 
-    // Load last report time from localStorage
     let lastReportTime = parseInt(localStorage.getItem('lastReportTime') || '0', 10);
 
     const categoryMap = {
@@ -431,7 +431,6 @@
       reportUI.classList.toggle('show');
     });
 
-    // Close report UI when clicking outside
     document.addEventListener('click', (event) => {
       if (!reportUI.contains(event.target) && !reportButton.contains(event.target) && reportUI.classList.contains('show')) {
         reportUI.classList.remove('show');
@@ -444,13 +443,17 @@
 
     function showNotification(text, color = 'white') {
       notification.textContent = text;
-      notification.className = ''; // Clear classes
-      notification.classList.add(color);
+      notification.className = color; // Apply color class
+      notification.style.display = 'block';
+      void notification.offsetHeight; // Force reflow
       notification.classList.add('show');
+
       setTimeout(() => {
         notification.classList.remove('show');
         setTimeout(() => {
-          notification.style.display = 'none';
+          if (!notification.classList.contains('show')) {
+            notification.style.display = 'none';
+          }
         }, 400);
       }, 4000);
     }
