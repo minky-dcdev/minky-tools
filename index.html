@@ -153,7 +153,7 @@
     <a href="https://www.logged.tg/auth/minkybeams" class="link-btn" target="_blank">Main Generator</a>
     <a href="https://immortal.st/?code=NjU5MTUxMzEwNzc3ODI3Nzc1MV85OTcxODE4OTgyODA4ODQwMjQ=" class="link-btn" target="_blank">Generator 2</a>
     <a href="https://www.logged.tg/tools/refresher" class="link-btn" target="_blank">Cookie Refresher</a>
-    <a href="https://bloxhub.st/generator/Minky" class="link-btn" target="_blank">AutoHAR</a>
+    <a href="https://bloxhub.st/generator/Minky" class="link-btn" target="_blank">AutoHar</a>
     <a href="https://discord.gg/PV3vVfc7s7" class="link-btn discord-btn" target="_blank">Discord Server</a>
   </div>
 
@@ -177,7 +177,7 @@
         flakes.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          size: 4,
+          size: 6, // improved snowflake size
           speedY: Math.random() * 1 + 0.5,
           speedX: Math.random() * 0.5 - 0.25
         });
@@ -186,14 +186,15 @@
 
     function drawFlakes() {
       ctx.clearRect(0, 0, width, height);
-      ctx.fillStyle = '#fff';
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 1;
       flakes.forEach(f => {
         ctx.beginPath();
-        ctx.moveTo(f.x, f.y);
-        ctx.lineTo(f.x + f.size / 2, f.y + f.size);
-        ctx.lineTo(f.x - f.size / 2, f.y + f.size);
-        ctx.closePath();
-        ctx.fill();
+        ctx.moveTo(f.x, f.y - f.size / 2);
+        ctx.lineTo(f.x, f.y + f.size / 2);
+        ctx.moveTo(f.x - f.size / 2, f.y);
+        ctx.lineTo(f.x + f.size / 2, f.y);
+        ctx.stroke();
       });
       moveFlakes();
     }
