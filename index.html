@@ -1,61 +1,784 @@
-<style>
-  /* ... all previous styles remain the same until ... */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Minky</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-  /* Theme Toggle Button */
-  #theme-toggle {
-    position: fixed;
-    top: 20px;
-    right: 80px;
-    width: 50px;
-    height: 50px;
-    background: #111;
-    border: 2px solid #ddd;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 2;
-    transition: all 0.3s ease;
-  }
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: #000;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
 
-  body.light-mode #theme-toggle {
-    background: #f1f1f1;
-    border-color: #aaa;
-  }
+    body.light-mode {
+      background: #fff;
+      color: #000;
+    }
 
-  #theme-toggle svg {
-    width: 22px;
-    height: 22px;
-    stroke: #fff;
-    fill: none;
-    transition: all 0.3s ease;
-  }
+    body::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, transparent 60%);
+      animation: glow 10s infinite alternate;
+      z-index: 0;
+    }
 
-  body.light-mode #theme-toggle svg {
-    stroke: #000;
-  }
+    body.light-mode::before {
+      background: radial-gradient(circle at center, rgba(0,0,0,0.03) 0%, transparent 60%);
+    }
 
-  /* ✅ Fixed Hover: Matches Report Button Exactly */
-  #theme-toggle:hover {
-    background: #fff;
-    border-color: #fff;
-    box-shadow: 0 0 12px #fff;
-  }
+    @keyframes glow {
+      from { transform: scale(1) rotate(0deg); }
+      to { transform: scale(1.1) rotate(45deg); }
+    }
 
-  #theme-toggle:hover svg {
-    stroke: #000; /* White → Black on hover (dark mode) */
-  }
+    .page-container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 1;
+    }
 
-  body.light-mode #theme-toggle:hover {
-    background: #000;
-    border-color: #000;
-    box-shadow: 0 0 12px #000;
-  }
+    #member-count {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #111;
+      border: 2px solid #ddd;
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-size: 1em;
+      color: #fff;
+      z-index: 2;
+      transition: all 0.3s ease;
+    }
 
-  body.light-mode #theme-toggle:hover svg {
-    stroke: #fff; /* Black → White on hover (light mode) */
-  }
+    body.light-mode #member-count {
+      background: #f1f1f1;
+      border-color: #aaa;
+      color: #000;
+    }
 
-  /* ... rest of your styles below ... */
-</style>
+    #member-count button {
+      width: 40px;
+      height: 40px;
+      background: #111;
+      border: 2px solid #ddd;
+      color: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.2em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    body.light-mode #member-count button {
+      background: #f1f1f1;
+      border-color: #aaa;
+      color: #000;
+    }
+
+    #member-count button:hover {
+      background: #fff;
+      color: #000;
+      box-shadow: 0 0 10px #fff;
+    }
+
+    body.light-mode #member-count button:hover {
+      background: #000;
+      color: #fff;
+      box-shadow: 0 0 10px #000;
+    }
+
+    /* Theme Toggle Button */
+    #theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 80px;
+      width: 50px;
+      height: 50px;
+      background: #111;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2;
+      transition: all 0.3s ease;
+    }
+
+    body.light-mode #theme-toggle {
+      background: #f1f1f1;
+      border-color: #aaa;
+    }
+
+    #theme-toggle svg {
+      width: 22px;
+      height: 22px;
+      stroke: #fff;
+      fill: none;
+      transition: all 0.3s ease;
+    }
+
+    body.light-mode #theme-toggle svg {
+      stroke: #000;
+    }
+
+    /* Hover: Invert icon and background, same as report button */
+    #theme-toggle:hover {
+      background: #fff;
+      border-color: #fff;
+      box-shadow: 0 0 12px #fff;
+    }
+
+    #theme-toggle:hover svg {
+      stroke: #000; /* Invert to black when background becomes white */
+    }
+
+    body.light-mode #theme-toggle:hover {
+      background: #000;
+      border-color: #000;
+      box-shadow: 0 0 12px #000;
+    }
+
+    body.light-mode #theme-toggle:hover svg {
+      stroke: #fff; /* Invert to white when background becomes black */
+    }
+
+    /* Report Button */
+    #report-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background: #111;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2;
+      transition: all 0.3s ease;
+      color: #fff;
+    }
+
+    body.light-mode #report-button {
+      background: #f1f1f1;
+      border-color: #aaa;
+      color: #000;
+    }
+
+    #report-button:hover {
+      background: #fff;
+      color: #000;
+      box-shadow: 0 0 12px #fff;
+    }
+
+    body.light-mode #report-button:hover {
+      background: #000;
+      color: #fff;
+      box-shadow: 0 0 12px #000;
+    }
+
+    #report-button svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    /* Report UI */
+    #report-ui {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.7);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      background: #111;
+      border: 2px solid #ddd;
+      border-radius: 16px;
+      padding: 25px;
+      z-index: 3;
+      min-width: 320px;
+      max-width: 420px;
+      color: #fff;
+      box-shadow: 0 0 20px rgba(255,255,255,0.3);
+    }
+
+    body.light-mode #report-ui {
+      background: #f1f1f1;
+      border-color: #aaa;
+      color: #000;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    }
+
+    #report-ui.show {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    #report-ui h2 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 1.6em;
+      text-shadow: 0 0 8px #fff;
+    }
+
+    body.light-mode #report-ui h2 {
+      text-shadow: 0 0 8px #000;
+    }
+
+    #report-ui p {
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-size: 0.95em;
+      color: #ccc;
+    }
+
+    body.light-mode #report-ui p {
+      color: #555;
+    }
+
+    #report-ui input, #report-ui textarea, #report-ui select {
+      width: 100%;
+      margin-bottom: 12px;
+      padding: 10px;
+      border-radius: 10px;
+      border: 2px solid #ddd;
+      background: #000;
+      color: #fff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.95em;
+    }
+
+    body.light-mode #report-ui input,
+    body.light-mode #report-ui textarea,
+    body.light-mode #report-ui select {
+      background: #fff;
+      color: #000;
+      border-color: #aaa;
+    }
+
+    #report-ui input[type="file"] {
+      padding: 6px;
+    }
+
+    .attach-note {
+      font-size: 0.8em;
+      color: #aaa;
+      margin: -8px 0 4px 0;
+      text-align: left;
+    }
+
+    body.light-mode .attach-note {
+      color: #555;
+    }
+
+    .file-list {
+      margin: 8px 0;
+      font-size: 0.85em;
+      text-align: left;
+      color: #ccc;
+    }
+
+    body.light-mode .file-list {
+      color: #555;
+    }
+
+    .file-list div {
+      margin: 2px 0;
+      word-break: break-all;
+    }
+
+    #report-ui button {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      background: #111;
+      border: 2px solid #ddd;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1em;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    body.light-mode #report-ui button {
+      background: #f1f1f1;
+      border-color: #aaa;
+      color: #000;
+    }
+
+    #report-ui button:hover {
+      background: #fff;
+      color: #000;
+      box-shadow: 0 0 15px #fff;
+    }
+
+    body.light-mode #report-ui button:hover {
+      background: #000;
+      color: #fff;
+      box-shadow: 0 0 15px #000;
+    }
+
+    #notification {
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-10px);
+      opacity: 0;
+      visibility: hidden;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: bold;
+      z-index: 4;
+      font-family: 'Orbitron', sans-serif;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      pointer-events: none;
+    }
+
+    #notification.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    #notification.white {
+      background: #fff;
+      color: #000;
+    }
+
+    #notification.red {
+      background: #e53935;
+      color: #fff;
+    }
+
+    h1 {
+      font-size: 3em;
+      color: #fff;
+      text-shadow: 0 0 15px #fff, 0 0 25px #aaa;
+      margin: 40px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    body.light-mode h1 {
+      color: #000;
+      text-shadow: 0 0 15px #000, 0 0 25px #555;
+    }
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 40px;
+    }
+
+    .link-btn {
+      display: block;
+      text-align: center;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: bold;
+      text-decoration: none;
+      color: #fff;
+      background: #111;
+      border: 2px solid #ddd;
+      transition: all 0.3s ease;
+    }
+
+    body.light-mode .link-btn {
+      background: #f1f1f1;
+      border-color: #aaa;
+      color: #000;
+    }
+
+    .link-btn:hover {
+      background: #fff;
+      color: #000;
+      box-shadow: 0 0 15px #fff;
+    }
+
+    body.light-mode .link-btn:hover {
+      background: #000;
+      color: #fff;
+      box-shadow: 0 0 15px #000;
+    }
+
+    .discord-btn {
+      background: #5865F2;
+      border-color: #5865F2;
+      color: #fff;
+    }
+
+    .discord-btn:hover {
+      background: #5865F2;
+      color: #fff;
+      box-shadow: 0 0 15px #5865F2;
+    }
+
+    body.light-mode .discord-btn {
+      background: #5865F2;
+      border-color: #5865F2;
+      color: #fff;
+    }
+
+    body.light-mode .discord-btn:hover {
+      background: #4752c4;
+      box-shadow: 0 0 15px #4752c4;
+    }
+
+    footer {
+      font-size: 14px;
+      color: #666;
+      z-index: 1;
+      margin-bottom: 20px;
+    }
+
+    body.light-mode footer {
+      color: #555;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="snow"></canvas>
+
+  <div class="page-container">
+    <div id="member-count">
+      Server Members: <span id="count">—</span>
+      <button id="refresh-count">⟳</button>
+    </div>
+
+    <!-- Theme Toggle Button -->
+    <div id="theme-toggle">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="5" />
+        <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+      </svg>
+    </div>
+
+    <!-- Report Button -->
+    <div id="report-button">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 9V13M12 17V17.01M3 21H21L12 3L3 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <div id="report-ui">
+      <h2>Report</h2>
+      <p>Must be in the Discord server to get your response</p>
+      <input type="text" id="discord-username" placeholder="Your Discord Username">
+      <select id="category">
+        <option value="">Select Category</option>
+        <option value="bug">Report a Bug</option>
+        <option value="suggestion">Suggestion</option>
+        <option value="member">Report a Member</option>
+        <option value="site">Site Down</option>
+      </select>
+      <input type="text" id="reported-user" placeholder="Reported User Username" style="display:none;">
+      <textarea id="report-text" placeholder="Your Report"></textarea>
+      <input type="file" id="attachments" multiple accept="image/*,video/*">
+      <p class="attach-note">Optional / Max 10 attachments</p>
+      <div class="file-list" id="file-list"></div>
+      <button id="submit-report">Submit Report</button>
+    </div>
+
+    <div id="notification"></div>
+
+    <h1>Minky</h1>
+    <div class="links">
+      <a href="https://www.logged.tg/auth/minkybeams" class="link-btn" target="_blank">Main Generator</a>
+      <a href="https://immortal.st/?code=NjU5MTUxMzEwNzc3ODI3Nzc1MV85OTcxODE4OTgyODA4ODQwMjQ=" class="link-btn" target="_blank">Generator 2</a>
+      <a href="https://www.logged.tg/tools/refresher" class="link-btn" target="_blank">Cookie Refresher</a>
+      <a href="https://bloxhub.st/generator/Minky" class="link-btn" target="_blank">AutoHar</a>
+      <a href="https://discord.gg/PV3vVfc7s7" class="link-btn discord-btn" target="_blank">Discord Server</a>
+    </div>
+
+    <footer>© 2025 Minky</footer>
+  </div>
+
+  <script>
+    // Snow Effect
+    const canvas = document.getElementById("snow");
+    const ctx = canvas.getContext("2d");
+    let width, height;
+    let flakes = [];
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    function createFlakes() {
+      for (let i = 0; i < 80; i++) {
+        flakes.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          size: 6,
+          speedY: Math.random() * 1 + 0.5,
+          speedX: Math.random() * 0.5 - 0.25
+        });
+      }
+    }
+
+    function drawFlakes() {
+      ctx.clearRect(0, 0, width, height);
+      ctx.strokeStyle = document.body.classList.contains('light-mode') ? '#000' : '#fff';
+      ctx.lineWidth = 1;
+      flakes.forEach(f => {
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, f.size / 2, 0, Math.PI * 2);
+        ctx.stroke();
+      });
+      moveFlakes();
+    }
+
+    function moveFlakes() {
+      flakes.forEach(f => {
+        f.y += f.speedY;
+        f.x += f.speedX;
+        if (f.y > height) {
+          f.y = -f.size;
+          f.x = Math.random() * width;
+        }
+        if (f.x > width) f.x = 0;
+        if (f.x < 0) f.x = width;
+      });
+    }
+
+    createFlakes();
+    setInterval(drawFlakes, 33);
+
+    // Member Count
+    const countSpan = document.getElementById('count');
+    const refreshBtn = document.getElementById('refresh-count');
+
+    async function updateCount() {
+      try {
+        const res = await fetch('https://discord.com/api/v9/invites/PV3vVfc7s7?with_counts=true');
+        const data = await res.json();
+        countSpan.textContent = data.approximate_member_count ?? 'N/A';
+      } catch (err) {
+        countSpan.textContent = 'N/A';
+      }
+    }
+
+    refreshBtn.addEventListener('click', updateCount);
+    refreshBtn.addEventListener('mouseover', () => {
+      refreshBtn.style.background = '#fff';
+      refreshBtn.style.color = '#000';
+    });
+    refreshBtn.addEventListener('mouseout', () => {
+      refreshBtn.style.background = '#111';
+      refreshBtn.style.color = '#fff';
+    });
+
+    updateCount();
+
+    // Theme Toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      body.classList.add('light-mode');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      body.classList.toggle('light-mode');
+      localStorage.setItem('theme', body.classList.contains('light-mode') ? 'light' : 'dark');
+    });
+
+    // Report System
+    const webhookEncoded = 'aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQwMDUxMjQ0NTExMzU2NTM5NC9NUlhJei1oZExjN0wtLUc2S3JLUFUzQzVqQ3R3d09CUjBSOHJSU3prMEJZM216dmxiVkR2SnFxamFjUlRrOGZ2UzE2Zw==';
+    const webhookUrl = atob(webhookEncoded);
+    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(webhookUrl)}`;
+
+    const reportButton = document.getElementById('report-button');
+    const reportUI = document.getElementById('report-ui');
+    const categorySelect = document.getElementById('category');
+    const reportedUser = document.getElementById('reported-user');
+    const submitReport = document.getElementById('submit-report');
+    const notification = document.getElementById('notification');
+    const attachmentInput = document.getElementById('attachments');
+    const fileList = document.getElementById('file-list');
+
+    let lastReportTime = parseInt(localStorage.getItem('lastReportTime') || '0', 10);
+
+    const categoryMap = {
+      bug: 'Bug Report',
+      suggestion: 'Suggestion',
+      member: 'Member Report',
+      site: 'Site Down Report'
+    };
+
+    reportButton.addEventListener('click', () => {
+      reportUI.classList.toggle('show');
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!reportUI.contains(event.target) && !reportButton.contains(event.target) && reportUI.classList.contains('show')) {
+        reportUI.classList.remove('show');
+      }
+    });
+
+    categorySelect.addEventListener('change', () => {
+      reportedUser.style.display = categorySelect.value === 'member' ? 'block' : 'none';
+    });
+
+    // Show selected file names
+    attachmentInput.addEventListener('change', () => {
+      fileList.innerHTML = '';
+      if (attachmentInput.files.length > 0) {
+        Array.from(attachmentInput.files).forEach(file => {
+          const div = document.createElement('div');
+          div.textContent = file.name;
+          fileList.appendChild(div);
+        });
+      }
+    });
+
+    function showNotification(text, color = 'white') {
+      notification.textContent = text;
+      notification.className = '';
+      notification.classList.add(color);
+      notification.style.display = 'block';
+      void notification.offsetHeight;
+      notification.classList.add('show');
+
+      setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+          if (!notification.classList.contains('show')) {
+            notification.style.display = 'none';
+          }
+        }, 400);
+      }, 4000);
+    }
+
+    submitReport.addEventListener('click', async () => {
+      const now = Date.now();
+      if (now - lastReportTime < 30 * 60 * 1000) {
+        const minutesLeft = Math.ceil((30 * 60 * 1000 - (now - lastReportTime)) / 60000);
+        showNotification(`You can only submit one report every 30 minutes (${minutesLeft} Minutes Left)`, 'red');
+        return;
+      }
+
+      const username = document.getElementById('discord-username').value.trim();
+      const category = categorySelect.value;
+      const reportText = document.getElementById('report-text').value.trim();
+      const reported = reportedUser.value.trim();
+      const attachments = attachmentInput.files;
+
+      if (attachments.length > 10) {
+        showNotification('Maximum 10 attachments allowed', 'red');
+        return;
+      }
+
+      if (!username || !category || !reportText || (category === 'member' && !reported)) {
+        showNotification('Please fill all required fields', 'red');
+        return;
+      }
+
+      lastReportTime = now;
+      localStorage.setItem('lastReportTime', lastReportTime.toString());
+
+      const embed = {
+        title: `New ${categoryMap[category] || 'Report'}`,
+        description: reportText,
+        fields: [
+          { name: 'Discord Username', value: username, inline: true },
+          ...(category === 'member' ? [{ name: 'Reported User', value: reported, inline: true }] : []),
+        ],
+        color: 0xFF0000,
+        timestamp: new Date().toISOString()
+      };
+
+      const formData = new FormData();
+      formData.append('payload_json', JSON.stringify({ embeds: [embed] }));
+
+      Array.from(attachments).forEach((file, index) => {
+        formData.append(`files[${index}]`, file);
+      });
+
+      try {
+        submitReport.disabled = true;
+        const response = await fetch(proxyUrl, {
+          method: 'POST',
+          mode: 'cors',
+          body: formData
+        });
+
+        if (response.ok) {
+          showNotification('Report Submitted', 'white');
+          document.getElementById('discord-username').value = '';
+          document.getElementById('report-text').value = '';
+          attachmentInput.value = '';
+          fileList.innerHTML = '';
+          reportedUser.value = '';
+          categorySelect.value = '';
+          reportedUser.style.display = 'none';
+          reportUI.classList.remove('show');
+        } else {
+          const text = await response.text();
+          console.error('Webhook error:', text);
+          showNotification('Failed to submit report', 'red');
+        }
+      } catch (error) {
+        console.error('Fetch error:', error);
+        showNotification('Network error: ' + error.message, 'red');
+      } finally {
+        submitReport.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
