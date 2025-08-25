@@ -19,7 +19,13 @@
       min-height: 100vh;
       text-align: center;
       position: relative;
-      overflow: hidden; /* Prevents infinite scrolling */
+      overflow: hidden;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    body.light-mode {
+      background: #fff;
+      color: #000;
     }
 
     body::before {
@@ -34,12 +40,15 @@
       z-index: 0;
     }
 
+    body.light-mode::before {
+      background: radial-gradient(circle at center, rgba(0,0,0,0.03) 0%, transparent 60%);
+    }
+
     @keyframes glow {
       from { transform: scale(1) rotate(0deg); }
       to { transform: scale(1.1) rotate(45deg); }
     }
 
-    /* Container to limit scrollable area */
     .page-container {
       min-height: 100vh;
       display: flex;
@@ -65,6 +74,13 @@
       font-size: 1em;
       color: #fff;
       z-index: 2;
+      transition: all 0.3s ease;
+    }
+
+    body.light-mode #member-count {
+      background: #f1f1f1;
+      border-color: #aaa;
+      color: #000;
     }
 
     #member-count button {
@@ -82,13 +98,66 @@
       transition: all 0.3s ease;
     }
 
+    body.light-mode #member-count button {
+      background: #f1f1f1;
+      border-color: #aaa;
+      color: #000;
+    }
+
     #member-count button:hover {
       background: #fff;
       color: #000;
       box-shadow: 0 0 10px #fff;
     }
 
+    body.light-mode #member-count button:hover {
+      background: #000;
+      color: #fff;
+      box-shadow: 0 0 10px #000;
+    }
+
     #report-button {
+      position: fixed;
+      top: 20px;
+      right: 80px; /* Moved left for space for theme button */
+      width: 50px;
+      height: 50px;
+      background: #111;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2;
+      transition: all 0.3s ease;
+      color: #fff;
+    }
+
+    body.light-mode #report-button {
+      background: #f1f1f1;
+      border-color: #aaa;
+      color: #000;
+    }
+
+    #report-button:hover {
+      background: #fff;
+      color: #000;
+      box-shadow: 0 0 12px #fff;
+    }
+
+    body.light-mode #report-button:hover {
+      background: #000;
+      color: #fff;
+      box-shadow: 0 0 12px #000;
+    }
+
+    #report-button svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    #theme-toggle {
       position: fixed;
       top: 20px;
       right: 20px;
@@ -104,20 +173,27 @@
       z-index: 2;
       transition: all 0.3s ease;
       color: #fff;
+      font-size: 1.2em;
     }
 
-    #report-button:hover {
+    body.light-mode #theme-toggle {
+      background: #f1f1f1;
+      border-color: #aaa;
+      color: #000;
+    }
+
+    #theme-toggle:hover {
       background: #fff;
       color: #000;
       box-shadow: 0 0 12px #fff;
     }
 
-    #report-button svg {
-      width: 28px;
-      height: 28px;
+    body.light-mode #theme-toggle:hover {
+      background: #000;
+      color: #fff;
+      box-shadow: 0 0 12px #000;
     }
 
-    /* REPORT UI WITH SMOOTH SCALE IN/OUT */
     #report-ui {
       position: fixed;
       top: 50%;
@@ -137,6 +213,13 @@
       box-shadow: 0 0 20px rgba(255,255,255,0.3);
     }
 
+    body.light-mode #report-ui {
+      background: #f1f1f1;
+      border-color: #aaa;
+      color: #000;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    }
+
     #report-ui.show {
       transform: translate(-50%, -50%) scale(1);
       opacity: 1;
@@ -150,11 +233,19 @@
       text-shadow: 0 0 8px #fff;
     }
 
+    body.light-mode #report-ui h2 {
+      text-shadow: 0 0 8px #000;
+    }
+
     #report-ui p {
       margin-top: 0;
       margin-bottom: 12px;
       font-size: 0.95em;
       color: #ccc;
+    }
+
+    body.light-mode #report-ui p {
+      color: #555;
     }
 
     #report-ui input, #report-ui textarea, #report-ui select {
@@ -169,6 +260,14 @@
       font-size: 0.95em;
     }
 
+    body.light-mode #report-ui input,
+    body.light-mode #report-ui textarea,
+    body.light-mode #report-ui select {
+      background: #fff;
+      color: #000;
+      border-color: #aaa;
+    }
+
     #report-ui input[type="file"] {
       padding: 6px;
     }
@@ -178,6 +277,10 @@
       color: #aaa;
       margin: -8px 0 12px 0;
       text-align: left;
+    }
+
+    body.light-mode .attach-note {
+      color: #555;
     }
 
     #report-ui button {
@@ -194,13 +297,24 @@
       font-family: 'Orbitron', sans-serif;
     }
 
+    body.light-mode #report-ui button {
+      background: #f1f1f1;
+      border-color: #aaa;
+      color: #000;
+    }
+
     #report-ui button:hover {
       background: #fff;
       color: #000;
       box-shadow: 0 0 15px #fff;
     }
 
-    /* FIXED NOTIFICATION - NOW VISIBLE & ANIMATED */
+    body.light-mode #report-ui button:hover {
+      background: #000;
+      color: #fff;
+      box-shadow: 0 0 15px #000;
+    }
+
     #notification {
       position: fixed;
       top: 80px;
@@ -215,6 +329,11 @@
       font-family: 'Orbitron', sans-serif;
       transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
       pointer-events: none;
+    }
+
+    body.light-mode #notification {
+      background: #000;
+      color: #fff;
     }
 
     #notification.show {
@@ -233,6 +352,11 @@
       color: #fff;
     }
 
+    body.light-mode #notification.white {
+      background: #000;
+      color: #fff;
+    }
+
     h1 {
       font-size: 3em;
       color: #fff;
@@ -240,6 +364,11 @@
       margin: 40px 0;
       position: relative;
       z-index: 1;
+    }
+
+    body.light-mode h1 {
+      color: #000;
+      text-shadow: 0 0 15px #000, 0 0 25px #555;
     }
 
     .links {
@@ -267,17 +396,46 @@
       transition: all 0.3s ease;
     }
 
+    body.light-mode .link-btn {
+      background: #f1f1f1;
+      border-color: #aaa;
+      color: #000;
+    }
+
     .link-btn:hover {
       background: #fff;
       color: #000;
       box-shadow: 0 0 15px #fff;
     }
 
+    body.light-mode .link-btn:hover {
+      background: #000;
+      color: #fff;
+      box-shadow: 0 0 15px #000;
+    }
+
+    .discord-btn {
+      background: #5865F2;
+      border-color: #5865F2;
+      color: #fff;
+    }
+
     .discord-btn:hover {
       background: #5865F2;
       color: #fff;
       box-shadow: 0 0 15px #5865F2;
+    }
+
+    /* Keep Discord button unchanged in light mode */
+    body.light-mode .discord-btn {
+      background: #5865F2;
       border-color: #5865F2;
+      color: #fff;
+    }
+
+    body.light-mode .discord-btn:hover {
+      background: #4752c4;
+      box-shadow: 0 0 15px #4752c4;
     }
 
     footer {
@@ -285,6 +443,10 @@
       color: #666;
       z-index: 1;
       margin-bottom: 20px;
+    }
+
+    body.light-mode footer {
+      color: #555;
     }
 
     canvas {
@@ -312,6 +474,9 @@
         <path d="M12 9V13M12 17V17.01M3 21H21L12 3L3 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </div>
+
+    <!-- Theme Toggle Button -->
+    <div id="theme-toggle">🌓</div>
 
     <div id="report-ui">
       <h2>Report</h2>
@@ -425,6 +590,22 @@
 
     updateCount();
 
+    // Theme Toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    // Load saved preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      body.classList.add('light-mode');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      body.classList.toggle('light-mode');
+      const isLight = body.classList.contains('light-mode');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    });
+
     // Report System
     const webhookEncoded = 'aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQwMDUxMjQ0NTExMzU2NTM5NC9NUlhJei1oZExjN0wtLUc2S3JLUFUzQzVqQ3R3d09CUjBSOHJSU3prMEJZM216dmxiVkR2SnFxamFjUlRrOGZ2UzE2Zw==';
     const webhookUrl = atob(webhookEncoded);
@@ -490,7 +671,6 @@
       const reported = reportedUser.value.trim();
       const attachments = document.getElementById('attachments').files;
 
-      // ✅ Fixed: Properly check file count
       if (attachments.length > 10) {
         showNotification('Maximum 10 attachments allowed', 'red');
         return;
