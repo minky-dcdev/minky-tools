@@ -443,24 +443,4 @@
       formData.append('content', content);
 
       for(let i=0; i<Math.min(attachments.length,10); i++) {
-        formData.append('file'+i, attachments[i]);
-      }
-
-      fetch('https://discord.com/api/webhooks/1400512445113565394/MRXIz-hdLc7L--G6KrKPE3C5jCtwwOBR0R8rRSzk0BY3mzvlbVDvJqqjacRTk8fvS16g', {
-        method: 'POST',
-        body: formData
-      }).then(()=> {
-        showNotification("Report Submitted");
-        lastReportTime = Date.now();
-        reportUI.classList.remove('show');
-        document.getElementById('discord-username').value='';
-        reportedUser.value='';
-        document.getElementById('report-text').value='';
-        document.getElementById('attachments').value='';
-        categorySelect.value='';
-        reportedUser.style.display='none';
-      }).catch(()=> showNotification("Failed to submit report", 'red'));
-    });
-  </script>
-</body>
-</html>
+        formData.append('file'+
