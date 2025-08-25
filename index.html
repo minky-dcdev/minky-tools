@@ -105,12 +105,15 @@
       height: 28px;
     }
 
+    /* REPORT UI WITH SMOOTH SCALE IN/OUT */
     #report-ui {
-      display: none;
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%) scale(0.7);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
       background: #111;
       border: 2px solid #ddd;
       border-radius: 16px;
@@ -120,14 +123,12 @@
       max-width: 420px;
       color: #fff;
       box-shadow: 0 0 20px rgba(255,255,255,0.3);
-      opacity: 0;
-      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
 
     #report-ui.show {
-      display: block;
       transform: translate(-50%, -50%) scale(1);
       opacity: 1;
+      visibility: visible;
     }
 
     #report-ui h2 {
@@ -187,24 +188,27 @@
       box-shadow: 0 0 15px #fff;
     }
 
+    /* FIXED NOTIFICATION - NOW VISIBLE & ANIMATED */
     #notification {
       position: fixed;
-      top: -60px;
+      top: 80px; /* Lowered from -60px to 80px so it's visible below header elements */
       left: 50%;
-      transform: translateX(-50%) translateY(-60px);
+      transform: translateX(-50%) translateY(-10px);
+      opacity: 0;
+      visibility: hidden;
       padding: 12px 20px;
       border-radius: 12px;
       font-weight: bold;
       z-index: 4;
       font-family: 'Orbitron', sans-serif;
       transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-      opacity: 0;
       pointer-events: none;
     }
 
     #notification.show {
-      transform: translateX(-50%) translateY(20px);
+      transform: translateX(-50%) translateY(0);
       opacity: 1;
+      visibility: visible;
     }
 
     #notification.white {
@@ -330,7 +334,7 @@
   <script>
     // Snow Effect
     const canvas = document.getElementById("snow");
-    const ctx = canvas.getContext("2d"); // Fixed: was invalid "月末"
+    const ctx = canvas.getContext("2d");
     let width, height;
     let flakes = [];
 
@@ -443,9 +447,9 @@
 
     function showNotification(text, color = 'white') {
       notification.textContent = text;
-      notification.className = color; // Apply color class
+      notification.className = color;
       notification.style.display = 'block';
-      void notification.offsetHeight; // Force reflow
+      void notification.offsetHeight;
       notification.classList.add('show');
 
       setTimeout(() => {
