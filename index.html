@@ -63,7 +63,7 @@
     #member-count {
       position: fixed;
       top: 20px;
-      left: 80px;
+      left: 20px;
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -116,6 +116,46 @@
       box-shadow: 0 0 10px #000;
     }
 
+    /* Theme Toggle - Right Side, Left of Report Button */
+    #theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 80px; /* To the left of report button */
+      width: 50px;
+      height: 50px;
+      background: #111;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2;
+      transition: all 0.3s ease;
+    }
+
+    body.light-mode #theme-toggle {
+      background: #f1f1f1;
+      border-color: #aaa;
+    }
+
+    #theme-toggle svg {
+      width: 22px;
+      height: 22px;
+      transition: all 0.3s ease;
+      stroke: #fff;
+      fill: none;
+    }
+
+    body.light-mode #theme-toggle svg {
+      stroke: #000;
+    }
+
+    #theme-toggle:hover svg {
+      opacity: 0.9;
+    }
+
+    /* Report Button - Far Right */
     #report-button {
       position: fixed;
       top: 20px;
@@ -155,38 +195,6 @@
     #report-button svg {
       width: 28px;
       height: 28px;
-    }
-
-    #theme-toggle {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      width: 50px;
-      height: 50px;
-      background: #111;
-      border: 2px solid #ddd;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 2;
-      transition: all 0.3s ease;
-    }
-
-    body.light-mode #theme-toggle {
-      background: #f1f1f1;
-      border-color: #aaa;
-    }
-
-    #theme-toggle svg {
-      width: 24px;
-      height: 24px;
-      transition: all 0.3s ease;
-    }
-
-    #theme-toggle:hover svg {
-      opacity: 0.8;
     }
 
     #report-ui {
@@ -453,14 +461,17 @@
       <button id="refresh-count">⟳</button>
     </div>
 
-    <!-- Theme Toggle Button (Left) -->
+    <!-- Theme Toggle: On Right, Left of Report Button -->
     <div id="theme-toggle">
-      <svg id="theme-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 3a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0V4a1 1 0 0 1 1-1zM12 19a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0v-1a1 1 0 0 1 1-1zm7-9a1 1 0 0 1-1 1h-1a1 1 0 0 1 0-2h1a1 1 0 0 1 1 1zM5 12a1 1 0 0 1-1-1v-1a1 1 0 0 1 2 0v1a1 1 0 0 1-1 1zm12.07-1.46a1 1 0 0 1-1.41 1.41l-.7-.7a1 1 0 0 1 1.41-1.41l.7.7zM6.34 6.34a1 1 0 0 1 1.41 0l.71.71a1 1 0 0 1-1.41 1.41l-.71-.71a1 1 0 0 1 0-1.41zM17.66 17.66a1 1 0 0 1-1.41 0l-.71-.71a1 1 0 0 1 1.41-1.41l.71.71a1 1 0 0 1 0 1.41zM6.34 17.66a1 1 0 0 1 0-1.41l-.71-.71a1 1 0 0 1 1.41-1.41l.71.71a1 1 0 0 1 0 1.41l-.71.71zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z" fill="currentColor" />
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <!-- Sun (light mode) -->
+        <circle cx="12" cy="12" r="5" />
+        <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+        <!-- Moon (dark mode) - shown via CSS in dark mode -->
       </svg>
     </div>
 
-    <!-- Report Button (Right) -->
+    <!-- Report Button: Far Right -->
     <div id="report-button">
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 9V13M12 17V17.01M3 21H21L12 3L3 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -582,7 +593,6 @@
     // Theme Toggle
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
-    const themeIcon = document.getElementById('theme-icon');
 
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'light') {
@@ -597,8 +607,6 @@
     // Report System
     const webhookEncoded = 'aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQwMDUxMjQ0NTExMzU2NTM5NC9NUlhJei1oZExjN0wtLUc2S3JLUFUzQzVqQ3R3d09CUjBSOHJSU3prMEJZM216dmxiVkR2SnFxamFjUlRrOGZ2UzE2Zw==';
     const webhookUrl = atob(webhookEncoded);
-
-    // Use a CORS proxy to avoid client-side fetch issues
     const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(webhookUrl)}`;
 
     const reportButton = document.getElementById('report-button');
