@@ -101,9 +101,9 @@
       box-shadow: 0 0 12px #fff;
     }
 
-    /* Custom report icon (envelope with paper) */
+    /* Custom report icon */
     #report-button::before {
-      content: "✉️";
+      content: "📨";
       font-size: 28px;
     }
 
@@ -399,7 +399,7 @@
       setTimeout(() => { notification.style.display = 'none'; }, 4000);
     }
 
-    submitReport.addEventListener('click', async () => {
+    submitReport.addEventListener('click', () => {
       const now = Date.now();
       if(now - lastReportTime < 30 * 60 * 1000) {
         const minutesLeft = Math.ceil((30*60*1000 - (now - lastReportTime))/60000);
@@ -416,7 +416,6 @@
 
       lastReportTime = now;
       showNotification('Report Submitted', '#fff');
-
       reportUI.classList.remove('show');
 
       // Webhook or server logic goes here
