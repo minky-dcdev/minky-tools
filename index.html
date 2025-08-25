@@ -63,7 +63,7 @@
     #member-count {
       position: fixed;
       top: 20px;
-      left: 20px;
+      left: 80px;
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -119,7 +119,7 @@
     #report-button {
       position: fixed;
       top: 20px;
-      right: 80px; /* Moved left for space for theme button */
+      right: 20px;
       width: 50px;
       height: 50px;
       background: #111;
@@ -160,7 +160,7 @@
     #theme-toggle {
       position: fixed;
       top: 20px;
-      right: 20px;
+      left: 20px;
       width: 50px;
       height: 50px;
       background: #111;
@@ -172,26 +172,21 @@
       cursor: pointer;
       z-index: 2;
       transition: all 0.3s ease;
-      color: #fff;
-      font-size: 1.2em;
     }
 
     body.light-mode #theme-toggle {
       background: #f1f1f1;
       border-color: #aaa;
-      color: #000;
     }
 
-    #theme-toggle:hover {
-      background: #fff;
-      color: #000;
-      box-shadow: 0 0 12px #fff;
+    #theme-toggle svg {
+      width: 24px;
+      height: 24px;
+      transition: all 0.3s ease;
     }
 
-    body.light-mode #theme-toggle:hover {
-      background: #000;
-      color: #fff;
-      box-shadow: 0 0 12px #000;
+    #theme-toggle:hover svg {
+      opacity: 0.8;
     }
 
     #report-ui {
@@ -331,11 +326,6 @@
       pointer-events: none;
     }
 
-    body.light-mode #notification {
-      background: #000;
-      color: #fff;
-    }
-
     #notification.show {
       transform: translateX(-50%) translateY(0);
       opacity: 1;
@@ -349,11 +339,6 @@
 
     #notification.red {
       background: #e53935;
-      color: #fff;
-    }
-
-    body.light-mode #notification.white {
-      background: #000;
       color: #fff;
     }
 
@@ -426,7 +411,6 @@
       box-shadow: 0 0 15px #5865F2;
     }
 
-    /* Keep Discord button unchanged in light mode */
     body.light-mode .discord-btn {
       background: #5865F2;
       border-color: #5865F2;
@@ -469,14 +453,19 @@
       <button id="refresh-count">⟳</button>
     </div>
 
+    <!-- Theme Toggle Button (Left) -->
+    <div id="theme-toggle">
+      <svg id="theme-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 3a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0V4a1 1 0 0 1 1-1zM12 19a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0v-1a1 1 0 0 1 1-1zm7-9a1 1 0 0 1-1 1h-1a1 1 0 0 1 0-2h1a1 1 0 0 1 1 1zM5 12a1 1 0 0 1-1-1v-1a1 1 0 0 1 2 0v1a1 1 0 0 1-1 1zm12.07-1.46a1 1 0 0 1-1.41 1.41l-.7-.7a1 1 0 0 1 1.41-1.41l.7.7zM6.34 6.34a1 1 0 0 1 1.41 0l.71.71a1 1 0 0 1-1.41 1.41l-.71-.71a1 1 0 0 1 0-1.41zM17.66 17.66a1 1 0 0 1-1.41 0l-.71-.71a1 1 0 0 1 1.41-1.41l.71.71a1 1 0 0 1 0 1.41zM6.34 17.66a1 1 0 0 1 0-1.41l-.71-.71a1 1 0 0 1 1.41-1.41l.71.71a1 1 0 0 1 0 1.41l-.71.71zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z" fill="currentColor" />
+      </svg>
+    </div>
+
+    <!-- Report Button (Right) -->
     <div id="report-button">
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 9V13M12 17V17.01M3 21H21L12 3L3 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </div>
-
-    <!-- Theme Toggle Button -->
-    <div id="theme-toggle">🌓</div>
 
     <div id="report-ui">
       <h2>Report</h2>
@@ -593,8 +582,8 @@
     // Theme Toggle
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
+    const themeIcon = document.getElementById('theme-icon');
 
-    // Load saved preference
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'light') {
       body.classList.add('light-mode');
@@ -602,13 +591,15 @@
 
     themeToggle.addEventListener('click', () => {
       body.classList.toggle('light-mode');
-      const isLight = body.classList.contains('light-mode');
-      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      localStorage.setItem('theme', body.classList.contains('light-mode') ? 'light' : 'dark');
     });
 
     // Report System
     const webhookEncoded = 'aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQwMDUxMjQ0NTExMzU2NTM5NC9NUlhJei1oZExjN0wtLUc2S3JLUFUzQzVqQ3R3d09CUjBSOHJSU3prMEJZM216dmxiVkR2SnFxamFjUlRrOGZ2UzE2Zw==';
     const webhookUrl = atob(webhookEncoded);
+
+    // Use a CORS proxy to avoid client-side fetch issues
+    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(webhookUrl)}`;
 
     const reportButton = document.getElementById('report-button');
     const reportUI = document.getElementById('report-ui');
@@ -642,7 +633,8 @@
 
     function showNotification(text, color = 'white') {
       notification.textContent = text;
-      notification.className = color;
+      notification.className = '';
+      notification.classList.add(color);
       notification.style.display = 'block';
       void notification.offsetHeight;
       notification.classList.add('show');
@@ -704,8 +696,9 @@
 
       try {
         submitReport.disabled = true;
-        const response = await fetch(webhookUrl, {
+        const response = await fetch(proxyUrl, {
           method: 'POST',
+          mode: 'cors',
           body: formData
         });
 
@@ -719,10 +712,13 @@
           reportedUser.style.display = 'none';
           reportUI.classList.remove('show');
         } else {
+          const text = await response.text();
+          console.error('Webhook error:', text);
           showNotification('Failed to submit report', 'red');
         }
       } catch (error) {
-        showNotification('Error: ' + error.message, 'red');
+        console.error('Fetch error:', error);
+        showNotification('Network error: ' + error.message, 'red');
       } finally {
         submitReport.disabled = false;
       }
