@@ -12,7 +12,7 @@
       text-align: center;
       margin: 0;
       padding: 0;
-      overflow: hidden;
+      overflow-y: auto; /* scrolling enabled */
     }
 
     h1 {
@@ -108,7 +108,6 @@
   <canvas id="snowflakes"></canvas>
 
   <script>
-    // Discord Member Counter
     async function fetchMembers() {
       try {
         const response = await fetch("https://discord.com/api/v9/invites/PV3vVfc7s7?with_counts=true");
@@ -127,7 +126,7 @@
     document.getElementById("refresh-btn").addEventListener("click", fetchMembers);
     fetchMembers();
 
-    // Snowflakes Effect (true ❄️ symbols, all same size)
+    // Snowflakes Effect (same size)
     const canvas = document.getElementById("snowflakes");
     const ctx = canvas.getContext("2d");
     let W = window.innerWidth;
@@ -145,7 +144,7 @@
         y: Math.random() * H,
         speedY: 1 + Math.random() * 2,
         speedX: Math.random() * 1 - 0.5,
-        size: 18 // same size for all
+        size: 18
       });
     }
 
