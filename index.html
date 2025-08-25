@@ -116,11 +116,10 @@
       box-shadow: 0 0 10px #000;
     }
 
-    /* Theme Toggle - Right Side, Left of Report Button */
     #theme-toggle {
       position: fixed;
       top: 20px;
-      right: 80px; /* To the left of report button */
+      right: 80px;
       width: 50px;
       height: 50px;
       background: #111;
@@ -142,20 +141,15 @@
     #theme-toggle svg {
       width: 22px;
       height: 22px;
-      transition: all 0.3s ease;
       stroke: #fff;
       fill: none;
+      transition: all 0.3s ease;
     }
 
     body.light-mode #theme-toggle svg {
       stroke: #000;
     }
 
-    #theme-toggle:hover svg {
-      opacity: 0.9;
-    }
-
-    /* Report Button - Far Right */
     #report-button {
       position: fixed;
       top: 20px;
@@ -278,12 +272,28 @@
     .attach-note {
       font-size: 0.8em;
       color: #aaa;
-      margin: -8px 0 12px 0;
+      margin: -8px 0 4px 0;
       text-align: left;
     }
 
     body.light-mode .attach-note {
       color: #555;
+    }
+
+    .file-list {
+      margin: 8px 0;
+      font-size: 0.85em;
+      text-align: left;
+      color: #ccc;
+    }
+
+    body.light-mode .file-list {
+      color: #555;
+    }
+
+    .file-list div {
+      margin: 2px 0;
+      word-break: break-all;
     }
 
     #report-ui button {
@@ -461,17 +471,13 @@
       <button id="refresh-count">⟳</button>
     </div>
 
-    <!-- Theme Toggle: On Right, Left of Report Button -->
     <div id="theme-toggle">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <!-- Sun (light mode) -->
         <circle cx="12" cy="12" r="5" />
         <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-        <!-- Moon (dark mode) - shown via CSS in dark mode -->
       </svg>
     </div>
 
-    <!-- Report Button: Far Right -->
     <div id="report-button">
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 9V13M12 17V17.01M3 21H21L12 3L3 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -493,6 +499,7 @@
       <textarea id="report-text" placeholder="Your Report"></textarea>
       <input type="file" id="attachments" multiple accept="image/*,video/*">
       <p class="attach-note">Optional / Max 10 attachments</p>
+      <div class="file-list" id="file-list"></div>
       <button id="submit-report">Submit Report</button>
     </div>
 
@@ -538,7 +545,8 @@
 
     function drawFlakes() {
       ctx.clearRect(0, 0, width, height);
-      ctx.strokeStyle = '#fff';
+      // ✅ Set snow color based on theme
+      ctx.strokeStyle = document.body.classList.contains('light-mode') ? '#000' : '#fff';
       ctx.lineWidth = 1;
       flakes.forEach(f => {
         ctx.beginPath();
@@ -615,6 +623,8 @@
     const reportedUser = document.getElementById('reported-user');
     const submitReport = document.getElementById('submit-report');
     const notification = document.getElementById('notification');
+    const attachmentInput = document.getElementById('attachments');
+    const fileList = document.getElementById('file-list');
 
     let lastReportTime = parseInt(localStorage.getItem('lastReportTime') || '0', 10);
 
@@ -637,6 +647,18 @@
 
     categorySelect.addEventListener('change', () => {
       reportedUser.style.display = categorySelect.value === 'member' ? 'block' : 'none';
+    });
+
+    // ✅ Show selected file names
+    attachmentInput.addEventListener('change', () => {
+      fileList.innerHTML = '';
+      if (attachmentInput.files.length > 0) {
+        Array.from(attachmentInput.files).forEach(file => {
+          const div = document.createElement('div');
+          div.textContent = file.name;
+          fileList.appendChild(div);
+        });
+      }
     });
 
     function showNotification(text, color = 'white') {
@@ -669,7 +691,7 @@
       const category = categorySelect.value;
       const reportText = document.getElementById('report-text').value.trim();
       const reported = reportedUser.value.trim();
-      const attachments = document.getElementById('attachments').files;
+      const attachments = attachmentInput.files;
 
       if (attachments.length > 10) {
         showNotification('Maximum 10 attachments allowed', 'red');
@@ -714,7 +736,8 @@
           showNotification('Report Submitted', 'white');
           document.getElementById('discord-username').value = '';
           document.getElementById('report-text').value = '';
-          document.getElementById('attachments').value = '';
+          attachmentInput.value = '';
+          fileList.innerHTML = '';
           reportedUser.value = '';
           categorySelect.value = '';
           reportedUser.style.display = 'none';
