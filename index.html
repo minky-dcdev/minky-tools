@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"content="width=device-width,initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Minky</title>
-  <linkhref="https://fonts.googleapis.com/css2?family=Orbitron:tght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet" />
   <style>
     * {
-      box-sizing:border-box;
+      box-sizing: border-box;
     }
-    
+
     body {
-      font-family: 'Orbitron',sans-serif;
+      font-family: 'Orbitron', sans-serif;
       background: #000;
       color: #fff;
       margin: 0;
       padding: 0;
       min-height: 100vh;
       text-align: center;
-      position:relative;
-      overflow:hidden;
+      position: relative;
+      overflow: hidden;
       transition: background 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
-    
+
     body.light-mode {
       background: #fff;
       color: #000;
     }
-    
+
     body::before {
       content: "";
       position: absolute;
@@ -35,36 +35,40 @@
       left: -50%;
       width: 200%;
       height: 200%;
-      background: radial-gradient(circle at center,rgba(255,255,255,0.05) 0%,transparent 60%);
+      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
       animation: glow 10s infinite alternate;
       z-index: 0;
     }
-    
+
     body.light-mode::before {
-      background: radial-gradient(circle at center,rgba(0,0,0,0.03) 0%,transparent 60%);
+      background: radial-gradient(circle at center, rgba(0, 0, 0, 0.03) 0%, transparent 60%);
     }
-    
-    @keyframe glow {
-      from {transform: scale(1) rotate(0deg); }
-      to {transform: scale(1.1)rotate(45deg); }
+
+    @keyframes glow {
+      from {
+        transform: scale(1) rotate(0deg);
+      }
+      to {
+        transform: scale(1.1) rotate(45deg);
+      }
     }
-    
+
     .page-container {
       min-height: 100vh;
-      display:flex;
-      flex-direction:column;
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content:flex-start;
+      justify-content: flex-start;
       padding: 40px 20px;
-      position:relative;
+      position: relative;
       z-index: 1;
     }
-    
+
     #member-count {
-      position:fixed;
+      position: fixed;
       top: 20px;
       left: 20px;
-      display:inline-flex;
+      display: inline-flex;
       align-items: center;
       gap: 8px;
       background: #111;
@@ -76,48 +80,49 @@
       z-index: 2;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
-    
+
     body.light-mode #member-count {
       background: #f1f1f1;
       border-color: #aaa;
       color: #000;
     }
-    
-    #member-countbutton {
+
+    #refresh-count {
       width: 40px;
       height: 40px;
       background: #111;
       border: 2px solid #ddd;
       color: #fff;
       border-radius: 8px;
-      cursor:pointer;
+      cursor: pointer;
       font-size: 1.2em;
-      display:flex;
+      display: flex;
       align-items: center;
       justify-content: center;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
-    
-    body.light-mode #member-countbutton {
+
+    body.light-mode #refresh-count {
       background: #f1f1f1;
       border-color: #aaa;
       color: #000;
     }
-    
-    #member-countbutton:hover {
+
+    #refresh-count:hover {
       background: #fff;
       color: #000;
       box-shadow: 0 0 10px #fff;
     }
-    
-    body.light-mode #member-countbutton:hover {
+
+    body.light-mode #refresh-count:hover {
       background: #000;
       color: #fff;
       box-shadow: 0 0 10px #000;
     }
-    
-    /* ThemeToggle*/    #theme-toggle {
-      position:fixed;
+
+    /* ThemeToggle */
+    #theme-toggle {
+      position: fixed;
       top: 20px;
       right: 140px;
       width: 50px;
@@ -125,53 +130,54 @@
       background: #111;
       border: 2px solid #ddd;
       border-radius: 12px;
-      display:flex;
+      display: flex;
       align-items: center;
-     justify-content: center;
-      cursor:pointer;
+      justify-content: center;
+      cursor: pointer;
       z-index: 2;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
-    
+
     body.light-mode #theme-toggle {
       background: #f1f1f1;
       border-color: #aaa;
     }
-    
-    #theme-togglesvg {
+
+    #theme-toggle svg {
       width: 22px;
       height: 22px;
       stroke: #fff;
       fill: none;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
-    
-    body.light-mode #theme-togglesvg {
+
+    body.light-mode #theme-toggle svg {
       stroke: #000;
     }
-    
+
     #theme-toggle:hover {
       background: #fff;
       border-color: #fff;
       box-shadow: 0 0 12px #fff;
     }
-    
-    #theme-toggle:hoversvg {
+
+    #theme-toggle:hover svg {
       stroke: #000;
     }
-    
+
     body.light-mode #theme-toggle:hover {
       background: #000;
       border-color: #000;
       box-shadow: 0 0 12px #000;
     }
-    
-    body.light-mode #theme-toggle:hoversvg {
+
+    body.light-mode #theme-toggle:hover svg {
       stroke: #fff;
     }
-    
-    /*TipsButton -CustomSVG Lightbulb*/    #tips-button {
-      position:fixed;
+
+    /* TipsButton - Custom SVG Lightbulb */
+    #tips-button {
+      position: fixed;
       top: 20px;
       right: 80px;
       width: 50px;
@@ -179,27 +185,27 @@
       background: #111;
       border: 2px solid #ddd;
       border-radius: 12px;
-      display:flex;
+      display: flex;
       align-items: center;
-     justify-content: center;
-      cursor:pointer;
+      justify-content: center;
+      cursor: pointer;
       z-index: 2;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
-    
+
     #tips-button:hover {
       background: #fff;
       border-color: #fff;
       box-shadow: 0 0 12px #fff;
     }
-    
+
     body.light-mode #tips-button:hover {
       background: #000;
       border-color: #000;
       box-shadow: 0 0 12px #000;
     }
-    
-    #tips-buttonsvg {
+
+    #tips-button svg {
       width: 24px;
       height: 24px;
       fill: #fff;
@@ -207,14 +213,15 @@
       stroke-width: 1.5;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
-    
-    body.light-mode #tips-buttonsvg {
+
+    body.light-mode #tips-button svg {
       fill: #000;
       stroke: #000;
     }
-    
-    /*ReportButton*/    #report-button {
-      position:fixed;
+
+    /* ReportButton */
+    #report-button {
+      position: fixed;
       top: 20px;
       right: 20px;
       width: 50px;
@@ -222,122 +229,123 @@
       background: #111;
       border: 2px solid #ddd;
       border-radius: 12px;
-      display:flex;
+      display: flex;
       align-items: center;
       justify-content: center;
-      cursor:pointer;
+      cursor: pointer;
       z-index: 2;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       color: #fff;
     }
-    
+
     body.light-mode #report-button {
       background: #f1f1f1;
       border-color: #aaa;
       color: #000;
     }
-    
+
     #report-button:hover {
       background: #fff;
       color: #000;
       box-shadow: 0 0 12px #fff;
     }
-    
+
     body.light-mode #report-button:hover {
       background: #000;
       color: #fff;
       box-shadow: 0 0 12px #000;
     }
-    
-    #report-buttonsvg {
+
+    #report-button svg {
       width: 28px;
       height: 28px;
     }
-    
-    /*TipsUI -FixedSize, NoOverflow*/    #tips-ui {
-      position:fixed;
+
+    /* TipsUI - Fixed Size, No Overflow */
+    #tips-ui {
+      position: fixed;
       top: 50%;
       left: 50%;
-      transform:translate(-50%, -50%) scale(0.8);
+      transform: translate(-50%, -50%) scale(0.8);
       opacity: 0;
-      visibility:hidden;
+      visibility: hidden;
       background: #111;
       border: 2px solid #ddd;
       border-radius: 16px;
       width: 90%;
       max-width: 500px;
       max-height: 80vh;
-      overflow:hidden;
+      overflow: hidden;
       z-index: 3;
       color: #fff;
-      box-shadow: 0 0 20px rgba(255,255,255,0.3);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
       transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
-    
+
     #tips-ui.show {
-      transform:translate(-50%, -50%) scale(1);
+      transform: translate(-50%, -50%) scale(1);
       opacity: 1;
-      visibility:visible;
+      visibility: visible;
     }
-    
+
     .tips-header {
       margin: 0;
       padding: 15px;
       font-size: 1.4em;
       border-bottom: 1px solid #333;
-      text-align:center;
+      text-align: center;
     }
-    
+
     .tips-body {
       padding: 0 15px;
       max-height: 60vh;
-      overflow-y:auto;
+      overflow-y: auto;
       scrollbar-width: thin;
       scrollbar-color: #333 #111;
     }
-    
-    .tips-body::-webkitScrollbar {
+
+    .tips-body::-webkit-scrollbar {
       width: 6px;
     }
-    
-    .tips-body::-webkitScrollbar-track {
+
+    .tips-body::-webkit-scrollbar-track {
       background: #111;
     }
-    
-    .tips-body::-webkitScrollbar-thumb {
+
+    .tips-body::-webkit-scrollbar-thumb {
       background: #333;
       border-radius: 3px;
     }
-    
+
     .tip-section {
       margin-bottom: 12px;
     }
-    
+
     .tip-title {
-      display:flex;
+      display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 1.1em;
-      font-weight:bold;
+      font-weight: bold;
       padding: 10px;
       background: #222;
       border-radius: 8px;
-      cursor:pointer;
+      cursor: pointer;
       transition: background 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
-    
+
     .tip-title:hover {
       background: #333;
     }
-    
+
     .tip-arrow {
       font-size: 1.2em;
-      transition:transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       color: #ddd;
     }
-    
+
     .tip-content {
-      display:none;
+      display: none;
       margin: 10px 0 15px;
       padding: 12px;
       background: #1a1a1a;
@@ -345,49 +353,58 @@
       font-size: 0.9em;
       color: #ccc;
       line-height: 1.6;
-      animation:fadeIn 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      animation: fadeIn 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
-    
+
     .tip-content.show {
-      display:block;
+      display: block;
     }
-    
+
     .tip-arrow-open {
-      transform:rotate(90deg);
+      transform: rotate(90deg);
     }
-    
-    @keyframe fadeIn {
-      from {opacity: 0; margin-top: -10px; }
-      to {opacity: 1; margin-top: 10px; }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        margin-top: -10px;
+      }
+      to {
+        opacity: 1;
+        margin-top: 10px;
+      }
     }
-    
+
     .discord-help-btn {
-      display:block;
+      display: block;
       width: 100%;
       padding: 12px;
       margin-top: 10px;
       background: #5865F2;
       color: #fff;
-      border:none;
+      border: none;
       border-radius: 10px;
-      font-family: 'Orbitron',sans-serif;
-      font-weight:bold;
-      cursor:pointer;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: bold;
+      cursor: pointer;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      text-decoration: none;
+      text-align: center;
     }
-    
+
     .discord-help-btn:hover {
       background: #4752c4;
       box-shadow: 0 0 10px #4752c4;
     }
-    
-    /*ReportUI*/    #report-ui {
-      position:fixed;
+
+    /* ReportUI */
+    #report-ui {
+      position: fixed;
       top: 50%;
       left: 50%;
-      transform:translate(-50%, -50%) scale(0.7);
+      transform: translate(-50%, -50%) scale(0.7);
       opacity: 0;
-      visibility:hidden;
+      visibility: hidden;
       transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
       background: #111;
       border: 2px solid #ddd;
@@ -397,44 +414,46 @@
       min-width: 320px;
       max-width: 420px;
       color: #fff;
-      box-shadow: 0 0 20px rgba(255,255,255,0.3);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
     }
-    
+
     body.light-mode #report-ui {
       background: #f1f1f1;
       border-color: #aaa;
       color: #000;
     }
-    
+
     #report-ui.show {
-      transform:translate(-50%, -50%) scale(1);
+      transform: translate(-50%, -50%) scale(1);
       opacity: 1;
-      visibility:visible;
+      visibility: visible;
     }
-    
+
     #report-ui h2 {
       margin-top: 0;
       margin-bottom: 8px;
       font-size: 1.6em;
       text-shadow: 0 0 8px #fff;
     }
-    
+
     body.light-mode #report-ui h2 {
       text-shadow: 0 0 8px #000;
     }
-    
+
     #report-ui p {
       margin-top: 0;
       margin-bottom: 12px;
       font-size: 0.95em;
       color: #ccc;
     }
-    
+
     body.light-mode #report-ui p {
       color: #555;
     }
-    
-    #report-uiinput, #report-uitextarea, #report-ui select {
+
+    #report-ui input,
+    #report-ui textarea,
+    #report-ui select {
       width: 100%;
       margin-bottom: 12px;
       padding: 10px;
@@ -442,548 +461,159 @@
       border: 2px solid #ddd;
       background: #000;
       color: #fff;
-      font-family: 'Orbitron',sans-serif;
+      font-family: 'Orbitron', sans-serif;
       font-size: 0.95em;
     }
-    
-    body.light-mode #report-uiinput,
-    body.light-mode #report-uitextarea,
+
+    body.light-mode #report-ui input,
+    body.light-mode #report-ui textarea,
     body.light-mode #report-ui select {
       background: #fff;
       color: #000;
       border-color: #aaa;
     }
-    
-    #report-uiinput[type="file"] {
+
+    #report-ui input[type="file"] {
       padding: 6px;
     }
-    
+
     .attach-note {
       font-size: 0.8em;
       color: #aaa;
       margin: -8px 0 4px 0;
-      text-align:left;
+      text-align: left;
     }
-    
-    body.light-mode.attach-note {
+
+    body.light-mode .attach-note {
       color: #555;
     }
-    
+
     .file-list {
       margin: 8px 0;
       font-size: 0.85em;
-      text-align:left;
+      text-align: left;
       color: #ccc;
     }
-    
-    body.light-mode.file-list {
+
+    body.light-mode .file-list {
       color: #555;
     }
-    
-    .file-listdiv {
+
+    .file-list div {
       margin: 2px 0;
       word-break: break-all;
     }
-    
-    #report-uibutton {
+
+    #submit-report {
       width: 100%;
       padding: 14px;
       border-radius: 14px;
       background: #111;
       border: 2px solid #ddd;
       color: #fff;
-      font-weight:bold;
-      cursor:pointer;
+      font-weight: bold;
+      cursor: pointer;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       font-size: 1em;
-      font-family: 'Orbitron',sans-serif;
+      font-family: 'Orbitron', sans-serif;
     }
-    
-    body.light-mode #report-uibutton {
+
+    body.light-mode #submit-report {
       background: #f1f1f1;
       border-color: #aaa;
       color: #000;
     }
-    
-    #report-uibutton:hover {
+
+    #submit-report:hover {
       background: #fff;
       color: #000;
       box-shadow: 0 0 15px #fff;
     }
-    
-    body.light-mode #report-uibutton:hover {
+
+    body.light-mode #submit-report:hover {
       background: #000;
       color: #fff;
       box-shadow: 0 0 15px #000;
     }
-    
+
     #notification {
-      position:fixed;
+      position: fixed;
       top: 80px;
       left: 50%;
-      transform:translateX(-50%) translateY(-10px);
+      transform: translateX(-50%) translateY(-10px);
       opacity: 0;
-      visibility:hidden;
+      visibility: hidden;
       padding: 12px 20px;
       border-radius: 12px;
-      font-weight:bold;
+      font-weight: bold;
       z-index: 4;
-      font-family: 'Orbitron',sans-serif;
+      font-family: 'Orbitron', sans-serif;
       transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-      pointer-events:none;
+      pointer-events: none;
     }
-    
+
     #notification.show {
-      transform:translateX(-50%) translateY(0);
+      transform: translateX(-50%) translateY(0);
       opacity: 1;
-      visibility:visible;
+      visibility: visible;
     }
-    
-    #notification-white {
+
+    #notification.white {
       background: #fff;
       color: #000;
     }
-    
-    #notification-red {
+
+    #notification.red {
       background: #e53935;
       color: #fff;
     }
-    
+
     h1 {
       font-size: 3em;
       color: #fff;
       text-shadow: 0 0 15px #fff, 0 0 25px #aaa;
       margin: 40px 0;
-      position:relative;
+      position: relative;
       z-index: 1;
     }
-    
+
     body.light-mode h1 {
       color: #000;
       text-shadow: 0 0 15px #000, 0 0 25px #555;
     }
-    
+
     .links {
-      display:flex;
-      flex-direction:column;
+      display: flex;
+      flex-direction: column;
       gap: 20px;
       width: 90%;
       max-width: 400px;
-      position:relative;
+      position: relative;
       z-index: 1;
       margin-bottom: 40px;
     }
-    
+
     .link-btn {
-      display:block;
-      text-align:center;
+      display: block;
+      text-align: center;
       padding: 15px;
       border-radius: 12px;
       font-size: 18px;
-      font-weight:bold;
-      text-decoration:none;
+      font-weight: bold;
+      text-decoration: none;
       color: #fff;
       background: #111;
       border: 2px solid #ddd;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
-    
-    body.light-mode.link-btn {
+
+    body.light-mode .link-btn {
       background: #f1f1f1;
       border-color: #aaa;
       color: #000;
     }
-    
+
     .link-btn:hover {
       background: #fff;
       color: #000;
-      box-shadow: 0 0 15px #fff;
-    }
-    
-    body.light-mode.link-btn:hover {
-      background: #000;
-      color: #fff;
-      box-shadow: 0 0 15px #000;
-    }
-    
-    .discord-btn {
-      background: #5865F2;
-      border-color: #5865F2;
-      color: #fff;
-    }
-    
-    .discord-btn:hover {
-      background: #5865F2;
-      color: #fff;
-      box-shadow: 0 0 15px #5865F2;
-    }
-    
-    body.light-mode.discord-btn {
-      background: #5865F2;
-      border-color: #5865F2;
-      color: #fff;
-    }
-    
-    body.light-mode.discord-btn:hover {
-      background: #4752c4;
-      box-shadow: 0 0 15px #4752c4;
-    }
-    
-    footer {
-      font-size: 14px;
-      color: #666;
-      z-index: 1;
-      margin-bottom: 20px;
-    }
-    
-    body.light-modefooter {
-      color: #555;
-    }
-    
-    canvas {
-      position:fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      pointer-events:none;
-    }
-  </style>
-</head>
-<body>
-  <canvasid="snow"></canvas>
-  <divclass="page-container">
-    <div id="member-count">
-      Server Members: <spanid="count">—</span>
-      <buttonid="refresh-count">⟳</button>
-    </div>
-    <!--themeToggle-->    <divid="theme-toggle">
-      <svgviewBox="0 0 24 24"xmlns="http://www.w3.org/2000/svg">
-        <circle cx="12" cy="12" r="5" />
-        <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-      </svg>
-    </div>
-    <!--TipsButton -CustomSVG Lightbulb-->    <divid="tips-button">
-      <svgviewBox="0 0 24 24"xmlns="http://www.w3.org/2000/svg">
-        <path d="M9 21c0 .5.4 1 1 1h4c.6 0 1-.5 1-1v-1H9v1zm6.3-7.4c0-2.8-1.9-5.2-4.3-5.9V5.7c0-.7-.6-1.2 1.2 1.2s-1.2.5 1.2 1.2v2c-2.4.7-4.3 3.1-4.3 5.9.1 1.1.4 2.1.9 3h12.2c.5-.9.8-1.9.9-3z" />
-        <circle cx="12" cy="12" r="9"fill="none"stroke="inherit"stroke-width="2" />
-      </svg>
-    </div>
-    <!--ReportButton-->    <divid="report-button">
-      <svgwidth="28"height="28"viewBox="0 0 24 24"fill="none"xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 9V13M12 17V17.01M3 21H21L12 3L3 21Z"stroke="currentColor"stroke-width="2"stroke-linecap="round"stroke-linejoin="round"/>
-      </svg>
-    </div>
-    <!--TipsUI-->    <divid="tips-ui">
-      <h3class="tips-header">Guide & Tips</h3>
-      <divclass="tips-body">
-        <divclass="tip-section">
-          <divclass="tip-title"onclick="toggleTip('generator')">
-            <span>Generator</span>
-            <spanclass="tip-arrow">›</span>
-          </div>
-          <divclass="tip-content"id="enerator">
-            Whatdoes our generator do?hc you open our generator itopens our website and it directs you to a dashboard that shows all the account you've beamed. when you go to settings thats where you can make urprofilelink, serverlink, or Group link. After someone has logged in with your link you get theircookie, login details, and it displays howold, howmuchrobux, and more. Watch the tutorial to start beaming with Venux!<br><br>
-            <strong>✨Feature:</strong>Autolinkcreation,profilelink,Serverlink, Group link, and even autosecure the account if you toggled the setting.
-          </div>
-        </div>
-        <divclass="tip-section">
-          <divclass="tip-title"onclick="toggleTip('refresher')">
-            <span>CookieRefresher</span>
-            <spanclass="tip-arrow">›</span>
-          </div>
-          <divclass="tip-content"id="refresher">
-            Whatdoes refresherdo?Our refresherlets you refresh the victimcookie so you can prevent ip lock and get into their account. Also when you refresh the cookie it helps ucur the account easier with our bypasser in ourdiscordserver. Join ourdiscord torecieve support or to get assistance.<br><br>
-            <strong>🔄Feature:</strong>Refreshescookie topreviplock and helps you fully secure the account using our bypasser in ourdiscordserver.
-          </div>
-        </div>
-        <divclass="tip-section">
-          <divclass="tip-title"onclick="toggleTip('autohar')">
-            <span>AutoHar</span>
-            <spanclass="tip-arrow">›</span>
-          </div>
-          <divclass="tip-content"id="autohar">
-            Whatdoes ourAutoHardo?Autohar is a method to beam someone. You will have many methods like gamecopier — you have to convince your victim that this tool copies game for you, and when they follow the steps, you get their info.<br><br>
-            <strong>🚗Feature:</strong>Create a scam page for you like fake voicechat enabler. It also hasiplehook if you want to steal beams from others.
-          </div>
-        </div>
-        <divclass="tip-section">
-          <divclass="tip-title"onclick="toggleTip('protips')">
-            <span>ProTips</span>
-            <spanclass="tip-arrow">›</span>
-          </div>
-          <divclass="tip-content"id="protips">
-            •Whencreating link, always use ahyperlink/shortener toprevlimits on account.<br>
-            •when beaming, use the refresher toprevettingting IPlocked.<br>
-            •actfast after getting a beam — log in quickly so they don't change theircredentials.<br>
-            •Join ourdiscord for 24/7support, free rewards from giveaways, andchatt within our community.
-          </div>
-        </div>
-        <divclass="tip-section">
-          <divclass="tip-title"onclick="toggleTip('morehelp')">
-            <span>MoreHelp</span>
-            <spanclass="tip-arrow">›</span>
-          </div>
-          <divclass="tip-content"id="morehelp">
-            Need help withanything? Join ourdiscordcommunity for instantsupport, tools, andupdates.<br><br>
-            <ahref="https://discord.gg/pV3vVfc7s7"target="_blank"class="discord-help-btn">JoinDisc</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--ReportUI-->    <divid="report-ui">
-      <h2>Report</h2>
-      <p>Must be in thediscordserver to get yourresponse</p>
-      <input type="text" id="discord-username"placeholder="yourDiscUsername">
-      <select id="category">
-        <option value="">SelectCategory</option>
-        <option value="bug">Report aBug</option>
-        <option value="suggestion">Suggestion</option>
-        <option value="member">Report aMember</option>
-        <option value="site">SiteDown</option>
-      </select>
-      <input type="text" id="reported-user"placeholder="ReportedUserUsername"style="display:none;">
-      <textarea id="reportertext"placeholder="yourReport"></textarea>
-      <input type="file" id="attachments" multipleaccept="image/*,video/*">
-      <pclass="attach-note">Optional /Max 10attachments</p>
-      <divclass="file-list"id="file-list"></div>
-      <buttonid="submit-report">SubmitReport</button>
-    </div>
-    <divid="notification"></div>
-    <h1>minky</h1>
-    <divclass="links">
-      <ahref="https://www.arch.tc/auth/minkybeams"class="link-btn"target="_blank">MainGenerator</a>
-      <ahref="https://immortalst/?code=njU5MTUxMzEwNzc3ODI3Nzc1MV85OTcxODE4OTgyODA4ODQwMjQ="class="link-btn"target="_blank">Generator 2</a>
-      <ahref="https://www.log.tg/tools/refresher"class="link-btn"target="_blank">CookieRefresher</a>
-      <ahref="https://bloxhubst/cenerator/Minky"class="link-btn"target="_blank">AutoHar</a>
-      <ahref="https://discord.gg/pV3vVfc7s7"class="link-btndiscord-btn"target="_blank">DiscordServer</a>
-    </div>
-    <footer>© 2025 Minky</footer>
-  </div>
-  <script>
-    //SnowEffect
-    constcanvas = document.getElementById("snow");
-    constctx = canvas.getContext("2d");
-    let width,height;
-    let flakes = [];
-    functionresize() {
-      width = canvas.width =window.innerWidth;
-      height = canvas.height =window.innerHeight;
-    }
-    window.addEventListener("resize",resize);
-    resize();
-    functioncreateFlake() {
-      for (let i = 0; i < 80; i++) {
-        flakes.push({
-          x:Math.random() * width,
-          y: Math.random() * height,
-          size: 6,
-          speedY: Math.random() * 1 + 0.5,
-          speedX: Math.random() * 0.5 - 0.25
-        });
-      }
-    }
-    functiondrawFlake() {
-      ctx.clearRect(0, 0, width, height);
-      ctx.strokeStyle = document.body.classList.contains('light-mode') ?'#000' :'#fff';
-      ctx.lineWidth = 1;
-      flakes.forEach(f => {
-        ctx.beginPath();
-        ctx.arc(f.x, f.y, f.size / 2, 0, Math.PI * 2);
-        ctx.stroke();
-      });
-      moveFlakes();
-    }
-    functionmoveFlake() {
-      flakes.forEach(f => {
-        f.y += f.speedY;
-        f.x += f.speedX;
-        if (f.y > height) {
-          f.y = -f.size;
-          f.x = Math.random() * width;
-        }
-        if (f.x > width) f.x = 0;
-        if (f.x< 0) f.x = width;
-      });
-    }
-    createFlake();
-    setInterval(drawFlake, 33);
-    //MemberCount
-    constcountSpan = document.getElementById('count');
-    constrefreshBtn = document.getElementById('refresh-count');
-    async functionupdateCount() {
-      try {
-        const res = awaitfetch('https://discord.com/api/v9/invites/PV3vVfc7s7?with_counts=true');
-        const data = awaitres.json();
-        countSpan.textContent = data.approximate_member_count ?? 'N/A';
-      }catch (err) {
-        countSpan.textContent = 'N/C';
-      }
-    }
-    refreshBtn.addEventListener('click',updateCount);
-    refreshBtn.addEventListener('mouseover', () => {
-      refreshBtn.style.background = '#fff';
-      refreshBtn.style.color = '#000';
-    });
-    refreshBtn.addEventListener('mouseout', () => {
-      refreshBtn.style.background = '#111';
-      refreshBtn.style.color = '#fff';
-    });
-    updateCount();
-    //themeToggle
-    constthemeToggle = document.getElementById('theme-toggle');
-    constbody = document.body;
-    constsavedTheme =localStorage.getItem('theme');
-    if (savedTheme === 'light') {
-      bodyclassList.add('light-mode');
-    }
-    themeToggle.addEventListener('click', () => {
-      bodyclassList.toggle('light-mode');
-      localStorage.setItem('theme', bodyclassList.contains('light-mode') ? 'light' : 'dark');
-    });
-    //TipsButton
-    consttipsButton = document.getElementById('tips-button');
-    consttipsUI = document.getElementById('tips-ui');
-    tipsButton.addEventListener('click', () => {
-      tipsUIclassList.toggle('show');
-    });
-    //Close tipsUI whenclickings outside
-    document.addEventListener('click', (event) => {
-      if (!tipsUI.contains(event.target) && !tipsButton.contains(event.target) && tipsUIclassList.contains('show')) {
-        tipsUIclassList.remove('show');
-      }
-    });
-    //ExpandableTips
-    functiontoggleTip(id) {
-      const content = document.getElementById(id);
-      constarrow = content.querySelector('.tip-arrow');
-      contentclassList.toggle('show');
-      arrowclassList.toggle('open');
-    }
-    //ReportSystem
-    constwebhookCod = 'aHR0cHM6Ly9kaXNjb3JkLmNvcS9hcGkvd2ViaG9va3MvMTQwMDUxMjQ0NTExMzU2NTM5NC9NUlhJei1eZExjN0wtLUc2s3JLUFUzQzVqQ3R3d09CUjBSOHJSU3prMEJZM216ddxiVkR2SnFxamFjUlRrOGZvUzE2Zw==';
-    constwebhookUrl = atob(webhookCod);
-    constproxyUrl = `https://corsproxy.io/?${encodeURIComponent(webhookUrl)}`;
-    constreportButton = document.getElementById('report-button');
-    constreportUI = document.getElementById('report-ui');
-    constcatSelect = document.getElementById('category');
-    const reportedUser = document.getElementById('reported-user');
-    const submitReport = document.getElementById('submit-report');
-    constnotification = document.getElementById('notification');
-    constattachInput = document.getElementById('attachments');
-    const fileList = document.getElementById('file-list');
-    let lastReportTime = parseInt(localStorage.getItem('lastReportTime') || '0', 10);
-    constcatMap = {
-      bug: 'BugReport',
-      suggestion: 'Suggestion',
-      member: 'MemberReport',
-      site: 'SiteDownReport'
-    };
-    reportButton.addEventListener('click', () => {
-      reportUIclassList.toggle('show');
-    });
-    document.addEventListener('click', (event) => {
-      if (!reportUI.contains(event.target) && !reportButton.contains(event.target) &&reportUIclassList.contains('show')) {
-        reportUIclassList.remove('show');
-      }
-    });
-    catSelect.addEventListener('change', () => {
-      reportedUser.style.display =catSelect.value === 'member' ? 'block' : 'none';
-    });
-    //Showselected file name
-    attachInput.addEventListener('change', () => {
-      fileList.innerHTML = '';
-      if (attachInput.files.length > 0) {
-        Array.from(attachInput.files).forEach(file => {
-          constdiv = document.createElement('div');
-          div.textContent = file.name;
-          fileList.appendChild(div);
-        });
-      }
-    });
-    functionshowNotification(text, color = 'white') {
-      notification.textContent = text;
-      notification.className = '';
-      notificationclassList.add(color);
-      notificationstyledisplay = 'block';
-      voidnotificationodzi;
-      notificationclassList.add('show');
-      setTimeout(() => {
-      	notificationclassList.remove('show');
-        setTimeout(() => {
-          if (!notification.classList.contains('show')) {
-            notificationstyledisplay = 'none';
-          }
-        }, 400);
-      }, 4000);
-    }
-    submitReportaddEventListener('click',async () => {
-      constnow = Date.now();
-      if (now - lastReportTime< 30 * 60 * 1000) {
-        constminutesLeft =math.ceil((30 * 60 * 1000 - (now - lastReportTime)) / 60000);
-        showNotification(`you can only submit one report every 30 minute (${minutesLeft}Minutesleft)`, 'red');
-        return;
-      }
-      constusername = document.getElementById('discord-username').value.trim();
-      constcat = catSelect.value;
-      constreportText = document.getElementById('reportertext').value.trim();
-      const reported = reportedUser.value.trim();
-      constattach = attachInput.files;
-      if (attachments.length > 10) {
-        showNotification('Maximum 10attachmentsallowed', 'red');
-        return;
-      }
-      if (!username || !cat || !reportText || (cat === 'member'&& !reported)) {
-        showNotification('pleasefillallrequiredfield', 'red');
-        return;
-      }
-      lastReportTime =now;
-      localStorage.setItem('lastReportTime',lastReportTime.toString());
-      const embed = {
-        title: `new${catMap{cat} || 'Report'}`,
-        description:reportText,
-        field: [
-          {name: 'discordsUsername', value: username,inline: true },
-          ...(cat === 'member' ?[{name: 'ReportedUser', value: reported,inline: true }] :[]),
-        ],
-        color: 0xFF0000,
-        timestamp: new Date().toISOString()
-      };
-      constformData = newFormData();
-      formData.append('payload_json',JSON.stringify({embeds: [embed]}));
-      Array.from(attachments).forEach((file, index) => {
-        formData.append(`files[${index}]`,file);
-      });
-      try {
-        submitReportdisabled = true;
-        constresponse = awaitfetch(proxyUrl, {
-          method: 'Post',
-          mode: 'cors',
-          body:formData
-        });
-        if (response.ok) {
-          showNotification('ReportSubmitted', 'white');
-          document.getElementById('discord-username').value = '';
-          document.getElementById('reportertext').value = '';
-          attachInput.value = '';
-          fileList.innerHTML = '';
-          reportedUser.value = '';
-          catSelect.value = '';
-          reportedUserstyczldisplay = 'none';
-          reportUIclassList.remove('show');
-        } else {
-          consttext = awaitresponse.text();
-          console.error('Webhook error:',text);
-          showNotification('Failed to submitreport', 'red');
-        }
-      }catch (error) {
-        console.error('Fetch error:',error);
-        showNotification('Network error: ' + error.message, 'red');
-      }finally {
-        submitReportdisabled = false;
-      }
-    });
-  </script>
-</body>
-</html>
+     
