@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Cool Gamer UI</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+  <title>Ultimate Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
   <style>
-    /* General Reset */
+    /* Global Reset */
     * {
       margin: 0;
       padding: 0;
@@ -13,194 +13,252 @@
     }
 
     body {
-      background: #000;
-      color: white;
       font-family: 'Orbitron', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+      background: #0d0d0d;
+      color: #fff;
       overflow-x: hidden;
+      min-height: 100vh;
     }
 
-    /* Title */
     h1 {
       font-size: 3rem;
-      color: white;
-      text-shadow: 0 0 10px #fff, 0 0 20px #0ff, 0 0 30px #0ff;
-      animation: glow 2s ease-in-out infinite alternate;
-      margin-bottom: 30px;
+      text-align: center;
+      margin-top: 40px;
+      color: #fff;
+      text-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff, 0 0 30px #00f0ff;
+      animation: glow 3s infinite alternate;
     }
 
     @keyframes glow {
-      from { text-shadow: 0 0 5px #fff, 0 0 10px #0ff, 0 0 20px #0ff; }
-      to   { text-shadow: 0 0 20px #fff, 0 0 30px #0ff, 0 0 40px #0ff; }
+      from { text-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff; }
+      to { text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff; }
     }
 
-    /* Buttons */
-    button {
-      background: white;
-      color: black;
-      border: none;
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .btn {
+      display: inline-block;
       padding: 12px 24px;
-      font-size: 1rem;
+      margin: 12px;
+      border: 2px solid white;
+      border-radius: 12px;
+      background: transparent;
+      color: white;
+      font-size: 1.1rem;
       font-weight: bold;
-      border-radius: 8px;
+      text-decoration: none;
       cursor: pointer;
       transition: all 0.3s ease;
-      margin: 10px;
-      box-shadow: 0 0 10px #fff;
     }
 
-    button:hover {
-      background: black;
-      color: white;
-      box-shadow: 0 0 15px #0ff, 0 0 25px #0ff;
+    .btn:hover {
+      background: white;
+      color: black;
     }
 
-    /* Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: #111;
-      padding: 20px;
-      border-radius: 12px;
-      width: 400px;
-      max-height: 70vh;
-      overflow-y: auto;
-      box-shadow: 0 0 20px #0ff;
+    /* Special Discord button */
+    .btn.discord:hover {
+      background: #5865F2;
+      border-color: #5865F2;
+      color: #fff;
     }
 
-    .modal h2 {
-      font-size: 1.5rem;
-      margin-bottom: 15px;
-      text-shadow: 0 0 10px #fff, 0 0 20px #0ff;
+    /* Expandable Tips Section */
+    .tips {
+      margin-top: 40px;
     }
 
-    .modal-close {
-      float: right;
-      cursor: pointer;
-      font-size: 1.2rem;
-      margin-top: -10px;
-    }
-
-    /* Collapsible Tips */
     .tip {
-      margin: 8px 0;
-      border-left: 2px solid #0ff;
-      padding-left: 8px;
+      border: 1px solid #444;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      background: #141414;
     }
 
     .tip-header {
+      padding: 14px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 1.1rem;
-      padding: 6px;
-      background: #222;
-      border-radius: 6px;
-      transition: background 0.2s ease;
     }
 
     .tip-header:hover {
-      background: #333;
+      background: #1f1f1f;
     }
 
     .arrow {
-      transition: transform 0.3s ease;
+      transition: transform 0.3s;
     }
 
     .tip-content {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.3s ease, padding 0.3s ease;
-      background: #1a1a1a;
-      padding: 0 6px;
-      border-radius: 6px;
-      margin-top: 4px;
+      transition: max-height 0.4s ease;
+      padding: 0 14px;
     }
 
-    .tip-content.open {
-      padding: 8px 6px;
+    .tip.open .tip-content {
+      max-height: 500px;
+      padding: 14px;
     }
 
-    .open-arrow {
+    .tip.open .arrow {
       transform: rotate(90deg);
+    }
+
+    /* Floating Report UI */
+    .report-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 100;
+    }
+
+    .report-ui {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 320px;
+      background: #111;
+      border: 2px solid white;
+      border-radius: 16px;
+      padding: 20px;
+      display: none;
+      z-index: 200;
+    }
+
+    .report-ui.show {
+      display: block;
+      animation: popup 0.3s ease;
+    }
+
+    @keyframes popup {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .report-ui input, .report-ui textarea, .report-ui select {
+      width: 100%;
+      margin: 8px 0;
+      padding: 8px;
+      border: 1px solid #555;
+      border-radius: 8px;
+      background: #222;
+      color: #fff;
+    }
+
+    /* Snowflakes */
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      color: white;
+      font-size: 1em;
+      user-select: none;
+      pointer-events: none;
+      z-index: 9999;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      to { transform: translateY(100vh); }
     }
   </style>
 </head>
 <body>
-  <h1>Gamer Hub</h1>
-  
-  <button onclick="openTips()">Open Tips</button>
+  <h1>Ultimate Hub</h1>
 
-  <!-- Tips Modal -->
-  <div id="tipsModal" class="modal">
-    <span class="modal-close" onclick="closeTips()">✖</span>
-    <h2>Tips</h2>
+  <div class="container">
+    <a href="#" class="btn">Home</a>
+    <a href="#" class="btn discord">Discord</a>
+    <a href="#" class="btn">About</a>
+    <a href="#" class="btn">Contact</a>
 
-    <div class="tip">
-      <div class="tip-header" onclick="toggleTip(this)">
-        <span>Performance Tips</span>
-        <span class="arrow">▶</span>
+    <div class="tips">
+      <div class="tip">
+        <div class="tip-header">
+          <span>Tip 1: Optimize Your Settings</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="tip-content">
+          <p>Lower shadows, tweak render distance, and balance FPS with visuals.</p>
+        </div>
       </div>
-      <div class="tip-content">
-        <p>Lower graphics settings if FPS drops.</p>
-        <p>Close background apps before gaming.</p>
-      </div>
-    </div>
 
-    <div class="tip">
-      <div class="tip-header" onclick="toggleTip(this)">
-        <span>Connection Tips</span>
-        <span class="arrow">▶</span>
+      <div class="tip">
+        <div class="tip-header">
+          <span>Tip 2: Communication</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="tip-content">
+          <p>Always use Discord/VC with your squad for better coordination.</p>
+        </div>
       </div>
-      <div class="tip-content">
-        <p>Use a wired connection for stable ping.</p>
-        <p>Avoid downloads while gaming.</p>
-      </div>
-    </div>
 
-    <div class="tip">
-      <div class="tip-header" onclick="toggleTip(this)">
-        <span>Reporting Tips</span>
-        <span class="arrow">▶</span>
-      </div>
-      <div class="tip-content">
-        <p>Be clear and detailed in reports.</p>
-        <p>Attach screenshots if possible.</p>
+      <div class="tip">
+        <div class="tip-header">
+          <span>Tip 3: PC Maintenance</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="tip-content">
+          <p>Keep drivers updated, clean dust, and monitor temps for smooth gaming.</p>
+        </div>
       </div>
     </div>
   </div>
 
+  <!-- Report Button -->
+  <button class="btn report-btn">Report</button>
+
+  <!-- Report UI -->
+  <div class="report-ui" id="reportUI">
+    <h3>Submit Report</h3>
+    <input type="text" placeholder="Your Discord Name">
+    <input type="text" placeholder="Your Discord ID">
+    <textarea placeholder="Write your report..." maxlength="3000"></textarea>
+    <select>
+      <option>Bug</option>
+      <option>Suggestion</option>
+      <option>Server Member</option>
+    </select>
+    <button class="btn" id="submitReport">Submit</button>
+  </div>
+
   <script>
-    function openTips() {
-      document.getElementById("tipsModal").style.display = "block";
-    }
+    // Expandable Tips
+    document.querySelectorAll('.tip-header').forEach(header => {
+      header.addEventListener('click', () => {
+        header.parentElement.classList.toggle('open');
+      });
+    });
 
-    function closeTips() {
-      document.getElementById("tipsModal").style.display = "none";
-    }
+    // Report UI toggle
+    const reportBtn = document.querySelector('.report-btn');
+    const reportUI = document.getElementById('reportUI');
+    reportBtn.addEventListener('click', () => {
+      reportUI.classList.toggle('show');
+    });
 
-    function toggleTip(element) {
-      const content = element.nextElementSibling;
-      const arrow = element.querySelector(".arrow");
+    // Snowflake animation
+    function createSnowflake() {
+      const snowflake = document.createElement('div');
+      snowflake.classList.add('snowflake');
+      snowflake.innerHTML = '❄';
+      snowflake.style.left = Math.random() * window.innerWidth + 'px';
+      snowflake.style.animationDuration = (5 + Math.random() * 5) + 's';
+      snowflake.style.fontSize = (12 + Math.random() * 12) + 'px';
+      document.body.appendChild(snowflake);
 
-      if (content.style.maxHeight) {
-        content.style.maxHeight = null;
-        content.classList.remove("open");
-        arrow.classList.remove("open-arrow");
-      } else {
-        content.style.maxHeight = content.scrollHeight + "px";
-        content.classList.add("open");
-        arrow.classList.add("open-arrow");
-      }
+      setTimeout(() => {
+        snowflake.remove();
+      }, 10000);
     }
+    setInterval(createSnowflake, 300);
   </script>
 </body>
 </html>
