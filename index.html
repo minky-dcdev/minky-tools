@@ -1,342 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Minky - Ultimate Generator</title>
-<style>
-  /* Reset and base */
-  * {
-    box-sizing: border-box;
-  }
-  body {
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #121212;
-    color: #eee;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
-  /* Container */
-  .container {
-    max-width: 480px;
-    width: 90%;
-    margin-top: 50px;
-    background: #1f1f1f;
-    border-radius: 16px;
-    padding: 30px 25px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.7);
-  }
-  
-  /* Server Members Counter */
-  #server-members {
-    font-weight: 600;
-    font-size: 20px;
-    margin-bottom: 30px;
-    padding: 15px 20px;
-    border: 2px solid #444;
-    border-radius: 12px;
-    text-align: center;
-    user-select: none;
-  }
-  #server-members label {
-    font-weight: bold;
-  }
-  
-  /* Title */
-  h1 {
-    text-align: center;
-    margin: 0 0 25px;
-    font-weight: 700;
-    letter-spacing: 2px;
-  }
-  
-  /* Buttons container */
-  .btn-group {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  /* Buttons style */
-  button {
-    background-color: #292929;
-    border: none;
-    border-radius: 12px;
-    padding: 12px;
-    color: #eee;
-    font-weight: 600;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    box-shadow: inset 0 -3px 0 #111;
-  }
-  button:hover, button:focus {
-    background-color: #3a3a3a;
-    outline: none;
-  }
-  button:active {
-    background-color: #0f74ea;
-    color: white;
-    box-shadow: none;
-  }
-
-  /* Discord Server Button special */
-  #discord-server-btn {
-    background-color: #5865F2;
-    box-shadow: 0 5px #4752c4;
-  }
-  #discord-server-btn:active {
-    box-shadow: none;
-    transform: translateY(3px);
-  }
-
-  /* Header label above members count */
-  #server-members-label {
-    font-weight: 700;
-    font-size: 16px;
-    margin-bottom: 8px;
-    text-align: center;
-  }
-  
-  /* Controls in top-right */
-  .controls {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    display: flex;
-    gap: 16px;
-  }
-  
-  /* Icon buttons */
-  .icon-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    width: 36px;
-    height: 36px;
-    padding: 6px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #ccc;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  .icon-btn:hover, .icon-btn:focus {
-    background-color: #333;
-    color: #0f74ea;
-    outline: none;
-  }
-  
-  /* Tooltip container */
-  .tooltip {
-    position: relative;
-    display: inline-block;
-  }
-  .tooltip .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: #222;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 7px 10px;
-    position: absolute;
-    z-index: 1;
-    bottom: 130%;
-    left: 50%;
-    margin-left: -60px;
-    opacity: 0;
-    transition: opacity 0.3s;
-    user-select: none;
-    font-size: 13px;
-  }
-  .tooltip:hover .tooltiptext,
-  .tooltip:focus-within .tooltiptext {
-    visibility: visible;
-    opacity: 1;
-  }
-  
-  /* Theme: Light Mode */
-  body.light {
-    background-color: #fafafa;
-    color: #222;
-  }
-  body.light .container {
-    background: #fff;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-  }
-  body.light #server-members {
-    border-color: #ccc;
-    color: #222;
-  }
-  body.light button {
-    background-color: #e3e3e3;
-    color: #222;
-    box-shadow: inset 0 -3px 0 #bbb;
-  }
-  body.light button:hover, body.light button:focus {
-    background-color: #d0d0d0;
-  }
-  body.light button:active {
-    background-color: #0f74ea;
-    color: white;
-    box-shadow: none;
-  }
-  body.light #discord-server-btn {
-    background-color: #5865F2;
-    box-shadow: 0 5px #4752c4;
-    color: white;
-  }
-  body.light .icon-btn {
-    color: #555;
-  }
-  body.light .icon-btn:hover, body.light .icon-btn:focus {
-    background-color: #ddd;
-    color: #0f74ea;
-  }
-  
-  /* Icons styling */
-  svg {
-    width: 20px;
-    height: 20px;
-    fill: currentColor;
-  }
-
-  /* Responsive */
-  @media (max-width: 400px) {
-    .container {
-      padding: 20px 15px;
-    }
-    button {
-      font-size: 14px;
-      padding: 10px;
-    }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minky</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://kit.fontawesome.com/6bee25835f.js" crossorigin="anonymous"></script>
+  <link rel="icon" href="./images/profile.jpg" type="image/x-icon"/>
 </head>
+	
 <body>
+  <img src="./images/profile.jpg" alt="Profile Picture">
 
-  <!-- Server Members Counter -->
-  <div id="server-members" aria-live="polite" aria-label="Discord Server Members">
-    <div id="server-members-label">Server Members:</div>
-    <span id="member-count">Loading...</span>
-  </div>
-
-  <!-- Main container with buttons -->
-  <div class="container" role="main" aria-label="Minky Generator Main Interface">
-    <h1>Minky</h1>
-    <div class="btn-group" role="group" aria-label="Generator Controls">
-      <button id="main-generator-btn" type="button" title="Open Main Generator">Main Generator</button>
-      <button id="immortal-btn" type="button" title="Use Immortal feature">Immortal</button>
-      <button id="cookie-refresher-btn" type="button" title="Refresh your cookie">Cookie Refresher</button>
-      <button id="auto-har-btn" type="button" title="Activate AutoHar">AutoHar</button>
-      <button id="discord-server-btn" type="button" title="Join our Discord Server">Discord Server</button>
-    </div>
-  </div>
-
-  <!-- Controls top-right -->
-  <div class="controls" role="region" aria-label="Additional Controls">
-    <!-- Theme toggle -->
-    <button class="icon-btn tooltip" id="theme-toggle" aria-pressed="false" aria-label="Toggle light/dark theme" title="Toggle Theme">
-      <!-- Moon icon (dark mode) -->
-      <span class="tooltiptext">Toggle light/dark theme</span>
-      <svg id="theme-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 0112.21 3a7 7 0 000 14 9 9 0 018.79-4.21z"/></svg>
-    </button>
-
-    <!-- Tips icon -->
-    <button class="icon-btn tooltip" id="tips-btn" aria-label="Tips" title="Tips">
-      <span class="tooltiptext">Helpful Tips</span>
-      <svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 00-7 7c0 5 7 9 7 9s7-4 7-9a7 7 0 00-7-7zm0 11a1 1 0 110-2 1 1 0 010 2zm0-8v3"/></svg>
-    </button>
-
-    <!-- Report system icon -->
-    <button class="icon-btn tooltip" id="report-btn" aria-label="Report System" title="Report a problem">
-      <span class="tooltiptext">Report System</span>
-      <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 15v-4m0 8h.01"/></svg>
-    </button>
-  </div>
-
-<script>
-  // Simple JavaScript logic
-
-  // Mock Server Members Count (Replace with real API integration)
-  const memberCountSpan = document.getElementById('member-count');
-  function fetchMemberCount() {
-    // Fake API call simulation
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(1532); // Example member count
-      }, 800);
-    });
-  }
-  fetchMemberCount().then(count => {
-    memberCountSpan.textContent = count.toLocaleString();
-  });
-
-  // Theme toggle logic
-  const themeToggleBtn = document.getElementById('theme-toggle');
-  const themeIcon = document.getElementById('theme-icon');
-  function setTheme(isLight) {
-    if (isLight) {
-      document.body.classList.add('light');
-      themeToggleBtn.setAttribute('aria-pressed', 'true');
-      // change icon to sun
-      themeIcon.innerHTML = `
-        <path d="M6.76 4.84l-1.8-1.79-1.42 1.41 1.79 1.8 1.43-1.42zM1
-        11h3v2H1v-2zm10-8h2v3h-2V3zm6.66 2.46l-1.41-1.41-1.79
-        1.79 1.41 1.41 1.79-1.79zM17 11h3v2h-3v-2zm-5 6a4
-        4 0 100-8 4 4 0 000 8zm-1 5h2v-3h-2v3zm7.24-3.76l1.79
-        1.79 1.41-1.41-1.79-1.79-1.41 1.41zM4.24
-        18.36l1.41 1.41 1.79-1.79-1.41-1.41-1.79
-        1.79z"/>
-      `;
-    } else {
-      document.body.classList.remove('light');
-      themeToggleBtn.setAttribute('aria-pressed', 'false');
-      // change icon to moon
-      themeIcon.innerHTML = `<path d="M21 12.79A9 9 0 0112.21 3a7 7 0 000 14 9 9 0 018.79-4.21z"/>`;
-    }
-  }
-  // Initial theme set (default: dark)
-  let isLightTheme = false;
-  setTheme(isLightTheme);
-
-  themeToggleBtn.addEventListener('click', () => {
-    isLightTheme = !isLightTheme;
-    setTheme(isLightTheme);
-  });
-
-  // Tips and Report system buttons functionality
-  document.getElementById('tips-btn').addEventListener('click', () => {
-    alert('Tips:\n- Use the Main Generator to start.\n- Enable AutoHar for automation.\n- Refresh your cookies regularly for best performance.');
-  });
-  document.getElementById('report-btn').addEventListener('click', () => {
-    alert('Report System:\nPlease send issues or feedback to support@minky.com.');
-  });
-
-  // Action buttons example handlers
-  document.getElementById('main-generator-btn').addEventListener('click', () => {
-    alert('Opening Main Generator...');
-  });
-  document.getElementById('immortal-btn').addEventListener('click', () => {
-    alert('Activating Immortal feature...');
-  });
-  document.getElementById('cookie-refresher-btn').addEventListener('click', () => {
-    alert('Refreshing cookies...');
-  });
-  document.getElementById('auto-har-btn').addEventListener('click', () => {
-    alert('Starting AutoHar process...');
-  });
-  document.getElementById('discord-server-btn').addEventListener('click', () => {
-    window.open('https://discord.gg/yourserverlink', '_blank');
-  });
-</script>
-
+  <p id="userName">Alisa</p>
+  <p id="description">21, c.s. student and cryptography enthusiast</p>
+    
+  <main>
+    <a href="https://twitter.com/alisayar_/" target="_blank">
+      <i class="fab fa-twitter">&nbsp;</i> Twitter
+    </a>
+    <a href="https://www.instagram.com/alisayar_/" target="_blank">
+      <i class="fab fa-instagram">&nbsp;</i> Instagram
+    </a>
+    <a href="https://www.tiktok.com/@alisayar_/" target="_blank">
+      <i class="fab fa-tiktok">&nbsp;</i> TikTok
+    </a>
+    <a href="https://www.youtube.com/@alisayar_/" target="_blank">
+      <i class="fab fa-youtube">&nbsp;</i> YouTube
+    </a>
+    <a href="https://www.linkedin.com/in/alisaalgo/" target="_blank">
+      <i class="fab fa-linkedin">&nbsp;</i> LinkedIn
+    </a>
+    <a href="https://discord.gg/C43b7WYUau" target="_blank">
+      <i class="fab fa-discord">&nbsp;</i> Discord
+    </a>
+    <a href="https://medium.com/@alisa.algo/" target="_blank">
+      <i class="fab fa-medium">&nbsp;</i> Medium
+    </a>
+    <a href="https://github.com/alisa-yar/" target="_blank">
+      <i class="fab fa-github">&nbsp;</i> Github
+    </a>
+    <a href="https://music.apple.com/profile/alisayar_/" target="_blank">
+      <i class="fab fa-itunes-note">&nbsp;</i> Apple Music
+    </a>
+    <a href="https://www.buymeacoffee.com/alisa.algo/" target="_blank">
+      <i class="fa-solid fa-mug-hot">&nbsp;</i> buy me a coffee
+    </a>
+  </main>
+  
 </body>
 </html>
