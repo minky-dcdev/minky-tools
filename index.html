@@ -1,276 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Karas Site</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minky</title>
   <style>
-    /* ===== Base FutureNav Style ===== */
-    body {
+    /* Reset */
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      width: 100vw;
+      background: #0d0d0d;
+      color: white;
       font-family: 'Orbitron', sans-serif;
-      background: #000;
-      color: #fff;
-      overflow-x: hidden;
-    }
-    header {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background: #111;
-      padding: 15px 30px;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      justify-content: center;
       align-items: center;
-      z-index: 1000;
-    }
-    header h1 {
-      color: #fff;
-      font-size: 22px;
-      text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
-    }
-    nav a {
-      margin: 0 10px;
-      color: #aaa;
-      text-decoration: none;
-      transition: all .3s;
-    }
-    nav a:hover {
-      color: #000;
-      background: #fff;
-      padding: 5px 10px;
-      border-radius: 6px;
-    }
-    section {
-      padding: 100px 20px;
-      min-height: 100vh;
-    }
-
-    /* ===== Hero Section ===== */
-    .hero {
       text-align: center;
-      margin-top: 100px;
-    }
-    .hero h2 {
-      font-size: 48px;
-      text-shadow: 0 0 15px #fff, 0 0 30px #0ff, 0 0 45px #0ff;
+      overflow: hidden; /* prevent scrolling */
     }
 
-    /* ===== Tips Section ===== */
-    .tips-container {
-      max-width: 600px;
-      margin: auto;
-    }
-    details {
-      background: #111;
-      border: 1px solid #333;
-      margin-bottom: 10px;
-      border-radius: 6px;
-      padding: 10px;
-      cursor: pointer;
-    }
-    details summary {
-      list-style: none;
-      cursor: pointer;
-      font-weight: bold;
-      position: relative;
-    }
-    details summary::before {
-      content: ">";
-      margin-right: 8px;
-      transition: transform .3s;
-      display: inline-block;
-    }
-    details[open] summary::before {
-      transform: rotate(90deg);
+    h1 {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 0 15px #ffffff, 0 0 30px #808080;
+      animation: glow 2s ease-in-out infinite alternate;
     }
 
-    /* ===== Report UI ===== */
-    .report-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #fff;
-      color: #000;
-      border: none;
-      border-radius: 50px;
-      padding: 12px 20px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: .3s;
-      z-index: 999;
-    }
-    .report-btn:hover {
-      background: #000;
-      color: #fff;
-      border: 1px solid #fff;
-    }
-    .report-ui {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: #111;
-      border: 2px solid #fff;
-      border-radius: 12px;
-      padding: 20px;
-      width: 400px;
-      z-index: 1000;
-    }
-    .report-ui.show {
-      display: block;
-    }
-    .report-ui input, .report-ui textarea, .report-ui select {
-      width: 100%;
-      margin: 8px 0;
-      padding: 8px;
-      border-radius: 6px;
-      border: none;
-    }
-    .report-ui button {
-      background: #fff;
-      color: #000;
-      border: none;
-      padding: 10px;
-      width: 100%;
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 6px;
-    }
-    .report-ui button:hover {
-      background: #000;
-      color: #fff;
-      border: 1px solid #fff;
-    }
-    .carousel {
-      display: flex;
-      overflow-x: auto;
-      gap: 5px;
-      margin: 10px 0;
-    }
-    .carousel img {
-      height: 60px;
-      border-radius: 6px;
-    }
-
-    /* ===== Discord Counter ===== */
-    .counter {
-      text-align: center;
-      font-size: 24px;
-      font-weight: bold;
-    }
-
-    /* ===== Snowflakes ===== */
-    .snowflake {
-      position: fixed;
-      top: -10px;
-      color: #fff;
-      font-size: 18px;
-      user-select: none;
-      pointer-events: none;
-      z-index: 0;
-      animation: fall linear forwards;
-    }
-    @keyframes fall {
-      to {
-        transform: translateY(100vh);
-        opacity: 0;
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px #fff, 0 0 20px #808080;
       }
+      to {
+        text-shadow: 0 0 25px #fff, 0 0 40px #808080;
+      }
+    }
+
+    p {
+      max-width: 700px;
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      line-height: 1.5;
+      color: #e0e0e0;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .btn {
+      padding: 12px 28px;
+      font-size: 1rem;
+      font-weight: bold;
+      border: 2px solid white;
+      border-radius: 12px;
+      background: transparent;
+      color: white;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: white;
+      color: black;
+      transform: scale(1.05);
+      box-shadow: 0 0 20px white;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>⚡ Karas Hub ⚡</h1>
-    <nav>
-      <a href="#hero">Home</a>
-      <a href="#tips">Tips</a>
-      <a href="#counter">Counter</a>
-      <a href="#report">Report</a>
-    </nav>
-  </header>
-
-  <section class="hero" id="hero">
-    <h2>Welcome to Karas Hub</h2>
-    <p>Custom gamer-style site with glowing vibes ⚡</p>
-  </section>
-
-  <section id="tips">
-    <h2>💡 Tips</h2>
-    <div class="tips-container">
-      <details>
-        <summary>Tip 1: Stay Cool</summary>
-        <p>Always manage your temps with proper cooling.</p>
-      </details>
-      <details>
-        <summary>Tip 2: Optimize Settings</summary>
-        <p>Tweak graphics settings for max FPS without stutters.</p>
-      </details>
-      <details>
-        <summary>Tip 3: Stay Updated</summary>
-        <p>Keep drivers and OS updated for stability.</p>
-      </details>
-    </div>
-  </section>
-
-  <section id="counter">
-    <h2>👥 Discord Members</h2>
-    <div class="counter" id="memberCount">Loading...</div>
-  </section>
-
-  <section id="report">
-    <h2>📝 Report</h2>
-    <button class="report-btn" onclick="toggleReport()">Report</button>
-    <div class="report-ui" id="reportUI">
-      <input type="text" id="discordUser" placeholder="Your Discord Username">
-      <input type="text" id="discordId" placeholder="Your Discord ID">
-      <textarea id="reportText" maxlength="3000" placeholder="Enter report..."></textarea>
-      <select id="categorySelect">
-        <option value="Bug">Bug</option>
-        <option value="Suggestion">Suggestion</option>
-        <option value="Server Member">Server Member</option>
-      </select>
-      <div class="carousel" id="fileList"></div>
-      <input type="file" id="attachmentInput" accept="image/*" multiple>
-      <button onclick="submitReport()">Submit</button>
-    </div>
-  </section>
-
-  <script>
-    // === Navbar Smooth Scroll ===
-    document.querySelectorAll("nav a").forEach(a=>{
-      a.addEventListener("click",e=>{
-        e.preventDefault();
-        document.querySelector(a.getAttribute("href")).scrollIntoView({behavior:"smooth"});
-      });
-    });
-
-    // === Report UI Toggle ===
-    function toggleReport() {
-      document.getElementById("reportUI").classList.toggle("show");
-    }
-
-    // === Submit Report (dummy) ===
-    function submitReport() {
-      alert("Report submitted!");
-      toggleReport();
-    }
-
-    // === Discord Counter (dummy fetch) ===
-    document.getElementById("memberCount").innerText = "1,234 members";
-
-    // === Snowflakes ===
-    function createSnowflake() {
-      const snowflake = document.createElement("div");
-      snowflake.classList.add("snowflake");
-      snowflake.textContent = "❄";
-      snowflake.style.left = Math.random()*100+"vw";
-      snowflake.style.animationDuration = (5+Math.random()*5)+"s";
-      document.body.appendChild(snowflake);
-      setTimeout(()=>snowflake.remove(),10000);
-    }
-    setInterval(createSnowflake,200);
-  </script>
+  <h1>Minky</h1>
+  <p>The Site Is Broken Right Now We're Working To Fix It ASAP.<br>
+     Stay In The Discord Server We're Going To Announce Everyone When It's Fixed.
+  </p>
+  <a href="https://discord.gg/PV3vVfc7s7" target="_blank">
+    <button class="btn">Join Discord</button>
+  </a>
 </body>
 </html>
