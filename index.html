@@ -1,264 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Ultimate Hub</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
-  <style>
-    /* Global Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Minky Control Panel</title>
+<style>
+  body {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding: 20px;
+  }
+  .container {
+    text-align: center;
+  }
+  /* Server Members Section */
+  #server-members {
+    border: 3px solid white;
+    border-radius: 20px;
+    padding: 20px;
+    width: 180px;
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+  #server-desc {
+    font-weight: normal;
+    margin-top: 10px;
+    font-size: 0.9em;
+  }
 
-    body {
-      font-family: 'Orbitron', sans-serif;
-      background: #0d0d0d;
-      color: #fff;
-      overflow-x: hidden;
-      min-height: 100vh;
-    }
+  /* Center Panel */
+  #center-panel {
+    text-align: center;
+  }
+  #center-panel h2 {
+    font-weight: bold;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+  }
+  .btn {
+    display: block;
+    width: 160px;
+    margin: 10px auto;
+    padding: 10px;
+    color: black;
+    border: 3px solid white;
+    border-radius: 15px;
+    background-color: black;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+    text-align: center;
+  }
+  .btn:hover {
+    background-color: white;
+    color: black;
+  }
+  .btn-discord {
+    background-color: #7289da; /* Discord blue */
+    color: white;
+    border-color: #7289da;
+  }
+  .btn-discord:hover {
+    background-color: #5b6eae;
+    border-color: #5b6eae;
+  }
 
-    h1 {
-      font-size: 3rem;
-      text-align: center;
-      margin-top: 40px;
-      color: #fff;
-      text-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff, 0 0 30px #00f0ff;
-      animation: glow 3s infinite alternate;
-    }
+  /* Right Panel */
+  #right-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .icon-button {
+    background-color: black;
+    border: 3px solid white;
+    border-radius: 15px;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .icon-button img {
+    width: 30px;
+    height: 30px;
+  }
+  .tooltip {
+    position: absolute;
+    bottom: -40px;
+    white-space: nowrap;
+    background: #222;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.8em;
+    font-weight: normal;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  .icon-button:hover .tooltip {
+    opacity: 1;
+  }
 
-    @keyframes glow {
-      from { text-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff; }
-      to { text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff; }
-    }
-
-    .container {
-      max-width: 1000px;
-      margin: 40px auto;
-      padding: 20px;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 12px 24px;
-      margin: 12px;
-      border: 2px solid white;
-      border-radius: 12px;
-      background: transparent;
-      color: white;
-      font-size: 1.1rem;
-      font-weight: bold;
-      text-decoration: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .btn:hover {
-      background: white;
-      color: black;
-    }
-
-    /* Special Discord button */
-    .btn.discord:hover {
-      background: #5865F2;
-      border-color: #5865F2;
-      color: #fff;
-    }
-
-    /* Expandable Tips Section */
-    .tips {
-      margin-top: 40px;
-    }
-
-    .tip {
-      border: 1px solid #444;
-      border-radius: 10px;
-      margin-bottom: 10px;
-      overflow: hidden;
-      background: #141414;
-    }
-
-    .tip-header {
-      padding: 14px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .tip-header:hover {
-      background: #1f1f1f;
-    }
-
-    .arrow {
-      transition: transform 0.3s;
-    }
-
-    .tip-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease;
-      padding: 0 14px;
-    }
-
-    .tip.open .tip-content {
-      max-height: 500px;
-      padding: 14px;
-    }
-
-    .tip.open .arrow {
-      transform: rotate(90deg);
-    }
-
-    /* Floating Report UI */
-    .report-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 100;
-    }
-
-    .report-ui {
-      position: fixed;
-      bottom: 80px;
-      right: 20px;
-      width: 320px;
-      background: #111;
-      border: 2px solid white;
-      border-radius: 16px;
-      padding: 20px;
-      display: none;
-      z-index: 200;
-    }
-
-    .report-ui.show {
-      display: block;
-      animation: popup 0.3s ease;
-    }
-
-    @keyframes popup {
-      from { transform: scale(0.8); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    .report-ui input, .report-ui textarea, .report-ui select {
-      width: 100%;
-      margin: 8px 0;
-      padding: 8px;
-      border: 1px solid #555;
-      border-radius: 8px;
-      background: #222;
-      color: #fff;
-    }
-
-    /* Snowflakes */
-    .snowflake {
-      position: fixed;
-      top: -10px;
-      color: white;
-      font-size: 1em;
-      user-select: none;
-      pointer-events: none;
-      z-index: 9999;
-      animation: fall linear infinite;
-    }
-
-    @keyframes fall {
-      to { transform: translateY(100vh); }
-    }
-  </style>
+</style>
 </head>
 <body>
-  <h1>Ultimate Hub</h1>
 
-  <div class="container">
-    <a href="#" class="btn">Home</a>
-    <a href="#" class="btn discord">Discord</a>
-    <a href="#" class="btn">About</a>
-    <a href="#" class="btn">Contact</a>
+<!-- Left: Server Members -->
+<div class="container">
+  <div id="server-members">
+    Server Members:
+  </div>
+  <div id="server-desc">
+    Discord Server Member Counter
+  </div>
+</div>
 
-    <div class="tips">
-      <div class="tip">
-        <div class="tip-header">
-          <span>Tip 1: Optimize Your Settings</span>
-          <span class="arrow">▶</span>
-        </div>
-        <div class="tip-content">
-          <p>Lower shadows, tweak render distance, and balance FPS with visuals.</p>
-        </div>
-      </div>
+<!-- Center: Minky Buttons -->
+<div id="center-panel" class="container">
+  <h2>Minky</h2>
+  <button class="btn">Main Generator</button>
+  <button class="btn">Immortal</button>
+  <button class="btn">Cookie Refresher</button>
+  <button class="btn">AutoHar</button>
+  <button class="btn btn-discord">Discord Server</button>
+</div>
 
-      <div class="tip">
-        <div class="tip-header">
-          <span>Tip 2: Communication</span>
-          <span class="arrow">▶</span>
-        </div>
-        <div class="tip-content">
-          <p>Always use Discord/VC with your squad for better coordination.</p>
-        </div>
-      </div>
+<!-- Right: Icons (Toggle dark/light theme, tips, report) -->
+<div id="right-panel" class="container">
 
-      <div class="tip">
-        <div class="tip-header">
-          <span>Tip 3: PC Maintenance</span>
-          <span class="arrow">▶</span>
-        </div>
-        <div class="tip-content">
-          <p>Keep drivers updated, clean dust, and monitor temps for smooth gaming.</p>
-        </div>
-      </div>
+  <!-- Light/Dark Toggle -->
+  <div class="icon-button" id="theme-toggle" title="Toggle Theme">
+    <img id="theme-icon" src="https://img.icons8.com/ios-filled/50/ffffff/moon-symbol.png" alt="Theme Icon" />
+    <div class="tooltip">
+      Toggles the Theme Light/Dark<br />
+      When Switched to Light it turns to a sun icon instead of moon
     </div>
   </div>
 
-  <!-- Report Button -->
-  <button class="btn report-btn">Report</button>
-
-  <!-- Report UI -->
-  <div class="report-ui" id="reportUI">
-    <h3>Submit Report</h3>
-    <input type="text" placeholder="Your Discord Name">
-    <input type="text" placeholder="Your Discord ID">
-    <textarea placeholder="Write your report..." maxlength="3000"></textarea>
-    <select>
-      <option>Bug</option>
-      <option>Suggestion</option>
-      <option>Server Member</option>
-    </select>
-    <button class="btn" id="submitReport">Submit</button>
+  <!-- Tips -->
+  <div class="icon-button" title="Tips">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/brain.png" alt="Tips Icon" />
+    <div class="tooltip">Tips</div>
   </div>
 
-  <script>
-    // Expandable Tips
-    document.querySelectorAll('.tip-header').forEach(header => {
-      header.addEventListener('click', () => {
-        header.parentElement.classList.toggle('open');
-      });
-    });
+  <!-- Report System -->
+  <div class="icon-button" title="Report System">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/high-priority.png" alt="Report Icon" />
+    <div class="tooltip">Report System</div>
+  </div>
 
-    // Report UI toggle
-    const reportBtn = document.querySelector('.report-btn');
-    const reportUI = document.getElementById('reportUI');
-    reportBtn.addEventListener('click', () => {
-      reportUI.classList.toggle('show');
-    });
+</div>
 
-    // Snowflake animation
-    function createSnowflake() {
-      const snowflake = document.createElement('div');
-      snowflake.classList.add('snowflake');
-      snowflake.innerHTML = '❄';
-      snowflake.style.left = Math.random() * window.innerWidth + 'px';
-      snowflake.style.animationDuration = (5 + Math.random() * 5) + 's';
-      snowflake.style.fontSize = (12 + Math.random() * 12) + 'px';
-      document.body.appendChild(snowflake);
+<script>
+  // Toggle Light/Dark mode script
+  const themeToggle = document.getElementById('theme-toggle');
+  const themeIcon = document.getElementById('theme-icon');
 
-      setTimeout(() => {
-        snowflake.remove();
-      }, 10000);
+  themeToggle.addEventListener('click', () => {
+    if (document.body.style.backgroundColor === 'white') {
+      // Switch to dark mode
+      document.body.style.backgroundColor = 'black';
+      document.body.style.color = 'white';
+      themeIcon.src = 'https://img.icons8.com/ios-filled/50/ffffff/moon-symbol.png'; // moon icon
+    } else {
+      // Switch to light mode
+      document.body.style.backgroundColor = 'white';
+      document.body.style.color = 'black';
+      themeIcon.src = 'https://img.icons8.com/ios-filled/50/000000/sun--v1.png'; // sun icon (black)
     }
-    setInterval(createSnowflake, 300);
-  </script>
+  });
+</script>
+
 </body>
 </html>
