@@ -1,383 +1,276 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FutureNav</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Karas Site</title>
   <style>
-    /* ===============================
-       FutureNav - Main CSS
-       style.css - Styling for the futuristic navigation experience
-       March 24, 2025
-    =============================== */
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    /* ===== Base FutureNav Style ===== */
     body {
+      margin: 0;
       font-family: 'Orbitron', sans-serif;
-      background: #0a0a0a;
+      background: #000;
       color: #fff;
-      line-height: 1.6;
       overflow-x: hidden;
     }
-
-    /* Navbar */
-    nav {
+    header {
       position: fixed;
       top: 0;
-      left: 0;
       width: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(10px);
+      background: #111;
       padding: 15px 30px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       z-index: 1000;
-      transition: background 0.3s ease;
     }
-
-    nav.scrolled {
-      background: rgba(0, 0, 0, 0.9);
-    }
-
-    .logo {
-      font-size: 1.8rem;
-      font-weight: bold;
-      letter-spacing: 2px;
-      color: #0ff;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 20px;
-    }
-
-    .nav-link {
-      text-decoration: none;
+    header h1 {
       color: #fff;
-      font-size: 1rem;
-      position: relative;
-      transition: color 0.3s ease;
+      font-size: 22px;
+      text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
     }
-
-    .nav-link:hover,
-    .nav-link.active {
-      color: #0ff;
+    nav a {
+      margin: 0 10px;
+      color: #aaa;
+      text-decoration: none;
+      transition: all .3s;
     }
-
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: -5px;
-      width: 100%;
-      height: 2px;
-      background: #0ff;
-      transform: scaleX(0);
-      transform-origin: right;
-      transition: transform 0.3s ease;
-    }
-
-    .nav-link:hover::after,
-    .nav-link.active::after {
-      transform: scaleX(1);
-      transform-origin: left;
-    }
-
-    /* Mobile Menu */
-    .mobile-menu-button {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-      gap: 5px;
-    }
-
-    .mobile-menu-button div {
-      width: 25px;
-      height: 3px;
+    nav a:hover {
+      color: #000;
       background: #fff;
-      transition: all 0.3s ease;
+      padding: 5px 10px;
+      border-radius: 6px;
     }
-
-    .mobile-menu {
-      display: none;
-      flex-direction: column;
-      background: rgba(0, 0, 0, 0.9);
-      backdrop-filter: blur(8px);
-      overflow: hidden;
-      transition: height 0.3s ease;
-    }
-
-    .mobile-menu.open {
-      display: flex;
-    }
-
-    .mobile-nav-link {
-      padding: 15px;
-      text-align: center;
-      text-decoration: none;
-      color: #fff;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .mobile-nav-link:hover,
-    .mobile-nav-link.active {
-      color: #0ff;
-    }
-
-    /* Sections */
     section {
-      min-height: 100vh;
       padding: 100px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      min-height: 100vh;
+    }
+
+    /* ===== Hero Section ===== */
+    .hero {
       text-align: center;
+      margin-top: 100px;
+    }
+    .hero h2 {
+      font-size: 48px;
+      text-shadow: 0 0 15px #fff, 0 0 30px #0ff, 0 0 45px #0ff;
+    }
+
+    /* ===== Tips Section ===== */
+    .tips-container {
+      max-width: 600px;
+      margin: auto;
+    }
+    details {
+      background: #111;
+      border: 1px solid #333;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      padding: 10px;
+      cursor: pointer;
+    }
+    details summary {
+      list-style: none;
+      cursor: pointer;
+      font-weight: bold;
       position: relative;
     }
-
-    .section-hidden {
-      opacity: 0;
-      transform: translateY(50px);
-      transition: all 0.6s ease-out;
+    details summary::before {
+      content: ">";
+      margin-right: 8px;
+      transition: transform .3s;
+      display: inline-block;
+    }
+    details[open] summary::before {
+      transform: rotate(90deg);
     }
 
-    .section-visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .section-highlight {
-      outline: 2px solid #0ff;
-      transition: outline 0.5s ease;
-    }
-
-    /* Background Grid */
-    .fixed {
+    /* ===== Report UI ===== */
+    .report-btn {
       position: fixed;
-      inset: 0;
-      z-index: -1;
-      display: grid;
-      grid-template-columns: repeat(20, 1fr);
-      grid-template-rows: repeat(20, 1fr);
+      bottom: 20px;
+      right: 20px;
+      background: #fff;
+      color: #000;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 20px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: .3s;
+      z-index: 999;
+    }
+    .report-btn:hover {
+      background: #000;
+      color: #fff;
+      border: 1px solid #fff;
+    }
+    .report-ui {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #111;
+      border: 2px solid #fff;
+      border-radius: 12px;
+      padding: 20px;
+      width: 400px;
+      z-index: 1000;
+    }
+    .report-ui.show {
+      display: block;
+    }
+    .report-ui input, .report-ui textarea, .report-ui select {
+      width: 100%;
+      margin: 8px 0;
+      padding: 8px;
+      border-radius: 6px;
+      border: none;
+    }
+    .report-ui button {
+      background: #fff;
+      color: #000;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+    .report-ui button:hover {
+      background: #000;
+      color: #fff;
+      border: 1px solid #fff;
+    }
+    .carousel {
+      display: flex;
+      overflow-x: auto;
+      gap: 5px;
+      margin: 10px 0;
+    }
+    .carousel img {
+      height: 60px;
+      border-radius: 6px;
+    }
+
+    /* ===== Discord Counter ===== */
+    .counter {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    /* ===== Snowflakes ===== */
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      color: #fff;
+      font-size: 18px;
+      user-select: none;
       pointer-events: none;
+      z-index: 0;
+      animation: fall linear forwards;
     }
-
-    .fixed div {
-      border: 1px solid rgba(0, 255, 255, 0.05);
-    }
-
-    /* Hero Section */
-    #home h1 {
-      font-size: 4rem;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 1s ease;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-      }
-
-      .mobile-menu-button {
-        display: flex;
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+        opacity: 0;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Navbar -->
-  <nav id="navbar">
-    <div class="logo">FutureNav</div>
-    <div class="nav-links">
-      <a href="#home" class="nav-link active">Home</a>
-      <a href="#about" class="nav-link">About</a>
-      <a href="#services" class="nav-link">Services</a>
-      <a href="#contact" class="nav-link">Contact</a>
+  <header>
+    <h1>⚡ Karas Hub ⚡</h1>
+    <nav>
+      <a href="#hero">Home</a>
+      <a href="#tips">Tips</a>
+      <a href="#counter">Counter</a>
+      <a href="#report">Report</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="hero">
+    <h2>Welcome to Karas Hub</h2>
+    <p>Custom gamer-style site with glowing vibes ⚡</p>
+  </section>
+
+  <section id="tips">
+    <h2>💡 Tips</h2>
+    <div class="tips-container">
+      <details>
+        <summary>Tip 1: Stay Cool</summary>
+        <p>Always manage your temps with proper cooling.</p>
+      </details>
+      <details>
+        <summary>Tip 2: Optimize Settings</summary>
+        <p>Tweak graphics settings for max FPS without stutters.</p>
+      </details>
+      <details>
+        <summary>Tip 3: Stay Updated</summary>
+        <p>Keep drivers and OS updated for stability.</p>
+      </details>
     </div>
-    <div id="mobile-menu-button" class="mobile-menu-button">
-      <div></div>
-      <div></div>
-      <div></div>
+  </section>
+
+  <section id="counter">
+    <h2>👥 Discord Members</h2>
+    <div class="counter" id="memberCount">Loading...</div>
+  </section>
+
+  <section id="report">
+    <h2>📝 Report</h2>
+    <button class="report-btn" onclick="toggleReport()">Report</button>
+    <div class="report-ui" id="reportUI">
+      <input type="text" id="discordUser" placeholder="Your Discord Username">
+      <input type="text" id="discordId" placeholder="Your Discord ID">
+      <textarea id="reportText" maxlength="3000" placeholder="Enter report..."></textarea>
+      <select id="categorySelect">
+        <option value="Bug">Bug</option>
+        <option value="Suggestion">Suggestion</option>
+        <option value="Server Member">Server Member</option>
+      </select>
+      <div class="carousel" id="fileList"></div>
+      <input type="file" id="attachmentInput" accept="image/*" multiple>
+      <button onclick="submitReport()">Submit</button>
     </div>
-  </nav>
-
-  <!-- Mobile Menu -->
-  <div id="mobile-menu" class="mobile-menu">
-    <a href="#home" class="mobile-nav-link active">Home</a>
-    <a href="#about" class="mobile-nav-link">About</a>
-    <a href="#services" class="mobile-nav-link">Services</a>
-    <a href="#contact" class="mobile-nav-link">Contact</a>
-  </div>
-
-  <!-- Background Grid -->
-  <div class="fixed">
-    <!-- 400 grid divs -->
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const fixedGrid = document.querySelector(".fixed");
-        for (let i = 0; i < 400; i++) {
-          const div = document.createElement("div");
-          fixedGrid.appendChild(div);
-        }
-      });
-    </script>
-  </div>
-
-  <!-- Sections -->
-  <section id="home">
-    <h1 class="text-6xl">Welcome to the Future</h1>
-  </section>
-
-  <section id="about">
-    <h2>About Us</h2>
-    <p>We are innovators of futuristic design and technology.</p>
-  </section>
-
-  <section id="services">
-    <h2>Services</h2>
-    <p>Offering advanced web solutions with futuristic aesthetics.</p>
-  </section>
-
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>Reach out and let’s build the future together.</p>
   </section>
 
   <script>
-    /**
-     * FutureNav - Main JavaScript
-     * script.js - Interactive functionality for the futuristic navigation experience
-     * March 24, 2025
-     */
-
-    document.addEventListener('DOMContentLoaded', () => {
-      // DOM Elements
-      const navbar = document.getElementById('navbar');
-      const mobileMenuButton = document.getElementById('mobile-menu-button');
-      const mobileMenu = document.getElementById('mobile-menu');
-      const navLinks = document.querySelectorAll('.nav-link');
-      const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-      const sections = document.querySelectorAll('section');
-      const bgElements = document.querySelectorAll('.fixed > div');
-
-      // Mobile Menu Toggle
-      mobileMenuButton.addEventListener('click', () => {
-        mobileMenuButton.classList.toggle('active');
-        
-        if (mobileMenu.classList.contains('open')) {
-          mobileMenu.style.height = '0';
-          mobileMenu.classList.remove('open');
-        } else {
-          mobileMenu.classList.add('open');
-          mobileMenu.style.height = `${mobileMenu.scrollHeight}px`;
-        }
+    // === Navbar Smooth Scroll ===
+    document.querySelectorAll("nav a").forEach(a=>{
+      a.addEventListener("click",e=>{
+        e.preventDefault();
+        document.querySelector(a.getAttribute("href")).scrollIntoView({behavior:"smooth"});
       });
-
-      // Close mobile menu when a link is clicked
-      mobileNavLinks.forEach(link => {
-        link.addEventListener('click', () => {
-          mobileMenuButton.classList.remove('active');
-          mobileMenu.style.height = '0';
-          mobileMenu.classList.remove('open');
-        });
-      });
-
-      // Navbar scroll effect
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-          navbar.classList.add('scrolled');
-        } else {
-          navbar.classList.remove('scrolled');
-        }
-        
-        highlightCurrentSection();
-      });
-
-      // Smooth scroll for nav links
-      navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-          e.preventDefault();
-          const targetId = link.getAttribute('href');
-          const targetSection = document.querySelector(targetId);
-          
-          if (targetSection) {
-            const offsetTop = targetSection.offsetTop - 70; // Adjust for navbar height
-            window.scrollTo({
-              top: offsetTop,
-              behavior: 'smooth'
-            });
-            
-            // Highlight the section briefly
-            targetSection.classList.add('section-highlight');
-            setTimeout(() => {
-              targetSection.classList.remove('section-highlight');
-            }, 1000);
-          }
-        });
-      });
-
-      // Highlight active section in navbar
-      function highlightCurrentSection() {
-        let current = '';
-        
-        sections.forEach(section => {
-          const sectionTop = section.offsetTop - 100;
-          const sectionHeight = section.offsetHeight;
-          
-          if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
-            current = section.getAttribute('id');
-          }
-        });
-        
-        navLinks.forEach(link => {
-          link.classList.remove('active');
-          if (link.getAttribute('href') === `#${current}`) {
-            link.classList.add('active');
-          }
-        });
-        
-        mobileNavLinks.forEach(link => {
-          link.classList.remove('active');
-          if (link.getAttribute('href') === `#${current}`) {
-            link.classList.add('active');
-          }
-        });
-      }
-
-      // Scroll animations for sections
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('section-visible');
-          }
-        });
-      }, { threshold: 0.1 });
-      
-      sections.forEach(section => {
-        section.classList.add('section-hidden');
-        observer.observe(section);
-      });
-
-      // Initialize active section on page load
-      highlightCurrentSection();
-      
-      // Make header text visible with animation
-      setTimeout(() => {
-        const headerText = document.querySelector('.text-6xl');
-        if (headerText) {
-          headerText.style.opacity = 1;
-          headerText.style.transform = 'translateY(0)';
-        }
-      }, 300);
     });
+
+    // === Report UI Toggle ===
+    function toggleReport() {
+      document.getElementById("reportUI").classList.toggle("show");
+    }
+
+    // === Submit Report (dummy) ===
+    function submitReport() {
+      alert("Report submitted!");
+      toggleReport();
+    }
+
+    // === Discord Counter (dummy fetch) ===
+    document.getElementById("memberCount").innerText = "1,234 members";
+
+    // === Snowflakes ===
+    function createSnowflake() {
+      const snowflake = document.createElement("div");
+      snowflake.classList.add("snowflake");
+      snowflake.textContent = "❄";
+      snowflake.style.left = Math.random()*100+"vw";
+      snowflake.style.animationDuration = (5+Math.random()*5)+"s";
+      document.body.appendChild(snowflake);
+      setTimeout(()=>snowflake.remove(),10000);
+    }
+    setInterval(createSnowflake,200);
   </script>
 </body>
 </html>
