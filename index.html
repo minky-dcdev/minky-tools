@@ -21,7 +21,7 @@
       align-items: center;
       text-align: center;
       padding: 40px 20px;
-      overflow: hidden;
+      overflow-y: auto; /* Restore scrolling */
     }
 
     canvas {
@@ -141,58 +141,64 @@
       mouseY = e.clientY;
     });
 
-    const strands = [];
-    const numStrands = 10;
+    const nodes = [];
+    const numNodes = 20;
 
-    for (let i = 0; i < numStrands; i++) {
-      strands.push({
+    for (let i = 0; i < numNodes; i++) {
+      nodes.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: 0,
-        vy: 0
+        vx: (Math.random() - 0.5) * 2,
+        vy: (Math.random() - 0.5) * 2
       });
     }
 
-    function drawWeb() {
+    function drawNetwork() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
       ctx.lineWidth = 0.5;
 
-      strands.forEach(strand => {
-        const dx = mouseX - strand.x;
-        const dy = mouseY - strand.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        const force = Math.min(50 / distance, 0.1);
-        strand.vx += dx * force;
-        strand.vy += dy * force;
-        strand.vx *= 0.95;
-        strand.vy *= 0.95;
-        strand.x += strand.vx;
-        strand.y += strand.vy;
+      nodes.forEach(node => {
+        node.x += node.vx;
+        node.y += node.vy;
+
+        if (node.x < 0 || node.x > canvas.width) node.vx *= -1;
+        if (node.y < 0 || node.y > canvas.height) node.vy *= -1;
 
         ctx.beginPath();
-        ctx.moveTo(mouseX, mouseY);
-        ctx.lineTo(strand.x, strand.y);
-        ctx.stroke();
-      });
+        ctx.arc(node.x, node.y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = 'white';
+        ctx.fill();
+        ctx.closePath();
 
-      for (let i = 0; i < strands.length; i++) {
-        for (let j = i + 1; j < strands.length; j++) {
-          const dx = strands[i].x - strands[j].x;
-          const dy = strands[i].y - strands[j].y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          if (distance < 150) {
-            ctx.beginPath();
-            ctx.moveTo(strands[i].x, strands[i].y);
-            ctx.lineTo(strands[j].x, strands[j].y);
-            ctx.stroke();
-          }
+        const dx = mouseX - node.x;
+        const dy = mouseY - node.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < 150) {
+          ctx.beginPath();
+          ctx.moveTo(mouseX, mouseY);
+          ctx.lineTo(node.x, node.y);
+          ctx.stroke();
         }
-      }
+
+        nodes.forEach(otherNode => {
+          if (node !== otherNode) {
+            const dx2 = node.x - otherNode.x;
+            const dy2 = node.y - otherNode.y;
+            const distance2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+            if (distance2 < 100) {
+              ctx.beginPath();
+              ctx.moveTo(node.x, node.y);
+              ctx.lineTo(otherNode.x, otherNode.y);
+              ctx.stroke();
+            }
+          }
+        });
+      });
     }
 
     function animate() {
-      drawWeb();
+      drawNetwork();
       requestAnimationFrame(animate);
     }
 
