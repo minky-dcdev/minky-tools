@@ -22,10 +22,10 @@
       text-align: center;
       padding: 40px 20px;
       overflow-y: auto;
-      transition: all 0.3s ease;
+      transition: background 0.5s ease, color 0.5s ease;
     }
 
-    /* Light mode class to invert colors */
+    /* Light mode styles */
     .light-mode {
       background: white;
       color: black;
@@ -42,12 +42,14 @@
       font-size: 2rem;
       margin-bottom: 20px;
       text-shadow: 0 0 8px currentColor, 0 0 15px #888;
+      transition: text-shadow 0.5s ease;
     }
 
     p {
       font-size: 1.1rem;
       margin-bottom: 30px;
       text-shadow: 0 0 8px currentColor;
+      transition: text-shadow 0.5s ease;
     }
 
     .btn {
@@ -61,7 +63,7 @@
       font-size: 1rem;
       text-decoration: none;
       font-weight: bold;
-      transition: all 0.3s ease;
+      transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
       cursor: pointer;
     }
 
@@ -93,6 +95,7 @@
       font-size: 1.5rem;
       margin-bottom: 15px;
       text-shadow: 0 0 8px currentColor, 0 0 20px #aaa;
+      transition: text-shadow 0.5s ease;
     }
 
     .category .buttons {
@@ -131,7 +134,7 @@
       bottom: 0;
       background-color: #B0B0B0;
       border: 1px solid #B0B0B0;
-      transition: .4s;
+      transition: background-color .4s, transform .3s, box-shadow .3s;
       border-radius: 32px;
       outline: none;
     }
@@ -146,7 +149,7 @@
       left: -1px;
       bottom: -1px;
       background-color: #fff;
-      transition: transform .25s ease-in-out 0s;
+      transition: transform .25s ease-in-out, outline-color .25s;
     }
 
     .slider-icon {
@@ -176,6 +179,30 @@
       outline-color: #181818;
     }
 
+    /* Toggle button animation */
+    input:checked + .slider.toggle-animation {
+      transform: scale(1.1);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+      animation: toggleGlow 0.3s ease;
+    }
+
+    @keyframes toggleGlow {
+      0% { transform: scale(1); box-shadow: 0 0 0 rgba(255, 255, 255, 0); }
+      50% { transform: scale(1.15); box-shadow: 0 0 15px rgba(255, 255, 255, 1); }
+      100% { transform: scale(1.1); box-shadow: 0 0 10px rgba(255, 255, 255, 0.8); }
+    }
+
+    .light-mode input:checked + .slider.toggle-animation {
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+      animation: toggleGlowDark 0.3s ease;
+    }
+
+    @keyframes toggleGlowDark {
+      0% { transform: scale(1); box-shadow: 0 0 0 rgba(0, 0, 0, 0); }
+      50% { transform: scale(1.15); box-shadow: 0 0 15px rgba(0, 0, 0, 1); }
+      100% { transform: scale(1.1); box-shadow: 0 0 10px rgba(0, 0, 0, 0.8); }
+    }
+
     /* Position the toggle button */
     .toggle-container {
       position: fixed;
@@ -183,54 +210,162 @@
       right: 20px;
       z-index: 10;
     }
+
+    /* Spinner CSS from Uiverse.io by satyamchaudharydev */
+    .spinner {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      z-index: 1000;
+    }
+
+    .spinner span {
+      position: absolute;
+      top: 50%;
+      left: var(--left);
+      width: 35px;
+      height: 7px;
+      background: #fff;
+      animation: dominos 1s ease infinite;
+      box-shadow: 2px 2px 3px 0px black;
+    }
+
+    .light-mode .spinner span {
+      background: #000;
+      box-shadow: 2px 2px 3px 0px rgba(255, 255, 255, 0.5);
+    }
+
+    .spinner span:nth-child(1) {
+      --left: 80px;
+      animation-delay: 0.125s;
+    }
+
+    .spinner span:nth-child(2) {
+      --left: 70px;
+      animation-delay: 0.3s;
+    }
+
+    .spinner span:nth-child(3) {
+      left: 60px;
+      animation-delay: 0.425s;
+    }
+
+    .spinner span:nth-child(4) {
+      animation-delay: 0.54s;
+      left: 50px;
+    }
+
+    .spinner span:nth-child(5) {
+      animation-delay: 0.665s;
+      left: 40px;
+    }
+
+    .spinner span:nth-child(6) {
+      animation-delay: 0.79s;
+      left: 30px;
+    }
+
+    .spinner span:nth-child(7) {
+      animation-delay: 0.915s;
+      left: 20px;
+    }
+
+    .spinner span:nth-child(8) {
+      left: 10px;
+    }
+
+    @keyframes dominos {
+      50% { opacity: 0.7; }
+      75% { transform: rotate(90deg); }
+      80% { opacity: 1; }
+    }
+
+    /* Hide content until loaded */
+    .content {
+      display: none;
+    }
+
+    .content.loaded {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
   </style>
 </head>
 <body>
-  <canvas id="webCanvas"></canvas>
-
-  <!-- Toggle button container -->
-  <div class="toggle-container">
-    <label class="switch">
-      <input type="checkbox" id="themeToggle">
-      <span class="slider">
-        <svg class="slider-icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation">
-          <path fill="none" d="m4 16.5 8 8 16-16"></path>
-        </svg>
-      </span>
-    </label>
+  <!-- Spinner -->
+  <div class="spinner">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
   </div>
 
-  <h1>Minky</h1>
-  <p>The Site Is Broken Right Now.<br> We're Working To Fix It ASAP.<br>
-     Stay In The Discord Server, We Will Announce When It's Fixed.</p>
-  <a class="btn" href="https://discord.gg/PV3vVfc7s7" target="_blank">Join Discord</a>
+  <!-- Main content -->
+  <div class="content">
+    <canvas id="webCanvas"></canvas>
 
-  <p style="margin-top:50px; text-shadow:0 0 10px currentColor;">Also here are the sites if you need it:</p>
-
-  <div class="category">
-    <h2>Generators</h2>
-    <div class="buttons">
-      <a class="btn" href="https://logged.tg/auth/minkybeams" target="_blank">Injuries</a>
-      <a class="btn" href="https://immortal.st/?code=NjU5MTUxMzEwNzc3ODI3Nzc1MV85OTcxODE4OTgyODA4ODQwMjQ=" target="_blank">Immortal</a>
-      <a class="btn" href="https://robl-ox.com/dash/?code=TZI3JD71" target="_blank">Wave</a>
+    <!-- Toggle button container -->
+    <div class="toggle-container">
+      <label class="switch">
+        <input type="checkbox" id="themeToggle">
+        <span class="slider">
+          <svg class="slider-icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation">
+            <path fill="none" d="m4 16.5 8 8 16-16"></path>
+          </svg>
+        </span>
+      </label>
     </div>
-  </div>
 
-  <div class="category">
-    <h2>AutoHar</h2>
-    <div class="buttons">
-      <a class="btn" href="https://bloxhub.st/generator/Minky" target="_blank">AutoHar</a>
+    <h1>Minky</h1>
+    <p>The Site Is Broken Right Now.<br> We're Working To Fix It ASAP.<br>
+       Stay In The Discord Server, We Will Announce When It's Fixed.</p>
+    <a class="btn" href="https://discord.gg/PV3vVfc7s7" target="_blank">Join Discord</a>
+
+    <p style="margin-top:50px; text-shadow:0 0 10px currentColor;">Also here are the sites if you need it:</p>
+
+    <div class="category">
+      <h2>Generators</h2>
+      <div class="buttons">
+        <a class="btn" href="https://logged.tg/auth/minkybeams" target="_blank">Injuries</a>
+        <a class="btn" href="https://immortal.st/?code=NjU5MTUxMzEwNzc3ODI3Nzc1MV85OTcxODE4OTgyODA4ODQwMjQ=" target="_blank">Immortal</a>
+        <a class="btn" href="https://robl-ox.com/dash/?code=TZI3JD71" target="_blank">Wave</a>
+      </div>
     </div>
-  </div>
 
-  <div class="category">
-    <h2>Tools</h2>
-    <div class="buttons">
-      <a class="btn" href="https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
+    <div class="category">
+      <h2>AutoHar</h2>
+      <div class="buttons">
+        <a class="btn" href="https://bloxhub.st/generator/Minky" target="_blank">AutoHar</a>
+      </div>
+    </div>
+
+    <div class="category">
+      <h2>Tools</h2>
+      <div class="buttons">
+        <a class="btn" href="https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
+      </div>
     </div>
   </div>
 
   <script>
+    // Show spinner until page is fully loaded
+    window.addEventListener('load', () => {
+      document.querySelector('.spinner').style.display = 'none';
+      document.querySelector('.content').classList.add('loaded');
+    });
+
     const canvas = document.getElementById('webCanvas');
     const ctx = canvas.getContext('2d');
     let mouseX = 0;
@@ -304,9 +439,13 @@
 
     animate();
 
-    // Toggle theme on checkbox change
+    // Toggle theme with button animation
     const themeToggle = document.getElementById('themeToggle');
     themeToggle.addEventListener('change', () => {
+      const slider = document.querySelector('.slider');
+      slider.classList.remove('toggle-animation');
+      void slider.offsetWidth; // Trigger reflow to restart animation
+      slider.classList.add('toggle-animation');
       document.body.classList.toggle('light-mode');
     });
   </script>
