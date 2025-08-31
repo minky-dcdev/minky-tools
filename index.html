@@ -36,6 +36,7 @@
       top: 0;
       left: 0;
       z-index: -1;
+      display: block; /* Ensure canvas is visible */
     }
 
     h1 {
@@ -224,6 +225,11 @@
       align-items: center;
       border-radius: 50%;
       z-index: 1000;
+      transition: opacity 0.5s ease;
+    }
+
+    .spinner.hidden {
+      opacity: 0;
     }
 
     .spinner span {
@@ -287,15 +293,29 @@
       80% { opacity: 1; }
     }
 
-    /* Hide content until loaded */
+    /* Content animation */
     .content {
       display: none;
+      opacity: 0;
+      transform: translateY(20px);
     }
 
     .content.loaded {
       display: flex;
       flex-direction: column;
       align-items: center;
+      animation: contentReveal 0.8s ease forwards;
+    }
+
+    @keyframes contentReveal {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
@@ -360,12 +380,7 @@
   </div>
 
   <script>
-    // Show spinner until page is fully loaded
-    window.addEventListener('load', () => {
-      document.querySelector('.spinner').style.display = 'none';
-      document.querySelector('.content').classList.add('loaded');
-    });
-
+    // Initialize canvas and animation immediately
     const canvas = document.getElementById('webCanvas');
     const ctx = canvas.getContext('2d');
     let mouseX = 0;
@@ -374,27 +389,30 @@
     function resizeCanvas() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      // Ensure nodes are within new bounds
+      nodes.forEach(node => {
+        node.x = Math.min(node.x, canvas.width);
+        node.y = Math.min(node.y, canvas.height);
+      });
     }
 
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
-
+    // Initialize nodes
     const nodes = [];
     const numNodes = 25;
-
     for (let i = 0; i < numNodes; i++) {
       nodes.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
         vx: (Math.random() - 0.5) * 0.5,
         vy: (Math.random() - 0.5) * 0.5
       });
     }
+
+    // Set up mouse tracking
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
 
     function drawNetwork() {
       const isLightMode = document.body.classList.contains('light-mode');
@@ -437,7 +455,22 @@
       requestAnimationFrame(animate);
     }
 
+    // Start canvas animation immediately
+    resizeCanvas();
     animate();
+
+    // Resize canvas on window resize
+    window.addEventListener('resize', resizeCanvas);
+
+    // Handle loading
+    window.addEventListener('load', () => {
+      const spinner = document.querySelector('.spinner');
+      spinner.classList.add('hidden');
+      setTimeout(() => {
+        spinner.style.display = 'none';
+        document.querySelector('.content').classList.add('loaded');
+      }, 500); // Match the spinner's opacity transition duration
+    });
 
     // Toggle theme with button animation
     const themeToggle = document.getElementById('themeToggle');
