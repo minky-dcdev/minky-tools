@@ -4,110 +4,99 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Minky - Site Broken</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="ae904695-88f5-4d70-b83c-45afdac54940.png">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      padding: 0;
-      font-family: 'Orbitron', sans-serif;
-      background: black;
+      height: 100vh;
+      background-color: #0d0d0d;
       color: white;
+      font-family: 'Orbitron', sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: flex-start;
       text-align: center;
-      padding: 40px 20px;
+      padding: 30px;
+      overflow-y: auto;
     }
 
     h1 {
       font-size: 2rem;
-      margin-bottom: 20px;
-      text-shadow: 0 0 8px white, 0 0 15px #888;
+      margin-bottom: 10px;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
     }
 
     p {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       margin-bottom: 30px;
-      text-shadow: 0 0 8px white;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
     }
 
-    .btn {
-      display: inline-block;
-      padding: 12px 24px;
-      margin: 10px;
-      border-radius: 12px;
-      border: 2px solid white;
-      color: black;
-      background: white;
-      font-size: 1rem;
-      text-decoration: none;
-      font-weight: bold;
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-
-    .btn:hover {
-      background: black;
+    .button {
+      background-color: #5865F2;
       color: white;
-      border-color: white;
+      font-size: 1rem;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      display: inline-block;
+      margin: 10px;
+    }
+
+    .button:hover {
+      background-color: #4752c4;
       transform: scale(1.05);
-      box-shadow: 0 0 12px white;
+    }
+
+    .section-label {
+      margin-top: 40px;
+      font-size: 1.4rem;
+      font-weight: bold;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
     }
 
     .category {
-      margin-top: 40px;
-      width: 100%;
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-decoration: underline;
     }
 
-    .category h2 {
-      font-size: 1.5rem;
-      margin-bottom: 15px;
-      text-shadow: 0 0 8px white, 0 0 20px #aaa;
-    }
-
-    .category .buttons {
+    .site-buttons {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    /* Smooth scroll */
-    html {
-      scroll-behavior: smooth;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <h1>⚡ Minky</h1>
-  <p>The Site Is Broken Right Now.<br> We're Working To Fix It ASAP.<br>
-     Stay In The Discord Server, We Will Announce When It's Fixed.</p>
-  <a class="btn" href="https://discord.gg/PV3vVfc7s7" target="_blank">Join Discord</a>
+  <h1>Minky</h1>
+  <p>The Site Is Broken Right Now. We're Working To Fix It ASAP.<br>
+  Stay In The Discord Server, We'll Announce Everyone When It's Fixed.</p>
 
-  <p style="margin-top:50px; text-shadow:0 0 10px white;">Also here are the sites if you need it:</p>
+  <a class="button" href="https://discord.gg/PV3vVfc7s7" target="_blank">Join Discord</a>
 
-  <div class="category">
-    <h2>Generators</h2>
-    <div class="buttons">
-      <a class="btn" href="https://logged.tg/auth/minkybeams" target="_blank">Injuries</a>
-      <a class="btn" href="https://immortal.st/?code=NjU5MTUxMzEwNzc3ODI3Nzc1MV85OTcxODE4OTgyODA4ODQwMjQ=" target="_blank">Immortal</a>
-      <a class="btn" href="https://robl-ox.com/dash/?code=TZI3JD71" target="_blank">Wave</a>
-    </div>
+  <div class="section-label">Also here are the sites if you need it:</div>
+
+  <div class="category">Generators</div>
+  <div class="site-buttons">
+    <a class="button" href="https://logged.tg/auth/minkybeams" target="_blank">Injuries</a>
+    <a class="button" href="https://immortal.st/?code=NjU5MTUxMzEwNzc3ODI3Nzc1MV85OTcxODE4OTgyODA4ODQwMjQ=" target="_blank">Immortal</a>
+    <a class="button" href="https://robl-ox.com/dash/?code=TZI3JD71" target="_blank">Wave</a>
   </div>
 
-  <div class="category">
-    <h2>AutoHar</h2>
-    <div class="buttons">
-      <a class="btn" href="https://bloxhub.st/generator/Minky" target="_blank">AutoHar</a>
-    </div>
+  <div class="category">AutoHar</div>
+  <div class="site-buttons">
+    <a class="button" href="https://bloxhub.st/generator/Minky" target="_blank">AutoHar</a>
   </div>
 
-  <div class="category">
-    <h2>Tools</h2>
-    <div class="buttons">
-      <a class="btn" href="https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
-    </div>
+  <div class="category">Tools</div>
+  <div class="site-buttons">
+    <a class="button" href="https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
   </div>
 </body>
 </html>
-
