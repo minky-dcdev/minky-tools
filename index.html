@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Minky - Site Broken</title>
+  <title>Minky - Site Down</title>
 
   <!-- Add wrench favicon -->
   <link rel="icon" type="image/png" href="ae904695-88f5-4d70-b83c-45afdac54940.png">
@@ -21,7 +21,7 @@
       align-items: center;
       text-align: center;
       padding: 40px 20px;
-      overflow-y: auto; /* Restore scrolling */
+      overflow-y: auto;
     }
 
     canvas {
@@ -142,14 +142,14 @@
     });
 
     const nodes = [];
-    const numNodes = 20;
+    const numNodes = 25; // Slightly increased for balance
 
     for (let i = 0; i < numNodes; i++) {
       nodes.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 2,
-        vy: (Math.random() - 0.5) * 2
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5
       });
     }
 
@@ -174,26 +174,12 @@
         const dx = mouseX - node.x;
         const dy = mouseY - node.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        if (distance < 150) {
+        if (distance < 100) { // Connect only when cursor interacts
           ctx.beginPath();
           ctx.moveTo(mouseX, mouseY);
           ctx.lineTo(node.x, node.y);
           ctx.stroke();
         }
-
-        nodes.forEach(otherNode => {
-          if (node !== otherNode) {
-            const dx2 = node.x - otherNode.x;
-            const dy2 = node.y - otherNode.y;
-            const distance2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
-            if (distance2 < 100) {
-              ctx.beginPath();
-              ctx.moveTo(node.x, node.y);
-              ctx.lineTo(otherNode.x, otherNode.y);
-              ctx.stroke();
-            }
-          }
-        });
       });
     }
 
@@ -206,4 +192,3 @@
   </script>
 </body>
 </html>
-
