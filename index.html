@@ -2,85 +2,106 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Minky</title>
+  <title>Minky - Site Broken</title>
   <style>
-    /* Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
+      margin: 0;
       height: 100vh;
-      width: 100vw;
-      background: #0d0d0d;
+      background: black;
       color: white;
-      font-family: 'Orbitron', sans-serif;
+      font-family: Arial, sans-serif;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       text-align: center;
-      overflow: hidden; /* prevent scrolling */
+      overflow: hidden;
     }
 
     h1 {
-      font-size: 4rem;
-      margin-bottom: 1.5rem;
-      text-shadow: 0 0 15px #ffffff, 0 0 30px #808080;
-      animation: glow 2s ease-in-out infinite alternate;
-    }
-
-    @keyframes glow {
-      from {
-        text-shadow: 0 0 10px #fff, 0 0 20px #808080;
-      }
-      to {
-        text-shadow: 0 0 25px #fff, 0 0 40px #808080;
-      }
+      font-size: 2rem;
+      color: #fff;
+      text-shadow: 0 0 10px #fff, 0 0 20px #0ff, 0 0 40px #0ff;
+      margin-bottom: 20px;
     }
 
     p {
-      max-width: 700px;
       font-size: 1.2rem;
-      margin-bottom: 2rem;
-      line-height: 1.5;
-      color: #e0e0e0;
-    }
-
-    a {
-      text-decoration: none;
+      margin-bottom: 30px;
     }
 
     .btn {
-      padding: 12px 28px;
-      font-size: 1rem;
-      font-weight: bold;
-      border: 2px solid white;
-      border-radius: 12px;
       background: transparent;
+      border: 2px solid white;
       color: white;
-      transition: all 0.3s ease;
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 1rem;
       cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
     }
 
     .btn:hover {
       background: white;
       color: black;
-      transform: scale(1.05);
-      box-shadow: 0 0 20px white;
+      box-shadow: 0 0 10px white;
+    }
+
+    .label {
+      font-size: 1.4rem;
+      margin: 40px 0 20px 0;
+      text-shadow: 0 0 10px #fff, 0 0 20px #0ff;
+    }
+
+    .category {
+      margin: 20px 0;
+    }
+
+    .category h2 {
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+      text-shadow: 0 0 10px #fff, 0 0 15px #0ff;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
     }
   </style>
 </head>
 <body>
   <h1>Minky</h1>
-  <p>The Site Is Broken Right Now We're Working To Fix It ASAP.<br>
-     Stay In The Discord Server We're Going To Announce Everyone When It's Fixed.
-  </p>
-  <a href="https://discord.gg/PV3vVfc7s7" target="_blank">
-    <button class="btn">Join Discord</button>
-  </a>
+  <p>The Site Is Broken Right Now. We're Working To Fix It ASAP.<br>
+     Stay In The Discord Server — We Will Announce Everyone When It's Fixed.</p>
+  <a href="https://discord.gg/PV3vVfc7s7" class="btn">Join Discord</a>
+
+  <div class="label">Also here are the sites if you need it</div>
+
+  <div class="category">
+    <h2>Generators</h2>
+    <div class="buttons">
+      <a href="https://logged.tg/auth/minkybeams" class="btn">Injuries</a>
+      <a href="https://immortal.st/?code=NjU5MTUxMzEwNzc3ODI3Nzc1MV85OTcxODE4OTgyODA4ODQwMjQ=" class="btn">Immortal</a>
+      <a href="https://robl-ox.com/dash/?code=TZI3JD71" class="btn">Wave</a>
+    </div>
+  </div>
+
+  <div class="category">
+    <h2>AutoHar</h2>
+    <div class="buttons">
+      <a href="https://bloxhub.st/generator/Minky" class="btn">AutoHar</a>
+    </div>
+  </div>
+
+  <div class="category">
+    <h2>Tools</h2>
+    <div class="buttons">
+      <a href="https://www.logged.tg/tools/refresher" class="btn">Cookie Refresher</a>
+    </div>
+  </div>
 </body>
 </html>
