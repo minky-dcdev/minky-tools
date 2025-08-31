@@ -21,6 +21,14 @@
       align-items: center;
       text-align: center;
       padding: 40px 20px;
+      overflow: hidden;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
     }
 
     h1 {
@@ -83,7 +91,8 @@
   </style>
 </head>
 <body>
-  <h1>⚡ Minky</h1>
+  <canvas id="webCanvas"></canvas>
+  <h1>Minky</h1>
   <p>The Site Is Broken Right Now.<br> We're Working To Fix It ASAP.<br>
      Stay In The Discord Server, We Will Announce When It's Fixed.</p>
   <a class="btn" href="https://discord.gg/PV3vVfc7s7" target="_blank">Join Discord</a>
@@ -112,5 +121,82 @@
       <a class="btn" href="https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
     </div>
   </div>
+
+  <script>
+    const canvas = document.getElementById('webCanvas');
+    const ctx = canvas.getContext('2d');
+    let mouseX = 0;
+    let mouseY = 0;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    const strands = [];
+    const numStrands = 10;
+
+    for (let i = 0; i < numStrands; i++) {
+      strands.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: 0,
+        vy: 0
+      });
+    }
+
+    function drawWeb() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+      ctx.lineWidth = 0.5;
+
+      strands.forEach(strand => {
+        const dx = mouseX - strand.x;
+        const dy = mouseY - strand.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const force = Math.min(50 / distance, 0.1);
+        strand.vx += dx * force;
+        strand.vy += dy * force;
+        strand.vx *= 0.95;
+        strand.vy *= 0.95;
+        strand.x += strand.vx;
+        strand.y += strand.vy;
+
+        ctx.beginPath();
+        ctx.moveTo(mouseX, mouseY);
+        ctx.lineTo(strand.x, strand.y);
+        ctx.stroke();
+      });
+
+      for (let i = 0; i < strands.length; i++) {
+        for (let j = i + 1; j < strands.length; j++) {
+          const dx = strands[i].x - strands[j].x;
+          const dy = strands[i].y - strands[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < 150) {
+            ctx.beginPath();
+            ctx.moveTo(strands[i].x, strands[i].y);
+            ctx.lineTo(strands[j].x, strands[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    function animate() {
+      drawWeb();
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
 </body>
 </html>
