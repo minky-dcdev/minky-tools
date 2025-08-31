@@ -22,6 +22,17 @@
       text-align: center;
       padding: 40px 20px;
       overflow-y: auto;
+      transition: all 0.3s ease;
+    }
+
+    /* Light mode class to invert colors */
+    .light-mode {
+      filter: invert(1);
+    }
+
+    /* Ensure canvas is not inverted in light mode to handle manually */
+    .light-mode canvas {
+      filter: invert(0);
     }
 
     canvas {
@@ -88,10 +99,99 @@
     html {
       scroll-behavior: smooth;
     }
+
+    /* Toggle Switch CSS from Uiverse.io by alexruix */
+    .switch {
+      font-size: 17px;
+      position: relative;
+      display: inline-block;
+      width: 3.5em;
+      height: 2em;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #B0B0B0;
+      border: 1px solid #B0B0B0;
+      transition: .4s;
+      border-radius: 32px;
+      outline: none;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 2rem;
+      width: 2rem;
+      border-radius: 50%;
+      outline: 2px solid #B0B0B0;
+      left: -1px;
+      bottom: -1px;
+      background-color: #fff;
+      transition: transform .25s ease-in-out 0s;
+    }
+
+    .slider-icon {
+      opacity: 0;
+      height: 12px;
+      width: 12px;
+      stroke-width: 8;
+      position: absolute;
+      z-index: 999;
+      stroke: #222222;
+      right: 60%;
+      top: 30%;
+      transition: right ease-in-out .3s, opacity ease-in-out .15s;
+    }
+
+    input:checked + .slider {
+      background-color: #222222;
+    }
+
+    input:checked + .slider .slider-icon {
+      opacity: 1;
+      right: 20%;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(1.5em);
+      outline-color: #181818;
+    }
+
+    /* Position the toggle button */
+    .toggle-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+    }
   </style>
 </head>
 <body>
   <canvas id="webCanvas"></canvas>
+
+  <!-- Toggle button container -->
+  <div class="toggle-container">
+    <label class="switch">
+      <input type="checkbox" id="themeToggle">
+      <span class="slider">
+        <svg class="slider-icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation">
+          <path fill="none" d="m4 16.5 8 8 16-16"></path>
+        </svg>
+      </span>
+    </label>
+  </div>
+
   <h1>Minky</h1>
   <p>The Site Is Broken Right Now.<br> We're Working To Fix It ASAP.<br>
      Stay In The Discord Server, We Will Announce When It's Fixed.</p>
@@ -142,7 +242,7 @@
     });
 
     const nodes = [];
-    const numNodes = 25; // Slightly increased for balance
+    const numNodes = 25;
 
     for (let i = 0; i < numNodes; i++) {
       nodes.push({
@@ -155,7 +255,12 @@
 
     function drawNetwork() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+      
+      // Check if in light mode
+      const isLightMode = document.body.classList.contains('light-mode');
+      
+      // Set colors based on theme
+      ctx.strokeStyle = isLightMode ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)';
       ctx.lineWidth = 0.5;
 
       nodes.forEach(node => {
@@ -167,14 +272,14 @@
 
         ctx.beginPath();
         ctx.arc(node.x, node.y, 2, 0, Math.PI * 2);
-        ctx.fillStyle = 'white';
+        ctx.fillStyle = isLightMode ? 'black' : 'white';
         ctx.fill();
         ctx.closePath();
 
         const dx = mouseX - node.x;
         const dy = mouseY - node.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        if (distance < 100) { // Connect only when cursor interacts
+        if (distance < 100) {
           ctx.beginPath();
           ctx.moveTo(mouseX, mouseY);
           ctx.lineTo(node.x, node.y);
@@ -189,6 +294,12 @@
     }
 
     animate();
+
+    // Toggle theme on checkbox change
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('change', () => {
+      document.body.classList.toggle('light-mode');
+    });
   </script>
 </body>
 </html>
